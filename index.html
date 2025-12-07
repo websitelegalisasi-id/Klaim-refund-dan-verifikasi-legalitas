@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Berita Acara Pemeriksaan Barang Non Cukai - DJBC</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+    body {
+      font-family: 'Open Sans', sans-serif;
+      line-height: 1.6;
+      color: #2c3e50;
+      background: #fafafa;
+      margin: 0;
+      padding: 0;
+      position: relative;
+    }
+
+    .watermark {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.05;
+      pointer-events: none;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      font-size: 120px;
+      font-weight: bold;
+      color: #1a3e6f;
+      transform: rotate(-45deg);
+      user-select: none;
+    }
+
+    .container {
+      max-width: 900px;
+      margin: 40px auto;
+      padding: 30px;
+      background: white;
+      border-radius: 10px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      position: relative;
+      min-height: 100vh;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 20px;
+      padding: 20px 0;
+      border-bottom: 3px solid #1a3e6f;
+    }
+
+    .header img.logo {
+      width: 220px;
+      margin: 0 auto 15px;
+      display: block;
+    }
+
+    .header h1 {
+      font-size: 2.2em;
+      margin: 5px 0;
+      color: #1a3e6f;
+      letter-spacing: 0.5px;
+      font-weight: 700;
+    }
+
+    .header p {
+      font-size: 1.1em;
+      color: #555;
+      margin: 5px 0;
+      font-weight: 600;
+    }
+
+    .section {
+      padding: 25px;
+      margin: 20px 0;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border-left: 4px solid #3498db;
+      page-break-inside: avoid;
+    }
+
+    .section h2 {
+      color: #1a3e6f;
+      border-bottom: 2px solid #3498db;
+      padding-bottom: 5px;
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 1.4em;
+    }
+
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .info-item {
+      background: #f0f7ff;
+      padding: 12px;
+      border-radius: 6px;
+      font-weight: 600;
+      border: 1px solid #bdc3c7;
+    }
+
+    .info-label {
+      color: #3498db;
+      display: block;
+      margin-bottom: 5px;
+      font-weight: 700;
+    }
+
+    .legal-note {
+      background: #fff8e1;
+      padding: 15px;
+      border-left: 4px solid #ffc107;
+      margin: 20px 0;
+      font-style: italic;
+      border-radius: 6px;
+      border: 1px solid #ffe082;
+    }
+
+    blockquote {
+      border-left: 3px solid #1a3e6f;
+      padding: 10px 15px;
+      margin: 15px 0;
+      font-style: italic;
+      color: #2c3e50;
+      background: #f9f9f9;
+      border-radius: 4px;
+    }
+
+    .signature-area {
+      margin-top: 50px;
+      padding-top: 30px;
+      border-top: 1px solid #ddd;
+      text-align: right;
+      font-family: 'Brush Script MT', cursive;
+      font-size: 1.2em;
+      line-height: 1.2;
+      page-break-before: always;
+    }
+
+    .signature-area img {
+      width: 250px;
+      height: auto;
+      margin-bottom: 10px;
+      display: block;
+      margin-left: auto;
+      border: 1px solid #ccc;
+      border-radius: 4px;
+    }
+
+    .signature-text {
+      font-family: Arial, sans-serif;
+      font-size: 0.9em;
+      color: #333;
+      text-align: right;
+      margin-top: 5px;
+      font-weight: 600;
+    }
+
+    .footer {
+      text-align: center;
+      margin-top: 40px;
+      padding-top: 20px;
+      border-top: 1px solid #eee;
+      color: #7f8c8d;
+      font-size: 0.85em;
+      font-weight: 500;
+      page-break-before: avoid;
+    }
+
+    .page-number {
+      position: absolute;
+      bottom: 20px;
+      right: 30px;
+      font-size: 0.8em;
+      color: #999;
+    }
+
+    /* Print Styles */
+    @media print {
+      body {
+        background: white;
+        font-size: 12pt;
+      }
+      .watermark {
+        opacity: 0.03;
+      }
+      .container {
+        box-shadow: none;
+        margin: 0;
+        padding: 20mm;
+        border: none;
+      }
+      .page-number {
+        position: static;
+        display: block;
+        text-align: center;
+        margin-top: 20px;
+        font-size: 10pt;
+      }
+      .signature-area {
+        page-break-before: always;
+      }
+      .footer {
+        position: fixed;
+        bottom: 0;
+        width: 100%;
+        border-top: 1px solid #ccc;
+        padding: 5px 0;
+        font-size: 8pt;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .info-grid {
+        grid-template-columns: 1fr;
+      }
+      .header h1 {
+        font-size: 1.8em;
+      }
+      .signature-area img {
+        width: 200px;
+      }
+      .container {
+        margin: 10px;
+        padding: 15px;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Watermark -->
+  <div class="watermark">DOKUMEN RESMI</div>
+
+  <div class="container">
+
+    <!-- Header with Official Logo -->
+    <div class="header">
+      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Kementerian_Keuangan_Republik_Indonesia_logo.svg/1200px-Kementerian_Keuangan_Republik_Indonesia_logo.svg.png" alt="Logo Kementerian Keuangan RI" class="logo">
+      <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
+      <p>DIREKTORAT JENDERAL BEA DAN CUKAI</p>
+    </div>
+
+    <!-- Main Content -->
+    <div class="section">
+      <h2>BERITA ACARA PEMERIKSAAN BARANG NON CUKAI</h2>
+      <p><strong>Nomor:</strong> 012/Legal/12/2025</p>
+      <p>Pada hari ini, <strong>Minggu, 07 Desember 2025</strong>, bertempat di <strong>Unit Transit Sulawesi Selatan — Tim Legalitas & Pemeriksaan Barang</strong>, telah dilakukan pemeriksaan terhadap satu (1) paket pengiriman ekspedisi dengan data sebagai berikut:</p>
+    </div>
+
+    <div class="section">
+      <h2>I. DATA PENGIRIMAN</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Nomor Resi</span>
+          001776524185
+        </div>
+        <div class="info-item">
+          <span class="info-label">Jenis Barang</span>
+          Rokok tanpa pita cukai resmi
+        </div>
+        <div class="info-item">
+          <span class="info-label">Jumlah</span>
+          2 slop (400 batang)
+        </div>
+      </div>
+      <p>Pemeriksaan dilaksanakan sebagai bagian dari proses kontrol internal terhadap barang yang memiliki potensi ketidaksesuaian dengan ketentuan legalitas khusus, sebagaimana diatur dalam peraturan perundang-undangan di bidang cukai.</p>
+    </div>
+
+    <div class="section">
+      <h2>II. DASAR PEMERIKSAAN</h2>
+      <p>Pemeriksaan dilakukan berdasarkan prosedur internal perusahaan dan ketentuan hukum yang berlaku, khususnya terkait pengawasan atas Barang Kena Cukai (BKC), sebagaimana diatur dalam Undang-Undang Nomor 39 Tahun 2007 tentang Cukai.</p>
+    </div>
+
+    <div class="section">
+      <h2>III. HASIL PEMERIKSAAN</h2>
+      <p>Berdasarkan pemeriksaan fisik, ditemukan bahwa:</p>
+      <ul>
+        <li>Barang berupa rokok tanpa pita cukai resmi, jumlah total 400 batang.</li>
+        <li>Status temuan: <strong>RAT JEND</strong> *(Barang Tanpa Nilai Pita Cukai Resmi)*</li>
+        <li>Tidak terdapat pita cukai resmi.</li>
+        <li>Tidak terdapat dokumen pelengkap legalitas.</li>
+      </ul>
+    </div>
+
+    <div class="section">
+      <h2>IV. TINDAKAN INTERNAL</h2>
+      <p>Berdasarkan SOP pemeriksaan internal, tindakan yang diambil adalah sebagai berikut:</p>
+      <ol>
+        <li><strong>Penahanan Sementara Paket</strong> untuk proses klarifikasi kepada pemilik barang.</li>
+        <li><strong>Pengeluaran Pemberitahuan Jaminan Legalitas Sementara</strong>, dengan rincian:
+          <ul>
+            <li>Nilai cukai (Rp 2.000 x 400 batang): <strong>Rp 800.000,00</strong></li>
+            <li>Biaya lanjutan pengiriman: <strong>Rp 50.000,00</strong></li>
+            <li><strong>Total: Rp 850.000,00</strong></li>
+          </ul>
+        </li>
+        <li><strong>Opsi Refund 80%</strong> (Rp 680.000,00) setelah verifikasi internal selesai.</li>
+        <li><strong>Biaya Administrasi Internal 20%</strong> (Rp 170.000,00).  
+          <em>Catatan: Tindakan ini merupakan prosedur internal, bukan denda atau sanksi hukum dari instansi pemerintah.</em></li>
+      </ol>
+    </div>
+
+    <div class="section">
+      <h2>V. CATATAN</h2>
+      <p>Pemeriksaan ini dilakukan sebagai bagian dari pengawasan internal jaminan pengiriman. Apabila pemilik barang menyelesaikan pembayaran jaminan legalitas sementara, paket akan diproses kembali sesuai alur pengiriman internal.</p>
+    </div>
+
+    <div class="section">
+      <h2>VI. KONSEKUENSI HUKUM</h2>
+      <p>Apabila pembayaran tidak dilakukan sesuai ketentuan, maka:</p>
+      <div class="legal-note">
+        Barang akan diserahkan ke pihak yang berwenang, ditahan, disita, dan diproses secara hukum oleh Direktorat Jenderal Bea dan Cukai, mengacu pada <strong>Undang-Undang Nomor 39 Tahun 2007 tentang Cukai</strong> dan peraturan pelaksanaannya.
+      </div>
+      <blockquote>
+        <strong>Pasal 54 Ayat (1) UU No. 39 Tahun 2007:</strong><br>
+        "Setiap orang yang menawarkan, menyerahkan, menjual, atau menyediakan untuk dijual Barang Kena Cukai yang tidak dikemas untuk penjualan eceran atau tidak dilekati pita cukai sebagaimana mestinya, dipidana dengan pidana penjara paling singkat 1 (satu) tahun dan paling lama 5 (lima) tahun, serta/atau pidana denda paling sedikit 2 (dua) kali nilai cukai yang seharusnya dibayar dan paling banyak 10 (sepuluh) kali nilai cukai yang seharusnya dibayar."
+      </blockquote>
+    </div>
+
+    <div class="section">
+      <h2>VII. PENUTUP</h2>
+      <p>Demikian Berita Acara ini dibuat untuk digunakan sebagaimana mestinya dalam proses administrasi internal dan sebagai dasar tindak lanjut proses pengiriman barang.</p>
+
+      <!-- Signature Area -->
+      <div class="signature-area">
+        <img src="https://i.imgur.com/8GzYqVr.png" alt="Tanda Tangan Digital" style="border: 1px solid #ccc; padding: 5px; background: white;">
+        <div class="signature-text">
+          <strong>Andi Oktavia</strong><br>
+          Kepala Unit Transit Sulawesi Tenggara<br>
+          NIP: 198001012005011001
+        </div>
+      </div>
+    </div>
+
+    <!-- Page Number -->
+    <div class="page-number">Halaman 1 dari 1</div>
+
+    <!-- Footer -->
+    <div class="footer">
+      © 2025 Direktorat Jenderal Bea dan Cukai — Kementerian Keuangan Republik Indonesia<br>
+      Dokumen ini bersifat resmi dan hanya digunakan untuk keperluan administrasi internal.<br>
+      Verifikasi dokumen dapat dilakukan melalui sistem internal DJBC.
+    </div>
+
+  </div>
+
+</body>
+        </html>
