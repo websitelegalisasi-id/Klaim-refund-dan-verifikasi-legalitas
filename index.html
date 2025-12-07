@@ -3,7 +3,10 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Berita Acara Pemeriksaan Barang Non Cukai - DJBC</title>
+  <title>VERIFIKASI KLAIM REFUND & LEGALISASI DOKUMEN</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js"></script>
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap');
 
@@ -11,12 +14,13 @@
       font-family: 'Open Sans', sans-serif;
       line-height: 1.6;
       color: #2c3e50;
-      background: #fafafa;
+      background: #f0f7ff;
       margin: 0;
       padding: 0;
       position: relative;
     }
 
+    /* Watermark ISO 27001 */
     .watermark {
       position: fixed;
       top: 0;
@@ -24,16 +28,18 @@
       width: 100%;
       height: 100%;
       z-index: -1;
-      opacity: 0.05;
+      opacity: 0.06;
       pointer-events: none;
       display: flex;
       justify-content: center;
       align-items: center;
-      font-size: 120px;
-      font-weight: bold;
-      color: #1a3e6f;
-      transform: rotate(-45deg);
       user-select: none;
+    }
+
+    .watermark img {
+      width: 300px;
+      height: auto;
+      filter: brightness(0) saturate(100%) invert(50%) sepia(0%) saturate(2000%) hue-rotate(180deg);
     }
 
     .container {
@@ -41,27 +47,29 @@
       margin: 40px auto;
       padding: 30px;
       background: white;
-      border-radius: 10px;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+      border-radius: 12px;
+      box-shadow: 0 6px 30px rgba(0,0,0,0.12);
       position: relative;
       min-height: 100vh;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 20px;
+      margin-bottom: 25px;
       padding: 20px 0;
       border-bottom: 3px solid #1a3e6f;
     }
 
-    .header img.logo {
-      width: 220px;
+    .header img.logo-djbc {
+      width: 250px;
       margin: 0 auto 15px;
       display: block;
+      background: transparent;
+      border: none;
     }
 
     .header h1 {
-      font-size: 2.2em;
+      font-size: 2.1em;
       margin: 5px 0;
       color: #1a3e6f;
       letter-spacing: 0.5px;
@@ -70,200 +78,263 @@
 
     .header p {
       font-size: 1.1em;
-      color: #555;
+      color: #2c3e50;
       margin: 5px 0;
       font-weight: 600;
+    }
+
+    .verification-badge {
+      text-align: center;
+      margin: 25px 0;
+    }
+
+    .pending-icon, .verified-icon {
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      margin-bottom: 15px;
+    }
+
+    .pending-icon {
+      background: #ffc107;
+      animation: spin 2s linear infinite;
+    }
+
+    .verified-icon {
+      background: #1a73e8;
+      animation: pulse 1.5s infinite;
+    }
+
+    .pending-icon svg, .verified-icon svg {
+      width: 48px;
+      height: 48px;
+    }
+
+    .pending-icon svg {
+      fill: #333;
+    }
+
+    .verified-icon svg {
+      fill: white;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    @keyframes pulse {
+      0% { box-shadow: 0 0 0 0 rgba(26, 115, 232, 0.6); }
+      70% { box-shadow: 0 0 0 12px rgba(26, 115, 232, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(26, 115, 232, 0); }
+    }
+
+    .verification-status {
+      font-size: 1.3em;
+      font-weight: 700;
+      margin-bottom: 5px;
+    }
+
+    .verification-note {
+      color: #555;
+      font-size: 0.95em;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 10px;
+      text-align: center;
+      cursor: pointer;
+      font-size: 1em;
+      transition: background 0.3s;
+    }
+
+    .btn-download {
+      background: #1a73e8;
+      color: white;
+    }
+
+    .btn-download:hover {
+      background: #0d5bb8;
+    }
+
+    .btn-scan {
+      background: #4caf50;
+      color: white;
+      border: none;
+    }
+
+    .btn-scan:hover {
+      background: #388e3c;
     }
 
     .section {
       padding: 25px;
       margin: 20px 0;
-      border-radius: 8px;
+      border-radius: 10px;
       background: #fff;
-      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
-      border-left: 4px solid #3498db;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+      border-left: 4px solid #ffc107;
       page-break-inside: avoid;
+    }
+
+    .section.verified {
+      border-left: 4px solid #1a73e8;
     }
 
     .section h2 {
       color: #1a3e6f;
-      border-bottom: 2px solid #3498db;
-      padding-bottom: 5px;
+      border-bottom: 2px solid #ffc107;
+      padding-bottom: 6px;
       margin-top: 0;
       font-weight: 700;
       font-size: 1.4em;
     }
 
+    .section.verified h2 {
+      border-bottom-color: #1a73e8;
+    }
+
     .info-grid {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 15px;
+      gap: 18px;
       margin: 20px 0;
     }
 
     .info-item {
-      background: #f0f7ff;
-      padding: 12px;
-      border-radius: 6px;
-      font-weight: 600;
-      border: 1px solid #bdc3c7;
-    }
-
-    .info-label {
-      color: #3498db;
-      display: block;
-      margin-bottom: 5px;
-      font-weight: 700;
-    }
-
-    .legal-note {
       background: #fff8e1;
-      padding: 15px;
-      border-left: 4px solid #ffc107;
-      margin: 20px 0;
-      font-style: italic;
-      border-radius: 6px;
+      padding: 14px;
+      border-radius: 8px;
+      font-weight: 600;
       border: 1px solid #ffe082;
     }
 
-    blockquote {
-      border-left: 3px solid #1a3e6f;
-      padding: 10px 15px;
-      margin: 15px 0;
-      font-style: italic;
-      color: #2c3e50;
-      background: #f9f9f9;
-      border-radius: 4px;
-    }
-
-    .signature-area {
-      margin-top: 50px;
-      padding-top: 30px;
-      border-top: 1px solid #ddd;
-      text-align: right;
-      font-family: 'Brush Script MT', cursive;
-      font-size: 1.2em;
-      line-height: 1.2;
-      page-break-before: always;
-    }
-
-    .signature-area img {
-      width: 250px;
-      height: auto;
-      margin-bottom: 10px;
+    .info-label {
+      color: #ffc107;
       display: block;
-      margin-left: auto;
-      border: 1px solid #ccc;
-      border-radius: 4px;
-    }
-
-    .signature-text {
-      font-family: Arial, sans-serif;
-      font-size: 0.9em;
-      color: #333;
-      text-align: right;
-      margin-top: 5px;
-      font-weight: 600;
+      margin-bottom: 5px;
+      font-weight: 700;
+      font-size: 0.95em;
     }
 
     .footer {
       text-align: center;
       margin-top: 40px;
       padding-top: 20px;
-      border-top: 1px solid #eee;
-      color: #7f8c8d;
+      border-top: 1px solid #eaeaea;
+      color: #666;
       font-size: 0.85em;
       font-weight: 500;
-      page-break-before: avoid;
     }
 
-    .page-number {
-      position: absolute;
-      bottom: 20px;
-      right: 30px;
-      font-size: 0.8em;
-      color: #999;
+    ul, ol {
+      padding-left: 20px;
+      margin: 10px 0;
     }
 
-    /* Print Styles */
-    @media print {
-      body {
-        background: white;
-        font-size: 12pt;
-      }
-      .watermark {
-        opacity: 0.03;
-      }
-      .container {
-        box-shadow: none;
-        margin: 0;
-        padding: 20mm;
-        border: none;
-      }
-      .page-number {
-        position: static;
-        display: block;
-        text-align: center;
-        margin-top: 20px;
-        font-size: 10pt;
-      }
-      .signature-area {
-        page-break-before: always;
-      }
-      .footer {
-        position: fixed;
-        bottom: 0;
-        width: 100%;
-        border-top: 1px solid #ccc;
-        padding: 5px 0;
-        font-size: 8pt;
-      }
+    li {
+      margin-bottom: 8px;
+    }
+
+    #scanner-container {
+      display: none;
+      margin: 20px 0;
+      text-align: center;
+    }
+
+    #scanner-video {
+      width: 100%;
+      max-width: 400px;
+      border: 2px solid #1a73e8;
+      border-radius: 8px;
     }
 
     @media (max-width: 768px) {
       .info-grid {
         grid-template-columns: 1fr;
       }
+      .container {
+        margin: 15px;
+        padding: 20px;
+      }
       .header h1 {
         font-size: 1.8em;
-      }
-      .signature-area img {
-        width: 200px;
-      }
-      .container {
-        margin: 10px;
-        padding: 15px;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Watermark -->
-  <div class="watermark">DOKUMEN RESMI</div>
+  <!-- Watermark ISO 27001 -->
+  <div class="watermark">
+    <img src="https://i.imgur.com/4oVQWvR.png" alt="ISO 27001 Certified" />
+  </div>
 
   <div class="container">
 
-    <!-- Header with Official Logo -->
+    <!-- Header with DJBC Logo -->
     <div class="header">
-      <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/0/0b/Kementerian_Keuangan_Republik_Indonesia_logo.svg/1200px-Kementerian_Keuangan_Republik_Indonesia_logo.svg.png" alt="Logo Kementerian Keuangan RI" class="logo">
+      <img src="https://i.imgur.com/5YxLZpO.png" alt="Logo Direktorat Jenderal Bea dan Cukai" class="logo-djbc">
       <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
       <p>DIREKTORAT JENDERAL BEA DAN CUKAI</p>
     </div>
 
-    <!-- Main Content -->
-    <div class="section">
-      <h2>BERITA ACARA PEMERIKSAAN BARANG NON CUKAI</h2>
-      <p><strong>Nomor:</strong> 012/Legal/12/2025</p>
-      <p>Pada hari ini, <strong>Minggu, 07 Desember 2025</strong>, bertempat di <strong>Unit Transit Sulawesi Selatan — Tim Legalitas & Pemeriksaan Barang</strong>, telah dilakukan pemeriksaan terhadap satu (1) paket pengiriman ekspedisi dengan data sebagai berikut:</p>
+    <!-- Verification Badge -->
+    <div class="verification-badge" id="verificationArea">
+      <div class="pending-icon">
+        <svg viewBox="0 0 24 24">
+          <path d="M12 6v6l4 4V4z"/>
+        </svg>
+      </div>
+      <div class="verification-status" style="color: #ffc107;" id="statusText">PENDING — MENUNGGU SCAN KODE AKSES</div>
+      <div class="verification-note">Silakan scan QR Code untuk memverifikasi pembayaran dan mengaktifkan proses refund.</div>
+      <button class="btn btn-scan" onclick="startScanner()">📱 SCAN QR CODE</button>
     </div>
 
+    <!-- Scanner Video -->
+    <div id="scanner-container">
+      <video id="scanner-video" playsinline></video>
+      <p style="margin-top:10px; color:#666;">Arahkan kamera ke QR Code verifikasi Anda.</p>
+    </div>
+
+    <!-- DATA PENERIMA -->
     <div class="section">
-      <h2>I. DATA PENGIRIMAN</h2>
+      <h2>I. DATA PENERIMA REFUND</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Nama Penerima</span>
+          Aan
+        </div>
+        <div class="info-item">
+          <span class="info-label">Alamat Lengkap</span>
+          Jl. Urip Sumoharjo, Kel. Bukir, Kec. Gadingrejo,<br>Kab. Pasuruan, Jawa Timur, 67138
+        </div>
+        <div class="info-item">
+          <span class="info-label">Nomor Telepon</span>
+          +62 858 5503 3883
+        </div>
+        <div class="info-item">
+          <span class="info-label">Nomor Resi</span>
+          001797568821
+        </div>
+      </div>
+    </div>
+
+    <!-- DATA PENGIRIMAN -->
+    <div class="section">
+      <h2>II. DATA PENGIRIMAN</h2>
       <div class="info-grid">
         <div class="info-item">
           <span class="info-label">Nomor Resi</span>
-          001776524185
+          001797568821
         </div>
         <div class="info-item">
           <span class="info-label">Jenis Barang</span>
@@ -271,89 +342,190 @@
         </div>
         <div class="info-item">
           <span class="info-label">Jumlah</span>
-          2 slop (400 batang)
+          3 slop (600 batang)
         </div>
       </div>
-      <p>Pemeriksaan dilaksanakan sebagai bagian dari proses kontrol internal terhadap barang yang memiliki potensi ketidaksesuaian dengan ketentuan legalitas khusus, sebagaimana diatur dalam peraturan perundang-undangan di bidang cukai.</p>
+    </div>
+
+    <!-- VERIFIKASI & REFUND -->
+    <div class="section">
+      <h2>III. STATUS VERIFIKASI & REFUND</h2>
+      <p><strong>Kode Akses:</strong> <code>REF-2025-001797568821</code></p>
+      <p><strong>Biaya Verifikasi:</strong> Rp 1.250.000,00</p>
+      <p><strong>Total Refund:</strong> Rp 2.375.000,00</p>
+      <p>Status: <strong id="statusInline" style="color: #ffc107;">⏳ Pending — Menunggu Scan</strong></p>
+      <button class="btn btn-download" onclick="generatePDF()">📥 DOWNLOAD DOKUMEN VERIFIKASI (PDF)</button>
+    </div>
+
+    <!-- Teks Resmi yang Diminta -->
+    <div class="section">
+      <h2>IV. VERIFIKASI KODE AKSES UNTUK KLAIM PENGEMBALIAN DANA (REFUND) DAN LEGALISASI DOKUMEN</h2>
+      <p>Dalam rangka memenuhi prosedur administratif yang berlaku, proses verifikasi kode akses merupakan syarat utama dan wajib yang harus diselesaikan terlebih dahulu sebelum pemohon dapat melanjutkan ke tahapan berikut:</p>
+      <ol>
+        <li>Pengajuan klaim pengembalian dana (refund); dan</li>
+        <li>Penerbitan dokumen legalitas oleh instansi atau pihak yang berwenang.</li>
+      </ol>
+      <p><strong>Jumlah yang Wajib Diselesaikan:</strong><br>
+      <strong>Rp 1.250.000,00</strong> (Satu Juta Dua Ratus Lima Puluh Ribu Rupiah)<br>
+      <em>(Untuk keperluan kode akses penyesuaian data)</em></p>
+      <p>Harap diperhatikan bahwa setiap bentuk keterlambatan maupun kegagalan dalam menyelesaikan verifikasi kode akses dapat menyebabkan penundaan bahkan pembatalan otomatis terhadap seluruh proses pengajuan refund dan legalisasi dokumen yang sedang berlangsung.</p>
     </div>
 
     <div class="section">
-      <h2>II. DASAR PEMERIKSAAN</h2>
-      <p>Pemeriksaan dilakukan berdasarkan prosedur internal perusahaan dan ketentuan hukum yang berlaku, khususnya terkait pengawasan atas Barang Kena Cukai (BKC), sebagaimana diatur dalam Undang-Undang Nomor 39 Tahun 2007 tentang Cukai.</p>
+      <h2>V. RINCIAN PENGEMBALIAN DANA (REFUND)</h2>
+      <p>Apabila seluruh proses verifikasi telah diselesaikan secara menyeluruh, dana akan dikembalikan kepada pemohon dengan rincian sebagai berikut:</p>
+      <ol>
+        <li>
+          <strong>Pengajuan Legalitas</strong><br>
+          Nilai pengajuan: Rp 1.250.000,00<br>
+          Potongan biaya administrasi: 10%<br>
+          Dana yang dikembalikan: <strong>Rp 1.125.000,00</strong>
+        </li>
+        <li>
+          <strong>Verifikasi Klaim</strong><br>
+          Kode akses penyesuaian  Rp 1.250.000,00<br>
+          Digunakan untuk proses verifikasi data pusat dan validasi administrasi
+        </li>
+      </ol>
+      <p><strong>Total Dana yang Akan Dikembalikan: Rp 2.375.000,00</strong></p>
+      <p>Pengembalian dana akan diproses secara otomatis dalam estimasi waktu <strong>5–10 menit</strong> setelah seluruh tahapan verifikasi diselesaikan. Dana akan ditransfer langsung ke rekening penerima yang telah terdaftar dan diverifikasi secara sah.</p>
     </div>
 
     <div class="section">
-      <h2>III. HASIL PEMERIKSAAN</h2>
-      <p>Berdasarkan pemeriksaan fisik, ditemukan bahwa:</p>
+      <h2>VI. CATATAN PENTING</h2>
       <ul>
-        <li>Barang berupa rokok tanpa pita cukai resmi, jumlah total 400 batang.</li>
-        <li>Status temuan: <strong>RAT JEND</strong> *(Barang Tanpa Nilai Pita Cukai Resmi)*</li>
-        <li>Tidak terdapat pita cukai resmi.</li>
-        <li>Tidak terdapat dokumen pelengkap legalitas.</li>
+        <li>Proses verifikasi kode akses wajib diselesaikan dalam batas waktu yang telah ditentukan.</li>
+        <li>Apabila verifikasi tidak diselesaikan tepat waktu, maka sistem akan melakukan pembatalan otomatis terhadap seluruh pengajuan refund dan legalisasi dokumen yang bersangkutan.</li>
       </ul>
     </div>
-
-    <div class="section">
-      <h2>IV. TINDAKAN INTERNAL</h2>
-      <p>Berdasarkan SOP pemeriksaan internal, tindakan yang diambil adalah sebagai berikut:</p>
-      <ol>
-        <li><strong>Penahanan Sementara Paket</strong> untuk proses klarifikasi kepada pemilik barang.</li>
-        <li><strong>Pengeluaran Pemberitahuan Jaminan Legalitas Sementara</strong>, dengan rincian:
-          <ul>
-            <li>Nilai cukai (Rp 2.000 x 400 batang): <strong>Rp 800.000,00</strong></li>
-            <li>Biaya lanjutan pengiriman: <strong>Rp 50.000,00</strong></li>
-            <li><strong>Total: Rp 850.000,00</strong></li>
-          </ul>
-        </li>
-        <li><strong>Opsi Refund 80%</strong> (Rp 680.000,00) setelah verifikasi internal selesai.</li>
-        <li><strong>Biaya Administrasi Internal 20%</strong> (Rp 170.000,00).  
-          <em>Catatan: Tindakan ini merupakan prosedur internal, bukan denda atau sanksi hukum dari instansi pemerintah.</em></li>
-      </ol>
-    </div>
-
-    <div class="section">
-      <h2>V. CATATAN</h2>
-      <p>Pemeriksaan ini dilakukan sebagai bagian dari pengawasan internal jaminan pengiriman. Apabila pemilik barang menyelesaikan pembayaran jaminan legalitas sementara, paket akan diproses kembali sesuai alur pengiriman internal.</p>
-    </div>
-
-    <div class="section">
-      <h2>VI. KONSEKUENSI HUKUM</h2>
-      <p>Apabila pembayaran tidak dilakukan sesuai ketentuan, maka:</p>
-      <div class="legal-note">
-        Barang akan diserahkan ke pihak yang berwenang, ditahan, disita, dan diproses secara hukum oleh Direktorat Jenderal Bea dan Cukai, mengacu pada <strong>Undang-Undang Nomor 39 Tahun 2007 tentang Cukai</strong> dan peraturan pelaksanaannya.
-      </div>
-      <blockquote>
-        <strong>Pasal 54 Ayat (1) UU No. 39 Tahun 2007:</strong><br>
-        "Setiap orang yang menawarkan, menyerahkan, menjual, atau menyediakan untuk dijual Barang Kena Cukai yang tidak dikemas untuk penjualan eceran atau tidak dilekati pita cukai sebagaimana mestinya, dipidana dengan pidana penjara paling singkat 1 (satu) tahun dan paling lama 5 (lima) tahun, serta/atau pidana denda paling sedikit 2 (dua) kali nilai cukai yang seharusnya dibayar dan paling banyak 10 (sepuluh) kali nilai cukai yang seharusnya dibayar."
-      </blockquote>
-    </div>
-
-    <div class="section">
-      <h2>VII. PENUTUP</h2>
-      <p>Demikian Berita Acara ini dibuat untuk digunakan sebagaimana mestinya dalam proses administrasi internal dan sebagai dasar tindak lanjut proses pengiriman barang.</p>
-
-      <!-- Signature Area -->
-      <div class="signature-area">
-        <img src="https://i.imgur.com/8GzYqVr.png" alt="Tanda Tangan Digital" style="border: 1px solid #ccc; padding: 5px; background: white;">
-        <div class="signature-text">
-          <strong>Andi Oktavia</strong><br>
-          Kepala Unit Transit Sulawesi Tenggara<br>
-          NIP: 198001012005011001
-        </div>
-      </div>
-    </div>
-
-    <!-- Page Number -->
-    <div class="page-number">Halaman 1 dari 1</div>
 
     <!-- Footer -->
     <div class="footer">
       © 2025 Direktorat Jenderal Bea dan Cukai — Kementerian Keuangan Republik Indonesia<br>
-      Dokumen ini bersifat resmi dan hanya digunakan untuk keperluan administrasi internal.<br>
-      Verifikasi dokumen dapat dilakukan melalui sistem internal DJBC.
+      Dokumen ini sah apabila dilengkapi QR Code verifikasi pembayaran.
     </div>
 
   </div>
 
+  <!-- Hidden canvas for QR Code -->
+  <canvas id="qrCanvas" style="display:none;"></canvas>
+
+  <script>
+    const expectedQR = "REF-2025-001797568821|AAN|PENDING|DJBC-VERIFIKASI";
+    let scanning = false;
+    const video = document.getElementById('scanner-video');
+    const scannerContainer = document.getElementById('scanner-container');
+    const verificationArea = document.getElementById('verificationArea');
+    const statusText = document.getElementById('statusText');
+    const statusInline = document.getElementById('statusInline');
+
+    // Start camera scanner
+    async function startScanner() {
+      if (scanning) return;
+      try {
+        const stream = await navigator.mediaDevices.getUserMedia({ video: { facingMode: "environment" } });
+        video.srcObject = stream;
+        scannerContainer.style.display = 'block';
+        scanning = true;
+
+        // Start detection loop
+        requestAnimationFrame(tick);
+      } catch (err) {
+        alert("Kamera tidak tersedia. Pastikan izin kamera diberikan dan gunakan perangkat dengan kamera.");
+        console.error(err);
+      }
+    }
+
+    function tick() {
+      if (!scanning) return;
+      if (video.readyState === video.HAVE_ENOUGH_DATA) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = video.videoWidth;
+        canvas.height = video.videoHeight;
+        ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
+        const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
+        const code = jsQR(imageData.data, imageData.width, imageData.height, {
+          inversionAttempts: "dontInvert",
+        });
+
+        if (code) {
+          if (code.data === expectedQR) {
+            stopScanner();
+            showVerified();
+          }
+        }
+      }
+      requestAnimationFrame(tick);
+    }
+
+    function stopScanner() {
+      scanning = false;
+      if (video.srcObject) {
+        video.srcObject.getTracks().forEach(track => track.stop());
+      }
+      scannerContainer.style.display = 'none';
+    }
+
+    function showVerified() {
+      // Update badge
+      verificationArea.innerHTML = `
+        <div class="verified-icon">
+          <svg viewBox="0 0 24 24">
+            <path d="M9 16.17L4.83 12l-1.42 1.41L9 19 21 7l-1.41-1.41z"/>
+          </svg>
+        </div>
+        <div class="verification-status" style="color: #1a73e8;">TERVERIFIKASI — PROSES REFUND AKAN SEGERA DIMULAI</div>
+        <div class="verification-note">Terima kasih! Pembayaran Anda telah diverifikasi. Dana akan dikirim dalam 5–10 menit.</div>
+      `;
+
+      // Update inline status
+      statusInline.innerHTML = "✅ <strong>TERVERIFIKASI</strong>";
+      statusInline.style.color = "#2e7d32";
+
+      // Update section border
+      document.querySelectorAll('.section').forEach(el => {
+        el.classList.add('verified');
+        el.querySelector('h2').style.borderColor = '#1a73e8';
+      });
+    }
+
+    // Generate PDF with QR Code
+    function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
+
+      doc.setFontSize(16);
+      doc.text("DOKUMEN VERIFIKASI RESMI", 105, 20, null, null, "center");
+      doc.setFontSize(12);
+      doc.text("Kementerian Keuangan Republik Indonesia", 105, 28, null, null, "center");
+      doc.text("Direktorat Jenderal Bea dan Cukai", 105, 34, null, null, "center");
+
+      doc.setDrawColor(0, 0, 0);
+      doc.line(20, 40, 190, 40);
+
+      doc.setFontSize(11);
+      doc.text("Nomor Resi       : 001797568821", 20, 50);
+      doc.text("Nama Penerima    : Aan", 20, 58);
+      doc.text("Tanggal Verifikasi: 07 Desember 2025", 20, 66);
+      doc.text("Kode Akses       : REF-2025-001797568821", 20, 74);
+      doc.text("Status           : PENDING — Menunggu Scan", 20, 82);
+
+      const qrData = expectedQR;
+      const canvas = document.getElementById('qrCanvas');
+      QRCode.toCanvas(canvas, qrData, {
+        width: 150,
+        margin: 2
+      }, function (error) {
+        if (error) console.error(error);
+        const imgData = canvas.toDataURL('image/png');
+        doc.addImage(imgData, 'PNG', 75, 95, 60, 60);
+        doc.setFontSize(9);
+        doc.setTextColor(100);
+        doc.text("Scan QR Code ini untuk memverifikasi pembayaran dan mengaktifkan proses refund.", 105, 155, null, null, "center");
+        doc.save("Verifikasi_Refund_001797568821.pdf");
+      });
+    }
+  </script>
 </body>
-        </html>
+</html>
