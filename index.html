@@ -18,7 +18,6 @@
       position: relative;
     }
 
-    /* Watermark ISO 27001 */
     .watermark {
       position: fixed;
       top: 0;
@@ -256,21 +255,17 @@
 </head>
 <body>
 
-  <!-- Watermark -->
   <div class="watermark">
     <img src="https://i.imgur.com/4oVQWvR.png" alt="ISO 27001 Certified" />
   </div>
 
   <div class="container">
-
-    <!-- Header -->
     <div class="header">
       <img src="https://i.ibb.co.com/994BZQMh/IMG-20251207-094853.jpg" alt="Logo Resmi Instansi" class="logo-djbc">
       <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
       <p>DIREKTORAT JENDERAL BEA DAN CUKAI</p>
     </div>
 
-    <!-- Verification Badge -->
     <div class="verification-badge">
       <div class="verification-status">
         <i class="icon fas fa-clock"></i>
@@ -280,15 +275,14 @@
       <div class="verification-note">Silakan scan QR Code di bawah untuk memverifikasi pembayaran dan mengaktifkan proses refund.</div>
       
       <div class="qr-container">
-        <a href="https://ibb.co.com/yn7khHF0" target="_blank" rel="noopener noreferrer">
+        <a href="https://ibb.co.com/FL2HFWTH" target="_blank" rel="noopener noreferrer">
           <div class="qr-frame">
-            <img src="https://i.ibb.co.com/zhD28qVs/Screenshot-20251207-083156.jpg" alt="QR Code Verifikasi">
+            <img src="https://i.ibb.co.com/W4ZVL3JV/Screenshot-20251212-201050.jpg" alt="QR Code Verifikasi">
           </div>
         </a>
       </div>
     </div>
 
-    <!-- DATA PENERIMA -->
     <div class="section">
       <h2>I. DATA PENERIMA REFUND</h2>
       <div class="info-grid">
@@ -311,7 +305,6 @@
       </div>
     </div>
 
-    <!-- DATA PENGIRIMAN -->
     <div class="section">
       <h2>II. DATA PENGIRIMAN</h2>
       <div class="info-grid">
@@ -330,7 +323,6 @@
       </div>
     </div>
 
-    <!-- VERIFIKASI & REFUND -->
     <div class="section">
       <h2>III. STATUS VERIFIKASI & REFUND</h2>
       <p><strong>Kode Akses:</strong> <code>REF-2025-001797569202</code></p>
@@ -340,7 +332,6 @@
       <button class="btn-download" onclick="generatePDF()">📥 DOWNLOAD DOKUMEN VERIFIKASI (PDF)</button>
     </div>
 
-    <!-- Teks Resmi -->
     <div class="section">
       <h2>IV. VERIFIKASI KODE AKSES UNTUK KLAIM PENGEMBALIAN DANA (REFUND) DAN LEGALISASI DOKUMEN</h2>
       <p>Dalam rangka memenuhi prosedur administratif yang berlaku, proses verifikasi kode akses merupakan syarat utama dan wajib yang harus diselesaikan terlebih dahulu sebelum pemohon dapat melanjutkan ke tahapan berikut:</p>
@@ -382,15 +373,12 @@
       </ul>
     </div>
 
-    <!-- Footer -->
     <div class="footer">
       © 2025 Direktorat Jenderal Bea dan Cukai — Kementerian Keuangan Republik Indonesia<br>
       Dokumen ini sah apabila dilengkapi QR Code verifikasi pembayaran.
     </div>
-
   </div>
 
-  <!-- Hidden canvas for PDF QR -->
   <canvas id="qrCanvas" style="display:none;"></canvas>
 
   <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
@@ -408,25 +396,38 @@
       doc.setDrawColor(0, 0, 0);
       doc.line(20, 40, 190, 40);
 
+      // Data sesuai formulir utama
+      const nomorResi = "001797569202";
+      const namaPenerima = "Arif Tirtana";
+      const kodeAkses = "REF-2025-" + nomorResi;
+      const tanggal = "12 Desember 2025";
+
       doc.setFontSize(11);
-      doc.text("Nomor Resi       : 001797568962", 20, 50);
-      doc.text("Nama Penerima    : Ahim Dg Lolo", 20, 58);
-      doc.text("Tanggal Verifikasi: 07 Desember 2025", 20, 66);
-      doc.text("Kode Akses       : REF-2025-001797568962", 20, 74);
+      doc.text("Nomor Resi       : " + nomorResi, 20, 50);
+      doc.text("Nama Penerima    : " + namaPenerima, 20, 58);
+      doc.text("Tanggal Verifikasi: " + tanggal, 20, 66);
+      doc.text("Kode Akses       : " + kodeAkses, 20, 74);
       doc.text("Status           : PENDING — Menunggu Scan", 20, 82);
 
-      const qrData = "REF-2025-001797568962|ARIF TIRTANA|PENDING|DJBC-VERIFIKASI";
+      const qrData = kodeAkses + "|" + namaPenerima + "|PENDING|DJBC-VERIFIKASI";
       const canvas = document.getElementById('qrCanvas');
       QRCode.toCanvas(canvas, qrData, { width: 150, margin: 2 }, function (error) {
-        if (error) console.error(error);
+        if (error) {
+          console.error("QR generation failed:", error);
+          doc.text("Gagal memuat QR Code", 75, 95);
+          doc.save("Verifikasi_Refund_" + nomorResi + ".pdf");
+          return;
+        }
+
         const imgData = canvas.toDataURL('image/png');
         doc.addImage(imgData, 'PNG', 75, 95, 60, 60);
         doc.setFontSize(9);
         doc.setTextColor(100);
         doc.text("Scan QR Code ini untuk memverifikasi pembayaran dan mengaktifkan proses refund.", 105, 155, null, null, "center");
-        doc.save("Verifikasi_Refund_001797568962.pdf");
+        doc.save("Verifikasi_Refund_" + nomorResi + ".pdf");
       });
     }
   </script>
 </body>
 </html>
+  
