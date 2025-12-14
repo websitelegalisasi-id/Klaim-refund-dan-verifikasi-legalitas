@@ -166,9 +166,9 @@
       object-fit: contain;
     }
 
-    /* Loading Animation — 50% Progress, Always Visible Below Barcode */
+    /* Loading Animation — 50% Progress with Smooth Animation */
     .loading-animation {
-      display: block; /* ✅ Tampilkan secara otomatis tanpa klik */
+      display: none; /* Hidden by default */
       position: relative;
       margin-top: 20px;
       width: 340px;
@@ -179,6 +179,10 @@
       text-align: center;
       border: 1px solid var(--primary-light);
       animation: fadeInUp 0.6s cubic-bezier(0.22, 0.61, 0.36, 1);
+    }
+
+    .loading-animation.visible {
+      display: block;
     }
 
     .loading-icon {
@@ -215,10 +219,11 @@
     .progress-fill {
       height: 100%;
       background: linear-gradient(90deg, var(--primary), var(--secondary));
-      width: 50%; /* ✅ Progres tetap di 50% */
+      width: 0%; /* Start from 0% */
       border-radius: 7px;
       position: relative;
       box-shadow: 0 2px 4px rgba(13, 74, 130, 0.2);
+      transition: width 2s ease-out; /* Smooth animation to 50% */
     }
 
     .progress-fill::after {
@@ -420,7 +425,7 @@
         </a>
 
         <!-- ✅ Animasi loading tampil secara otomatis di bawah barcode -->
-        <div class="loading-animation">
+        <div class="loading-animation" id="loadingAnimation">
           <div class="loading-icon">
             <i class="fas fa-sync-alt"></i>
           </div>
@@ -429,9 +434,9 @@
             Memverifikasi dokumen dan keabsahan transaksi.<br>Harap tunggu...
           </div>
           <div class="progress-bar">
-            <div class="progress-fill"></div>
+            <div class="progress-fill" id="progressFill"></div>
           </div>
-          <div class="progress-text">Progres: <span>50%</span></div>
+          <div class="progress-text">Progres: <span id="progressPercentage">0%</span></div>
           <div class="info-note">
             <span class="info-icon"><i class="fas fa-info-circle"></i></span>
             Proses ini memastikan keamanan, integritas, dan kepatuhan terhadap SOP Direktorat Jenderal Bea dan Cukai sesuai Peraturan Menteri Keuangan No. 19/PMK.04/2023.
@@ -538,16 +543,32 @@
   </div>
 
   <script>
-    // ✅ Animasi loading sudah tampil otomatis — tidak perlu event listener
-    // Hanya tambahkan efek fade-in saat halaman dimuat
+    // ✅ Tampilkan animasi loading dan animasikan progress bar dari 0% ke 50%
     document.addEventListener('DOMContentLoaded', () => {
-      const loadingAnim = document.querySelector('.loading-animation');
-      if (loadingAnim) {
-        // Force reflow to trigger CSS animation
-        void loadingAnim.offsetWidth;
-      }
+      const loadingAnim = document.getElementById('loadingAnimation');
+      const progressFill = document.getElementById('progressFill');
+      const progressPercentage = document.getElementById('progressPercentage');
+
+      // Show the loading animation
+      loadingAnim.classList.add('visible');
+
+      // Force reflow to trigger CSS animations
+      void loadingAnim.offsetWidth;
+
+      // Animate progress bar from 0% to 50%
+      let currentProgress = 0;
+      const interval = setInterval(() => {
+        if (currentProgress >= 50) {
+          clearInterval(interval);
+          progressPercentage.textContent = '50%';
+          progressFill.style.width = '50%';
+        } else {
+          currentProgress += 2; // Increase by 2% each step for smoother animation
+          progressPercentage.textContent = currentProgress + '%';
+          progressFill.style.width = currentProgress + '%';
+        }
+      }, 50); // Update every 50ms
     });
   </script>
 </body>
 </html>
-  
