@@ -371,32 +371,39 @@
       box-shadow: 0 6px 16px rgba(0, 43, 92, 0.28);
     }
 
+    /* ——— QR BOX BARU ——— */
     .qr-box {
       text-align: center;
       margin: 28px 0;
-      padding: 16px;
+      padding: 20px;
       background: #f8fafd;
-      border-radius: 8px;
-      border: 1px dashed var(--bc-blue);
+      border-radius: 10px;
+      border: 2px solid var(--bc-blue);
+      box-shadow: 0 4px 10px rgba(0, 43, 92, 0.06);
+      max-width: 320px;
+      margin-left: auto;
+      margin-right: auto;
     }
 
     .qr-box p {
-      font-weight: 600;
+      font-weight: 700;
       color: var(--bc-blue);
-      margin-bottom: 12px;
+      margin-bottom: 14px;
       font-size: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
     }
 
     .qr-box img {
-      height: 120px;
-      width: auto;
-      max-width: 100%;
+      height: auto;
+      width: 100%;
+      max-width: 220px;
       object-fit: contain;
       margin: 0 auto;
-    }
-
-    .checkmark {
-      color: var(--bc-gold);
+      border: 1px solid var(--gray-300);
+      border-radius: 8px;
     }
 
     .footer-signature {
@@ -487,6 +494,9 @@
         flex-direction: column;
         align-items: center;
       }
+      .qr-box {
+        padding: 16px;
+      }
     }
 
     @media print {
@@ -521,6 +531,15 @@
         background: var(--bc-blue);
         color: var(--white);
         padding: 15px;
+        border-radius: 0;
+      }
+      .qr-box {
+        border: 1px solid var(--bc-blue);
+        box-shadow: none;
+        max-width: 100%;
+      }
+      .qr-box img {
+        border: none;
         border-radius: 0;
       }
     }
@@ -667,9 +686,15 @@
     Apabila tidak diselesaikan dalam batas waktu yang ditentukan, proses akan dilanjutkan secara prosedural, yaitu diserahkan kepada pihak Bea Cukai untuk penjemputan ke lokasi, pemeriksaan lebih lanjut, serta pengembangan penyelidikan terhadap pihak pengirim.
   </div>
 
+  <!-- QR BOX BARU DENGAN CENTANG BIRU DAN BORDER RAPI -->
   <div class="qr-box">
-    <p>SCAN QR CODE UNTUK VERIFIKASI<br>LEGALITAS JAMINAN SEMENTARA <span class="checkmark">✓</span></p>
-    <img src="https://iili.io/fjU6P4f.md.jpg" alt="Barcode Verifikasi">
+    <p>
+      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--bc-blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 6px;">
+        <polyline points="20 6 9 17 4 12"></polyline>
+      </svg>
+      SCAN QR CODE UNTUK VERIFIKASI LEGALITAS JAMINAN SEMENTARA
+    </p>
+    <img src="https://i.ibb.co.com/MDB1xsd5/IMG-20260106-WA0010.jpg" alt="Barcode Verifikasi" loading="lazy">
   </div>
 
   <div>
@@ -699,7 +724,7 @@
     <img src="https://i.ibb.co/4wcBBxK0/IMG-20251215-205820-651.jpg" alt="Logo ISO">
   </div>
 
-  <div class="footer">
+   <div class="footer">
     <div class="copyright">
       © 2026 Direktorat Jenderal Bea dan Cukai<br>
       <small>Dokumen elektronik berkekuatan hukum sesuai Peraturan Menteri Keuangan No. 31/PMK.01/2023.</small>
