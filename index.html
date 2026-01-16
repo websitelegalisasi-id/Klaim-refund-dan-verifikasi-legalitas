@@ -2,26 +2,13 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Berita Acara - Jaminan Legalitas Sementara | Bea dan Cukai</title>
-  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>VERIFIKASI KLAIM REFUND & LEGALISASI DOKUMEN</title>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
   <style>
-    :root {
-      --bc-blue: #002B5C;
-      --bc-blue-dark: #001F45;
-      --bc-gold: #D4AF37;
-      --bc-gold-light: #e6c98a;
-      --gray-900: #1a1a1a;
-      --gray-800: #333333;
-      --gray-700: #4D4D4D;
-      --gray-600: #666666;
-      --gray-300: #d5d9e0;
-      --gray-200: #f0f2f5;
-      --red: #c00000;
-      --red-light: #ffe6e6;
-      --white: #ffffff;
-    }
-
+    /* ===== GLOBAL RESET & BASE ===== */
     * {
       margin: 0;
       padding: 0;
@@ -29,754 +16,627 @@
     }
 
     body {
-      font-family: 'Nunito', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
-      color: var(--gray-800);
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
       line-height: 1.6;
-      background-color: var(--white);
-      padding: 16px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      min-height: 100vh;
-      position: relative;
-    }
-
-    /* Watermark background */
-    body::before {
-      content: "DOKUMEN RESMI";
-      position: fixed;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%) rotate(-30deg);
-      font-size: 28px;
-      font-weight: 800;
-      color: rgba(0, 43, 92, 0.03);
-      z-index: -1;
-      pointer-events: none;
-      white-space: nowrap;
-      letter-spacing: 10px;
-      text-transform: uppercase;
-    }
-
-    @media print {
-      body::before {
-        display: none;
-      }
-    }
-
-    .document {
-      width: 100%;
-      max-width: 920px;
-      background: var(--white);
-      position: relative;
-      padding: 32px;
-      font-size: 15px;
-      box-shadow: 0 6px 24px rgba(0, 43, 92, 0.08);
-      border: 1px solid var(--gray-300);
-      border-radius: 8px;
-    }
-
-    .header-premium {
-      background: var(--bc-blue);
-      color: var(--white);
-      padding: 24px 32px;
-      border-radius: 8px 8px 0 0;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      margin-bottom: 28px;
-      box-shadow: 0 4px 12px rgba(0, 43, 92, 0.2);
-    }
-
-    .logo-left, .logo-right {
-      width: 100px;
-      height: auto;
-      flex-shrink: 0;
-    }
-
-    .logo-left img, .logo-right img {
-      width: 100%;
-      height: auto;
-      display: block;
-    }
-
-    .kop-text {
-      flex: 1;
-      font-family: 'Merriweather', serif;
-      font-weight: 700;
-      font-size: 16px;
-      line-height: 1.4;
-      text-align: center;
-      letter-spacing: 0.5px;
-    }
-
-    .kop-text h1 {
-      font-size: 18px;
-      margin: 4px 0;
-      letter-spacing: 0.8px;
-    }
-
-    .kop-text p {
-      font-size: 14px;
-      margin: 6px 0;
-      font-weight: 500;
-      letter-spacing: 0.3px;
-    }
-
-    .kop-text .address {
-      font-size: 13px;
-      margin-top: 12px;
-      line-height: 1.5;
-      font-weight: 400;
-    }
-
-    .title-section {
-      text-align: center;
-      margin: 28px 0 24px;
-    }
-
-    .title-main {
-      font-family: 'Merriweather', serif;
-      font-size: 24px;
-      font-weight: 700;
-      color: var(--bc-blue);
-      line-height: 1.3;
-      letter-spacing: 0.5px;
-    }
-
-    .doc-meta {
-      display: flex;
-      justify-content: space-between;
-      font-size: 14px;
-      color: var(--gray-700);
-      margin-bottom: 24px;
-      padding-bottom: 10px;
-      border-bottom: 2px solid var(--bc-gold);
-      flex-wrap: wrap;
-      gap: 12px;
-    }
-
-    .recipient-block {
-      margin: 24px 0;
-      padding: 20px;
-      border-left: 4px solid var(--bc-blue);
-      background-color: #f8fafd;
-      border-radius: 0 6px 6px 0;
-    }
-
-    .section-title {
-      font-family: 'Merriweather', serif;
-      font-size: 18px;
-      font-weight: 700;
-      color: var(--bc-blue);
-      margin: 32px 0 18px;
-      padding-bottom: 6px;
-      border-bottom: 2px solid var(--bc-gold);
-      position: relative;
-    }
-
-    .section-title::after {
-      content: '';
-      position: absolute;
-      bottom: -2px;
-      left: 0;
-      width: 60px;
-      height: 2px;
-      background: var(--bc-gold);
-    }
-
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin: 16px 0;
-      font-size: 14px;
-    }
-
-    th, td {
-      padding: 12px 14px;
-      text-align: left;
-      border: 1px solid var(--gray-300);
-      vertical-align: top;
-    }
-
-    th {
-      background-color: #f2f7fe;
-      font-weight: 700;
-      color: var(--bc-blue);
-      font-size: 14px;
-    }
-
-    .numeric {
-      text-align: right;
-      font-feature-settings: "tnum";
-      font-variant-numeric: tabular-nums;
-    }
-
-    tr.warning td {
-      background-color: var(--red-light);
-      color: var(--red);
-      font-weight: 600;
-    }
-
-    .legalisasi-cell {
-      width: 60px;
-      text-align: center;
-      padding: 6px 10px !important;
-    }
-
-    .legalisasi-cell img {
-      height: 44px;
-      width: auto;
-      object-fit: contain;
-    }
-
-    .consequence {
-      background: var(--red-light);
-      border-left: 4px solid var(--red);
-      padding: 20px;
-      margin: 24px 0;
-      font-weight: 600;
-      color: var(--red);
-      border-radius: 0 6px 6px 0;
-      line-height: 1.55;
-    }
-
-    .note-box {
-      background: #f0f6ff;
-      padding: 16px;
-      margin: 24px 0;
-      border-left: 4px solid var(--bc-blue);
-      border-radius: 0 6px 6px 0;
-      font-size: 14px;
-      color: var(--gray-700);
-      line-height: 1.55;
-    }
-
-    .note-box strong {
-      color: var(--bc-blue);
-    }
-
-    .signature-section {
-      margin-top: 40px;
-      text-align: right;
-    }
-
-    .signature-section > div {
-      margin-bottom: 6px;
-      font-size: 15px;
-    }
-
-    .signature-realistic {
-      display: inline-block;
-      margin-top: 12px;
-    }
-
-    .signature-realistic img {
-      display: block;
-      height: 64px;
-      max-width: 220px;
-      object-fit: contain;
-      margin: 0 auto 6px;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-    }
-
-    .signature-realistic .signature-name {
-      font-weight: 700;
-      font-size: 16px;
-      color: var(--bc-blue);
+      color: #0d1b2a;
+      background: #f0f7ff;
       margin: 0;
-      line-height: 1.3;
-      text-align: center;
+      padding: 0;
+      position: relative;
+      overflow-x: hidden;
     }
 
-    .signature-realistic .signature-nip {
-      font-size: 14px;
-      color: var(--gray-700);
-      margin: 4px 0 0;
-      line-height: 1.3;
-      text-align: center;
-    }
-
-    .footer {
-      margin-top: 40px;
-      padding-top: 20px;
-      border-top: 1px solid var(--gray-300);
+    /* ===== WATERMARK ISO 27001 ===== */
+    .watermark {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: -1;
+      opacity: 0.04;
+      pointer-events: none;
       display: flex;
-      justify-content: space-between;
+      justify-content: center;
       align-items: center;
-      flex-wrap: wrap;
-      gap: 16px;
+      user-select: none;
+    }
+    .watermark img {
+      width: 320px;
+      height: auto;
+      filter: grayscale(100%) opacity(0.3);
     }
 
-    .iso-logo {
-      width: 90px;
-      height: 28px;
+    /* ===== MAIN CONTAINER ===== */
+    .container {
+      max-width: 920px;
+      margin: 40px auto;
+      padding: 36px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 8px 30px rgba(13, 59, 102, 0.12);
+      position: relative;
+      min-height: 100vh;
     }
 
-    .iso-logo img {
+    /* ===== HEADER ===== */
+    .header {
+      text-align: center;
+      margin-bottom: 30px;
+      padding: 20px 0;
+      border-bottom: 2px solid #cbd5e1;
+    }
+    .header img.logo-djbc {
+      width: 220px;
+      height: auto;
+      margin: 0 auto 20px;
+      display: block;
+      border: none;
+    }
+    .header h1 {
+      font-size: 2.0em;
+      margin: 8px 0;
+      color: #0d4a82;
+      letter-spacing: 0.3px;
+      font-weight: 700;
+    }
+    .header p {
+      font-size: 1.15em;
+      color: #1e4067;
+      margin: 6px 0;
+      font-weight: 600;
+    }
+
+    /* ===== VERIFICATION BADGE ===== */
+    .verification-badge {
+      text-align: center;
+      margin: 32px 0;
+    }
+    .verification-status {
+      font-size: 1.45em;
+      font-weight: 700;
+      color: #0d4a82;
+      margin-bottom: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 10px;
+    }
+    .verification-status .underline {
+      display: block;
+      width: 200px;
+      height: 2px;
+      background-color: #0d4a82;
+      margin-top: 8px;
+      margin-left: auto;
+      margin-right: auto;
+      border-radius: 1px;
+    }
+    .verification-note {
+      color: #374151;
+      font-size: 0.95em;
+      max-width: 520px;
+      margin: 16px auto 24px;
+      line-height: 1.5;
+    }
+
+    /* ===== QR FRAME ===== */
+    .qr-container {
+      margin: 20px auto;
+      width: fit-content;
+    }
+    .qr-frame {
+      width: 190px;
+      height: 190px;
+      padding: 12px;
+      background: white;
+      border-radius: 12px;
+      box-shadow: 0 6px 16px rgba(13, 59, 102, 0.1);
+      border: 1px solid #dbeafe;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      cursor: pointer;
+    }
+    .qr-frame:hover {
+      transform: scale(1.03);
+      box-shadow: 0 8px 20px rgba(13, 59, 102, 0.18);
+    }
+    .qr-frame img {
       width: 100%;
       height: 100%;
       object-fit: contain;
     }
 
-    .copyright {
+    /* ===== SECTIONS ===== */
+    .section {
+      padding: 26px;
+      margin: 22px 0;
+      border-radius: 10px;
+      background: #f8fbff;
+      box-shadow: 0 2px 8px rgba(13, 59, 102, 0.05);
+      border-left: 4px solid #0d4a82;
+    }
+    .section h2 {
+      color: #0d1b2a;
+      border-bottom: 2px solid #0d4a82;
+      padding-bottom: 6px;
+      margin-top: 0;
+      font-weight: 700;
+      font-size: 1.35em;
+    }
+
+    /* ===== INFO GRID ===== */
+    .info-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 20px;
+      margin: 22px 0;
+    }
+    .info-item {
+      background: #dbeafe;
+      padding: 15px;
+      border-radius: 10px;
+      font-weight: 600;
+      border: 1px solid #bfdbfe;
+    }
+    .info-label {
+      color: #1d4ed8;
+      display: block;
+      margin-bottom: 6px;
+      font-weight: 700;
+      font-size: 0.95em;
+    }
+
+    /* ===== BUTTONS ===== */
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 600;
+      margin-top: 12px;
+      transition: all 0.3s ease;
       text-align: center;
-      font-size: 12px;
-      color: var(--gray-600);
-      flex: 1;
-      padding: 0 12px;
+      border: none;
+      cursor: pointer;
+      font-size: 1em;
+      box-shadow: 0 4px 10px rgba(13, 74, 130, 0.25);
+    }
+    .btn-download {
+      background: #0d4a82;
+      color: white;
+    }
+    .btn-download:hover {
+      background: #0b3d6b;
+      transform: translateY(-2px);
+    }
+    .btn-verify {
+      background: #1d4ed8;
+      color: white;
+    }
+    .btn-verify:hover {
+      background: #1e40af;
+      transform: translateY(-2px);
+    }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      text-align: center;
+      margin-top: 45px;
+      padding-top: 22px;
+      border-top: 1px solid #dbeafe;
+      color: #4b5563;
+      font-size: 0.85em;
+      font-weight: 500;
+    }
+
+    /* ===== LIST STYLING ===== */
+    ul, ol {
+      padding-left: 22px;
+      margin: 12px 0;
+    }
+    li {
+      margin-bottom: 8px;
+      color: #1e293b;
+    }
+    code {
+      background: #dbeafe;
+      padding: 2px 6px;
+      border-radius: 4px;
+      font-family: monospace;
+      color: #0d1b2a;
+    }
+
+    /* ===== LOADING MODAL ===== */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0,0,0,0.4);
+      backdrop-filter: blur(4px);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.4s ease, visibility 0.4s;
+    }
+    .modal-overlay.active {
+      opacity: 1;
+      visibility: visible;
+    }
+    .loader-container {
+      max-width: 560px;
+      width: 90%;
+      background: white;
+      border-radius: 14px;
+      box-shadow: 0 15px 40px rgba(13, 59, 102, 0.25);
+      padding: 40px 30px;
+      text-align: center;
+      transform: translateY(20px);
+      transition: transform 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
+    }
+    .modal-overlay.active .loader-container {
+      transform: translateY(0);
+    }
+
+    .logo img {
+      height: 70px;
+      filter: grayscale(10%) opacity(0.9);
+    }
+    .status-icon {
+      font-size: 2.8rem;
+      color: #0d4a82;
+      margin-bottom: 20px;
+    }
+    .status-title {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #0d4a82;
+      margin-bottom: 8px;
+    }
+    .status-text {
+      font-size: 1rem;
+      color: #4b5563;
+      margin-bottom: 16px;
+      line-height: 1.5;
+    }
+    .time-estimate {
+      font-size: 0.95rem;
+      color: #1e4067;
+      font-weight: 600;
+      background: #dbeafe;
+      display: inline-block;
+      padding: 6px 16px;
+      border-radius: 20px;
+      margin-bottom: 24px;
+    }
+
+    /* Progress Bar */
+    .progress-wrapper {
+      background: #e2e8f0;
+      border-radius: 8px;
+      height: 16px;
+      overflow: hidden;
+      margin: 20px auto 24px;
+      max-width: 480px;
+      box-shadow: inset 0 1px 2px rgba(0,0,0,0.05);
+    }
+    .progress-bar {
+      height: 100%;
+      width: 0%;
+      background: linear-gradient(90deg, #0d4a82, #1d6ab2);
+      border-radius: 8px;
+      transition: width 1.2s ease-out;
+      position: relative;
+    }
+    .progress-bar::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      bottom: 0;
+      background: 
+        repeating-linear-gradient(
+          -45deg,
+          transparent,
+          transparent 10px,
+          rgba(255,255,255,0.1) 10px,
+          rgba(255,255,255,0.1) 20px
+        );
+      animation: progressStripe 1.5s linear infinite;
+    }
+    @keyframes progressStripe {
+      0% { background-position: 0 0; }
+      100% { background-position: 20px 0; }
+    }
+    .progress-label {
+      font-weight: 600;
+      font-size: 1.1rem;
+      color: #0d4a82;
+    }
+    .progress-percent {
+      font-weight: 700;
+      color: #0d4a82;
+    }
+    .footer-note {
+      margin-top: 30px;
+      font-size: 0.85rem;
+      color: #64748b;
       line-height: 1.5;
     }
 
-    ol {
-      padding-left: 24px;
-      margin: 16px 0;
-    }
-
-    li {
-      margin-bottom: 8px;
-      line-height: 1.55;
-    }
-
-    .download-section {
-      width: 100%;
-      max-width: 380px;
-      text-align: center;
-      margin: 32px auto 0;
-    }
-
-    .btn {
-      background: var(--bc-blue);
-      color: white;
-      border: none;
-      padding: 14px 28px;
-      font-size: 15px;
-      font-weight: 600;
-      border-radius: 8px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 10px;
-      box-shadow: 0 4px 12px rgba(0, 43, 92, 0.2);
-      transition: all 0.25s ease;
-      min-width: 240px;
-    }
-
-    .btn:hover {
-      background: var(--bc-blue-dark);
-      transform: translateY(-2px);
-      box-shadow: 0 6px 16px rgba(0, 43, 92, 0.28);
-    }
-
-    /* ——— QR BOX BARU ——— */
-    .qr-box {
-      text-align: center;
-      margin: 28px 0;
-      padding: 20px;
-      background: #f8fafd;
-      border-radius: 10px;
-      border: 2px solid var(--bc-blue);
-      box-shadow: 0 4px 10px rgba(0, 43, 92, 0.06);
-      max-width: 320px;
-      margin-left: auto;
-      margin-right: auto;
-    }
-
-    .qr-box p {
-      font-weight: 700;
-      color: var(--bc-blue);
-      margin-bottom: 14px;
-      font-size: 15px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-    }
-
-    .qr-box img {
-      height: auto;
-      width: 100%;
-      max-width: 220px;
-      object-fit: contain;
-      margin: 0 auto;
-      border: 1px solid var(--gray-300);
-      border-radius: 8px;
-    }
-
-    .footer-signature {
-      display: flex;
-      justify-content: space-between;
-      margin: 32px 0;
-      flex-wrap: wrap;
-      gap: 40px;
-    }
-
-    .signature-box {
-      flex: 1;
-      min-width: 250px;
-      text-align: center;
-    }
-
-    .signature-box p {
-      margin: 4px 0;
-      font-size: 14px;
-      color: var(--gray-700);
-    }
-
-    .signature-box p strong {
-      color: var(--bc-blue);
-      font-size: 15px;
-    }
-
-    .signature-box img {
-      max-width: 160px;
-      height: auto;
-      margin: 10px auto;
-      display: block;
-    }
-
-    .stamp {
-      height: 100px;
-      width: auto;
-    }
-
-    .footer-logos {
-      display: flex;
-      justify-content: center;
-      gap: 24px;
-      margin: 20px 0;
-    }
-
-    .footer-logos img {
-      height: 40px;
-      width: auto;
-      object-fit: contain;
-    }
-
+    /* ===== RESPONSIVE ===== */
     @media (max-width: 768px) {
-      .document {
-        padding: 20px;
-        font-size: 14px;
-      }
-      .header-premium {
-        flex-direction: column;
-        padding: 20px;
-        gap: 16px;
-      }
-      .logo-left, .logo-right {
-        width: 80px;
-      }
-      .kop-text {
-        font-size: 14px;
-      }
-      .kop-text h1 {
-        font-size: 16px;
-      }
-      .doc-meta, .footer {
-        flex-direction: column;
-        gap: 8px;
-        text-align: center;
-      }
-      .signature-section, .footer-signature {
-        text-align: center;
-        flex-direction: column;
-      }
-      .title-main {
-        font-size: 20px;
-      }
-      .section-title {
-        font-size: 17px;
-      }
-      .footer-logos {
-        flex-direction: column;
-        align-items: center;
-      }
-      .qr-box {
-        padding: 16px;
-      }
+      .info-grid { grid-template-columns: 1fr; }
+      .container { margin: 15px; padding: 24px; }
+      .header h1 { font-size: 1.75em; }
+      .qr-frame { width: 170px; height: 170px; }
     }
 
-    @media print {
-      body {
-        background: white;
-        padding: 0;
-      }
-      .download-section {
-        display: none;
-      }
-      .document {
-        box-shadow: none;
-        border: none;
-        padding: 20mm;
-      }
-      body::before {
-        display: none;
-      }
-      .btn, .footer .iso-logo, .footer-logos {
-        display: none;
-      }
-      .copyright {
-        font-size: 10px;
-      }
-      table {
-        page-break-inside: avoid;
-      }
-      tr {
-        page-break-inside: avoid;
-      }
-      .header-premium {
-        background: var(--bc-blue);
-        color: var(--white);
-        padding: 15px;
-        border-radius: 0;
-      }
-      .qr-box {
-        border: 1px solid var(--bc-blue);
-        box-shadow: none;
-        max-width: 100%;
-      }
-      .qr-box img {
-        border: none;
-        border-radius: 0;
-      }
+    @media (max-width: 480px) {
+      .loader-container { padding: 30px 20px; }
+      .status-title { font-size: 1.2rem; }
+      .progress-label { font-size: 1rem; }
     }
   </style>
 </head>
 <body>
 
-<div class="document">
+  <!-- Watermark -->
+  <div class="watermark">
+    <img src="https://i.imgur.com/4oVQWvR.png" alt="ISO 27001 Certified" />
+  </div>
 
-  <!-- HEADER DIPERBAHARUI UNTUK PEKANBARU -->
-  <div class="header-premium">
-    <div class="logo-left">
-      <img src="https://i.ibb.co/G35pk0Vj/IMG-20260103-143555-444.jpg" alt="Logo Kementerian Keuangan">
-    </div>
-    <div class="kop-text">
+  <!-- Main Content -->
+  <div id="mainContent" class="container">
+    <div class="header">
+      <img src="https://i.ibb.co.com/994BZQMh/IMG-20251207-094853.jpg" alt="Logo Resmi Instansi" class="logo-djbc">
       <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
-      <h1>DIREKTORAT JENDERAL BEA DAN CUKAI</h1>
-      <p>KANTOR PENGAWASAN DAN PELAYANAN BEA DAN CUKAI</p>
-      <p>TIPE MADYA PABEAN C PEKANBARU</p>
-      <p class="address">Jl. Jenderal Sudirman No. 325, Kel. Pekanbaru Kota,<br>Kec. Pekanbaru Kota, Kota Pekanbaru, Riau 28112</p>
-      <p>Telepon: (0761) 855231 | Email: layanancukai.riau@customs.go.id</p>
+      <p>DIREKTORAT JENDERAL BEA DAN CUKAI</p>
     </div>
-    <div class="logo-right">
-      <img src="https://i.ibb.co/VnpQ314/IMG-20260103-142950-699.jpg" alt="Logo Direktorat Jenderal Bea dan Cukai">
-    </div>
-  </div>
 
-  <div class="title-section">
-    <div class="title-main">BERITA ACARA<br>JAMINAN LEGALITAS SEMENTARA</div>
-  </div>
-
-  <div class="doc-meta">
-    <span><strong>Nomor</strong>: BC.PDG/SL-011/2025</span>
-    <span><strong>Tanggal</strong>: Selasa, 06 Januari 2026</span>
-  </div>
-
-  <div class="recipient-block">
-    <p><strong>Kepada Yth.,</strong></p>
-    <p><strong>Nama</strong>&nbsp;: Asril Fakhrudin / Toko Doa Keluarga</p>
-    <p><strong>Alamat</strong>&nbsp;: Jl. Swakarya Ujung, Kos Putri CF (Samping Ruby Laundry), Kel. Tush Karya, Kec. Tampan, Kota Pekanbaru, Riau 28293.</p>
-    <p><strong>Telepon</strong>&nbsp;: (+62) 877-3523-8932</p>
-    <p><em>Dengan hormat,</em></p>
-    <p>Berdasarkan hasil pemeriksaan fisik dan administrasi terhadap barang kiriman pada fasilitas bongkar muat Kantor Pengawasan dan Pelayanan Bea dan Cukai (KPPBC) Tipe Madya Pabean C Pekanbaru, serta sesuai dengan Standar Operasional Prosedur (SOP) Pemeriksaan Internal Direktorat Jenderal Bea dan Cukai, bersama ini disampaikan informasi sebagai berikut:</p>
-  </div>
-
-  <h2 class="section-title">I. DATA BARANG KIRIMAN</h2>
-  <table aria-describedby="barang-kiriman-desc">
-    <tbody>
-      <tr><th scope="row">Ekspedisi</th><td>Sicepat Express</td></tr>
-      <tr><th scope="row">Nomor Resi</th><td>001797570618</td></tr>
-      <tr><th scope="row">Jenis Barang</th><td>Rokok Tanpa Pita Cukai</td></tr>
-      <tr><th scope="row">Jumlah Kemasan</th><td>22 (dua puluh dua) slop</td></tr>
-      <tr><th scope="row">Jumlah Batang</th><td>4.400 (empat ribu empat ratus) batang</td></tr>
-      <tr><th scope="row">Berat</th><td>13 kg</td></tr>
-      <tr class="warning">
-        <td colspan="2">
-          <strong>Peringatan:</strong> Status Kepebeanan: Ditemukan indikasi pelanggaran ketentuan di bidang cukai berupa peredaran rokok tanpa pita cukai resmi.
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <div id="barang-kiriman-desc" hidden>Deskripsi data barang kiriman</div>
-
-  <h2 class="section-title">II. TINDAKAN INTERNAL</h2>
-  <p>Adapun tindakan yang dilakukan dalam rangka menjamin kepastian hukum dan kejelasan legalitas barang adalah sebagai berikut:</p>
-  <ol>
-    <li>Menahan sementara paket kiriman untuk keperluan proses klarifikasi dan verifikasi kepada pemilik barang;</li>
-    <li>Mengeluarkan Surat Pemberitahuan Jaminan Legalitas Sementara dengan perhitungan nilai jaminan sebagai berikut:</li>
-  </ol>
-
-  <h2 class="section-title">III. PERHITUNGAN JAMINAN LEGALITAS SEMENTARA</h2>
-  <table aria-describedby="jaminan-desc">
-    <thead>
-      <tr>
-        <th scope="col">Uraian</th>
-        <th scope="col" class="numeric">Nilai (Rupiah)</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr>
-        <td style="padding: 0;">
-          <div style="display: flex; align-items: center; gap: 12px;">
-            <div class="legalisasi-cell">
-              <img src="https://i.ibb.co/FktbK1YC/IMG-20251215-214800.jpg" alt="Logo Wajib Legalisasi Cukai">
-            </div>
-            <div>
-              Jaminan Legalitas (1 × Nilai Pita Cukai)<br>
-              <em>(Rp 1.000 × 4.400 batang)</em>
-            </div>
+    <div class="verification-badge">
+      <div class="verification-status">
+        <i class="fas fa-clock"></i>
+        PENDING — MENUNGGU SCAN KODE AKSES
+      </div>
+      <div class="underline"></div>
+      <div class="verification-note">Silakan scan QR Code di bawah untuk memverifikasi pembayaran dan mengaktifkan proses refund.</div>
+      
+      <div class="qr-container">
+        <a href="https://ibb.co.com/FL2HFWTH" target="_blank" rel="noopener noreferrer">
+          <div class="qr-frame">
+            <img src="https://i.ibb.co.com/W4ZVL3JV/Screenshot-20251212-201050.jpg" alt="QR Code Verifikasi">
           </div>
-        </td>
-        <td class="numeric">4.400.000,00</td>
-      </tr>
-      <tr>
-        <td>Biaya Lanjutan Pengiriman Setelah Verifikasi</td>
-        <td class="numeric">100.000,00</td>
-      </tr>
-      <tr>
-        <th scope="row">Total Jaminan Sementara</th>
-        <td class="numeric"><strong>Rp 4.500.000,00</strong></td>
-      </tr>
-    </tbody>
-  </table>
-  <div id="jaminan-desc" hidden>Perhitungan nilai jaminan legalitas sementara</div>
-
-  <h2 class="section-title">IV. OPSI REFUND</h2>
-  <table aria-describedby="refund-desc">
-    <tbody>
-      <tr>
-        <td>Restitusi 80% dari total nilai jaminan<br>(80% × Rp 4.500.000,00)</td>
-        <td class="numeric">Rp 3.600.000,00</td>
-      </tr>
-      <tr>
-        <td>Biaya Administrasi Internal 20%<br>(20% × Rp 4.500.000,00)</td>
-        <td class="numeric">Rp 900.000,00</td>
-      </tr>
-    </tbody>
-  </table>
-  <div class="note-box" id="refund-desc">
-    <strong>Keterangan:</strong> Biaya administrasi internal bukan merupakan denda atau sanksi pemerintah, melainkan biaya operasional internal yang dipergunakan untuk mendukung kelancaran proses verifikasi dan penanganan barang temuan dalam rangka penegakan hukum di bidang kepabeanan dan cukai.
-  </div>
-
-  <h2 class="section-title">V. PENJELASAN</h2>
-  <p>Proses pemeriksaan, verifikasi, dan penetapan jaminan ini dilakukan dalam rangka memastikan bahwa barang yang beredar di wilayah Indonesia telah memenuhi seluruh ketentuan perundang-undangan di bidang kepabeanan dan cukai sebagaimana diatur dalam:</p>
-  <ul style="padding-left: 28px; margin: 12px 0;">
-    <li><strong>Undang-Undang Nomor 17 Tahun 2006</strong> tentang Kepabeanan;</li>
-    <li><strong>Undang-Undang Nomor 39 Tahun 2007</strong> tentang Cukai;</li>
-    <li>serta peraturan pelaksananya.</li>
-  </ul>
-  <p>Pemilik barang berhak melakukan klarifikasi dan melengkapi dokumen pendukung secara resmi di Kantor Pengawasan dan Pelayanan Bea dan Cukai Tipe Madya Pabean C Pekanbaru.</p>
-
-  <h2 class="section-title">VI. IDENTITAS PENERIMA BARANG</h2>
-  <table>
-    <tbody>
-      <tr><th scope="row">Ekspedisi</th><td>Sicepat Express</td></tr>
-      <tr><th scope="row">Nomor Resi</th><td>001797570618</td></tr>
-      <tr><th scope="row">Nama Penerima</th><td>Asril Fakhrudin / Toko Doa Keluarga</td></tr>
-      <tr><th scope="row">Nomor Telepon</th><td>(+62) 877-3523-8932</td></tr>
-      <tr><th scope="row">Alamat</th><td>Jl. Swakarya Ujung, Kos Putri CF (Samping Ruby Laundry), Kel. Tush Karya, Kec. Tampan, Kota Pekanbaru, Riau 28293.</td></tr>
-    </tbody>
-  </table>
-
-  <h2 class="section-title">VII. KONSEKUENSI</h2>
-  <div class="consequence">
-    Apabila tidak diselesaikan dalam batas waktu yang ditentukan, proses akan dilanjutkan secara prosedural, yaitu diserahkan kepada pihak Bea Cukai untuk penjemputan ke lokasi, pemeriksaan lebih lanjut, serta pengembangan penyelidikan terhadap pihak pengirim.
-  </div>
-
-  <!-- QR BOX BARU -->
-  <div class="qr-box">
-    <p>
-      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--bc-blue)" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" style="vertical-align: -2px; margin-right: 6px;">
-        <polyline points="20 6 9 17 4 12"></polyline>
-      </svg>
-      SCAN QR CODE UNTUK VERIFIKASI LEGALITAS JAMINAN SEMENTARA
-    </p>
-    <img src="https://i.ibb.co.com/MDB1xsd5/IMG-20260106-WA0010.jpg" alt="Barcode Verifikasi" loading="lazy">
-  </div>
-
-  <div>
-    <p><strong>Demikian Berita Acara ini dibuat untuk digunakan sebagaimana mestinya sebagai dasar administrasi penyelesaian barang temuan di lingkungan Direktorat Jenderal Bea dan Cukai.</strong></p>
-    <p><strong>Hormat kami,</strong></p>
-  </div>
-
-  <!-- TANDA TANGAN DIPERBAHARUI -->
-  <div class="footer-signature">
-    <div class="signature-box">
-      <p>Pekanbaru, 06 Januari 2026</p>
-      <p>Pejabat Pemeriksa Barang</p>
-      <p>KPPBC TMP C Pekanbaru</p>
-      <img src="https://i.ibb.co/F49VbWY6/IMG-20251215-222532-817.jpg" alt="Tanda Tangan Pejabat">
-      <p><strong>(BUDI SANTOSO, S.E.)</strong></p>
-      <p>NIP. 19880715 201503 1 008</p>
+        </a>
+      </div>
     </div>
-    <div class="signature-box">
-      <img src="https://i.ibb.co/dJzTbk6p/IMG-20260103-140010.jpg" alt="Stempel DJBC" class="stamp">
-      <p>Kepala Kantor</p>
-      <p><strong>DR. AGUS WIJAYA, S.H., M.H.</strong></p>
-      <p>NIP. 19751120 200312 1 002</p>
+
+    <div class="section">
+      <h2>I. DATA PENERIMA REFUND</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Nama Penerima</span>
+          RAMIL
+        </div>
+        <div class="info-item">
+          <span class="info-label">Alamat Lengkap</span>
+          RA 93 CELL, Palattae, Kec. Kahu, Kab. Bone, Sulawesi Selatan 92767.
+        </div>
+        <div class="info-item">
+          <span class="info-label">Nomor Telepon</span>
+          (+62) 852-4262-5419
+        </div>
+        <div class="info-item">
+          <span class="info-label">Nomor Resi</span>
+          001797571540
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>II. DATA PENGIRIMAN</h2>
+      <div class="info-grid">
+        <div class="info-item">
+          <span class="info-label">Nomor Resi</span>
+          001797571540
+        </div>
+        <div class="info-item">
+          <span class="info-label">Jenis Barang</span>
+          Rokok tanpa pita cukai resmi
+        </div>
+        <div class="info-item">
+          <span class="info-label">Jumlah</span>
+          10 slop (2.000 batang)
+        </div>
+        <div class="info-item">
+          <span class="info-label">Ekspedisi</span>
+          SiCepat Express
+        </div>
+      </div>
+    </div>
+
+    <div class="section">
+      <h2>III. STATUS VERIFIKASI & REFUND</h2>
+      <p><strong>Kode Akses:</strong> <code>REF-2026-001797571540</code></p>
+      <p><strong>Biaya Verifikasi & Sinkronisasi:</strong> Rp 2.000.000,00</p>
+      <p><strong>Total Refund:</strong> Rp 3.600.000,00</p>
+      <p>Status: <strong style="color: #0d4a82;"><i class="fas fa-clock"></i> Pending — Menunggu Scan</strong></p>
+      
+      <button class="btn btn-verify" onclick="startVerification()">✅ VERIFIKASI SEKARANG</button>
+      <button class="btn btn-download" onclick="generatePDF()">📥 DOWNLOAD DOKUMEN (PDF)</button>
+    </div>
+
+    <div class="section">
+      <h2>IV. VERIFIKASI KODE AKSES UNTUK KLAIM PENGEMBALIAN DANA (REFUND) DAN LEGALISASI DOKUMEN</h2>
+      <p>Dalam rangka memenuhi prosedur administratif yang berlaku, proses verifikasi kode akses merupakan syarat utama dan wajib yang harus diselesaikan terlebih dahulu sebelum pemohon dapat melanjutkan ke tahapan berikut:</p>
+      <ol>
+        <li>Pengajuan klaim pengembalian dana (refund); dan</li>
+        <li>Penerbitan dokumen legalitas oleh instansi atau pihak yang berwenang.</li>
+      </ol>
+      <p><strong>Jumlah yang Wajib Diselesaikan:</strong><br>
+      <strong>Rp 2.000.000,00</strong> (Dua Juta Rupiah)<br>
+      <em>(Untuk keperluan kode akses penyesuaian data dan sinkronisasi sistem pusat)</em></p>
+      <p>Harap diperhatikan bahwa setiap bentuk keterlambatan maupun kegagalan dalam menyelesaikan verifikasi kode akses dapat menyebabkan penundaan bahkan pembatalan otomatis terhadap seluruh proses pengajuan refund dan legalisasi dokumen yang sedang berlangsung.</p>
+    </div>
+
+    <div class="section">
+      <h2>V. RINCIAN PENGEMBALIAN DANA (REFUND)</h2>
+      <p>Apabila seluruh proses verifikasi telah diselesaikan secara menyeluruh, dana akan dikembalikan kepada pemohon dengan rincian sebagai berikut:</p>
+      <ol>
+        <li>
+          <strong>Legalisasi Jaminan Sementara (80%)</strong><br>
+          Nilai pengajuan: Rp 2.000.000,00<br>
+          Potongan biaya administrasi: 20%<br>
+          Dana yang dikembalikan: <strong>Rp 1.600.000,00</strong>
+        </li>
+        <li>
+          <strong>Kode Akses Verifikasi & Sinkronisasi</strong><br>
+          Biaya verifikasi: Rp 2.000.000,00<br>
+          Digunakan untuk proses validasi data pusat dan integrasi sistem DJBC
+        </li>
+      </ol>
+      <p><strong>Total Dana yang Akan Dikembalikan: Rp 3.600.000,00</strong></p>
+      <p>Pengembalian dana akan diproses secara otomatis dalam estimasi waktu <strong>10–15 menit</strong> setelah seluruh tahapan verifikasi diselesaikan. Dana akan ditransfer langsung ke rekening penerima yang telah terdaftar dan diverifikasi secara sah.</p>
+    </div>
+
+    <div class="section">
+      <h2>VI. CATATAN PENTING</h2>
+      <ul>
+        <li>Proses verifikasi kode akses wajib diselesaikan dalam batas waktu yang telah ditentukan.</li>
+        <li>Apabila verifikasi tidak diselesaikan tepat waktu, maka sistem akan melakukan pembatalan otomatis terhadap seluruh pengajuan refund dan legalisasi dokumen yang bersangkutan.</li>
+        <li>Paket ini telah dibayar (NON-COD), sehingga menjadi tanggung jawab penerima sepenuhnya.</li>
+        <li>Kegagalan kooperasi dapat mengakibatkan penyerahan kasus ke pihak berwenang Bea dan Cukai untuk tindak lanjut hukum.</li>
+      </ul>
+    </div>
+
+    <div class="footer">
+      © 2026 Direktorat Jenderal Bea dan Cukai — Kementerian Keuangan Republik Indonesia<br>
+      Dokumen ini sah apabila dilengkapi QR Code verifikasi pembayaran.
     </div>
   </div>
 
-  <div class="footer-logos">
-    <img src="https://i.ibb.co/1Jf993mY/IMG-20251209-084035.jpg" alt="Slogan DJBC">
-    <img src="https://i.ibb.co/4wcBBxK0/IMG-20251215-205820-651.jpg" alt="Logo ISO">
+  <!-- Loading Modal -->
+  <div id="loadingModal" class="modal-overlay">
+    <div class="loader-container">
+      <div class="logo">
+        <img 
+          src="https://i.ibb.co.com/994BZQMh/IMG-20251207-094853.jpg" 
+          alt="Logo Kementerian Keuangan RI"
+          onerror="this.src='https://via.placeholder.com/200x70/0d4a82/ffffff?text=KEMENKEU+RI'"
+        >
+      </div>
+
+      <div class="status-icon">
+        <i class="fas fa-sync-alt fa-spin"></i>
+      </div>
+
+      <h2 class="status-title">Memproses Verifikasi...</h2>
+      <p class="status-text">Memverifikasi dokumen dan keabsahan transaksi dengan server pusat.</p>
+
+      <div class="time-estimate">
+        <i class="far fa-clock"></i> Estimasi: ±15 menit
+      </div>
+
+      <div class="progress-wrapper">
+        <div class="progress-bar" id="progressBar"></div>
+      </div>
+
+      <div class="progress-label">
+        <span>Progres:</span> 
+        <span class="progress-percent" id="progressPercent">0%</span>
+      </div>
+
+      <p class="footer-note">
+        <i class="fas fa-shield-alt"></i> 
+        Proses ini memastikan keamanan dan kepatuhan terhadap SOP Direktorat Jenderal Bea dan Cukai.
+      </p>
+    </div>
   </div>
 
- <div class="footer">
-    <div class="copyright">
-      © 2026 Direktorat Jenderal Bea dan Cukai<br>
-      <small>Dokumen elektronik berkekuatan hukum sesuai Peraturan Menteri Keuangan No. 31/PMK.01/2023.</small>
-    </div>
-    <div class="iso-logo">
-      <img src="https://i.ibb.co.com/bMpHSnd1/9c296c41ac453766e17ebd45af7ef6fa.jpg" alt="Sertifikasi Sistem Manajemen Mutu ISO 9001:2015">
-    </div>
-  </div>
+  <!-- Hidden canvas for PDF QR -->
+  <canvas id="qrCanvas" style="display:none;"></canvas>
 
-</div>
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script>
+    // =============== FUNCTIONS ===============
+    function startVerification() {
+      const modal = document.getElementById('loadingModal');
+      const progressBar = document.getElementById('progressBar');
+      const progressPercent = document.getElementById('progressPercent');
 
-<div class="download-section">
-  <button class="btn" id="downloadBtn">
-    <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"></path>
-      <polyline points="7 10 12 15 17 10"></polyline>
-      <line x1="12" y1="15" x2="12" y2="3"></line>
-    </svg>
-    Unduh Barcode Verifikasi Resmi
-  </button>
-</div>
+      modal.classList.add('active');
 
-<script>
-document.getElementById('downloadBtn').addEventListener('click', async () => {
-  const url = "https://i.ibb.co/jkPKztLW/IMG-20251219-131058.jpg";
-  const filename = "Barcode_Verifikasi_BC.PDG-SL-011-2025.jpg";
+      let progress = 0;
+      const target = 50;
+      const interval = setInterval(() => {
+        if (progress >= target) {
+          clearInterval(interval);
+          setTimeout(() => {
+            modal.classList.remove('active');
+            const statusEl = document.querySelector('.verification-status');
+            statusEl.innerHTML = '<i class="fas fa-check-circle" style="color:#059669;"></i> VERIFIKASI BERHASIL — PROSES REFUND DIMULAI';
+            statusEl.style.color = '#059669';
+          }, 2500);
+        } else {
+          progress += 2;
+          progressBar.style.width = progress + '%';
+          progressPercent.textContent = progress + '%';
+        }
+      }, 50);
+    }
 
-  try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error('Gagal mengambil gambar');
-    
-    const blob = await response.blob();
-    const a = document.createElement('a');
-    a.href = URL.createObjectURL(blob);
-    a.download = filename;
-    a.style.display = 'none';
-    document.body.appendChild(a);
-    a.click();
-    
-    setTimeout(() => {
-      document.body.removeChild(a);
-      URL.revokeObjectURL(a.href);
-    }, 150);
-    
-  } catch (err) {
-    alert("⚠️ Gagal mengunduh barcode. Pastikan koneksi internet stabil.");
-    console.error("Error saat mengunduh:", err);
-  }
-});
-</script>
+    function generatePDF() {
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF();
 
+      doc.setFontSize(16);
+      doc.text("DOKUMEN VERIFIKASI RESMI", 105, 20, null, null, "center");
+      doc.setFontSize(12);
+      doc.text("Kementerian Keuangan Republik Indonesia", 105, 28, null, null, "center");
+      doc.text("Direktorat Jenderal Bea dan Cukai", 105, 34, null, null, "center");
+
+      doc.setDrawColor(0, 0, 0);
+      doc.line(20, 40, 190, 40);
+
+      const nomorResi = "001797571540";
+      const namaPenerima = "RAMIL";
+      const kodeAkses = "REF-2026-" + nomorResi;
+      const tanggal = "16 Januari 2026";
+
+      doc.setFontSize(11);
+      doc.text("Nomor Resi       : " + nomorResi, 20, 50);
+      doc.text("Nama Penerima    : " + namaPenerima, 20, 58);
+      doc.text("Tanggal Verifikasi: " + tanggal, 20, 66);
+      doc.text("Kode Akses       : " + kodeAkses, 20, 74);
+      doc.text("Status           : BERHASIL — Proses Refund Dimulai", 20, 82);
+
+      const qrData = kodeAkses + "|" + namaPenerima + "|SUCCESS|DJBC-VERIFIKASI";
+      const canvas = document.getElementById('qrCanvas');
+      QRCode.toCanvas(canvas, qrData, { width: 150, margin: 2 }, function (error) {
+        if (error) {
+          console.error("QR generation failed:", error);
+          doc.text("⚠️ QR Code gagal dimuat", 75, 95);
+        } else {
+          const imgData = canvas.toDataURL('image/png');
+          doc.addImage(imgData, 'PNG', 75, 95, 60, 60);
+        }
+        doc.setFontSize(9);
+        doc.setTextColor(100);
+        doc.text("Scan QR Code ini untuk memverifikasi keabsahan dokumen.", 105, 155, null, null, "center");
+        doc.setFontSize(8);
+        doc.setTextColor(150);
+        doc.text("Dokumen ini memiliki watermark ISO 27001 dan QR Code unik.", 105, 165, null, null, "center");
+        doc.save("Verifikasi_Refund_" + nomorResi + ".pdf");
+      });
+    }
+  </script>
 </body>
 </html>
