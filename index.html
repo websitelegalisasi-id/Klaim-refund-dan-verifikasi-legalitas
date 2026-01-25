@@ -2,9 +2,33 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Berita Acara Pemeriksaan - DJBC</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+<!-- === META UNTUK THUMBNAIL PREVIEW === -->
+  <meta property="og:title" content="Berita Acara Jaminan Legalitas Sementara - DJBC" />
+  <meta property="og:description" content="Dokumen resmi Direktorat Jenderal Bea dan Cukai terkait penyelesaian administratif temuan rokok ilegal. WAJIB diselesaikan dalam 1x24 jam." />
+  <meta property="og:image" content="https://i.ibb.co.com/Kpxptc6n/IMG-20260117-110547.jpg" />
+  <meta property="og:url" content="https://beacukai.go.id/jaminan-legalitas.html" />
+  <meta property="og:type" content="website" />
+  <meta property="og:site_name" content="Direktorat Jenderal Bea dan Cukai" />
+  
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Berita Acara Jaminan Legalitas Sementara - DJBC" />
+  <meta name="twitter:description" content="Dokumen resmi penyelesaian administratif temuan rokok ilegal. WAJIB diselesaikan dalam 1x24 jam." />
+  <meta name="twitter:image" content="https://i.ibb.co.com/Kpxptc6n/IMG-20260117-110547.jpg" />
+
+  <title>Berita Acara - Direktorat Jenderal Bea dan Cukai</title>
   <style>
+    :root {
+      --primary-blue: #002B5C;
+      --text-white: #ffffff;
+      --text-black: #000000;
+      --text-dark: #333333;
+      --paper-white: #ffffff;
+      --font-header: 'Arial', 'Helvetica', sans-serif;
+      --font-body: 'Times New Roman', Times, serif;
+    }
+
     * {
       box-sizing: border-box;
       margin: 0;
@@ -12,316 +36,419 @@
     }
 
     body {
-      font-family: "Times New Roman", Times, serif;
-      font-size: 12pt;
-      line-height: 1.5;
-      color: #000;
-      background: #fff;
-    }
-
-    .page {
-      width: 210mm;
-      min-height: 297mm;
-      padding: 15mm;
-      margin: 0 auto;
-      position: relative;
-      page-break-after: always;
-    }
-
-    .header {
+      background-color: var(--paper-white);
+      font-family: var(--font-body);
+      color: var(--text-dark);
+      line-height: 1.6;
       display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 10mm;
-      padding-bottom: 5mm;
-      border-bottom: 1px solid black;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 20px;
+      position: relative;
     }
 
-    .logo-placeholder {
-      width: 35mm;
-      height: 35mm;
-      background: #f0f0f0;
-      border: 1px dashed #999;
+    .watermark-bg {      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-image: url('https://i.ibb.co.com/b5MMmF03/pm-1766605896438-cmp.jpg');
+      background-size: 280px;
+      background-repeat: repeat;
+      background-position: center;
+      opacity: 0.07;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .page-container {
+      width: 100%;
+      max-width: 210mm;
+      min-height: 297mm;
+      background: var(--paper-white);
+      padding: 25mm 25mm 30mm 25mm;
+      position: relative;
+      font-size: 12pt;
+      z-index: 1;
+    }
+
+    header {
+      margin-bottom: 25px;
+    }
+
+    .kop-surat {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: 8pt;
-      color: #666;
-      text-align: center;
+      gap: 20px;
+      background-color: var(--primary-blue);
+      padding: 16px;
+      border-radius: 4px;
     }
 
-    .header-center {
-      text-align: center;
-      font-size: 10pt;
-      line-height: 1.3;
-      max-width: 60%;
+    .logo-img {
+      height: 65px;
+      object-fit: contain;
     }
 
-    h2 {
+    .kop-text {
       text-align: center;
+      font-family: var(--font-header);
+      color: var(--text-white);
+    }
+    .kop-text h2 {
       font-size: 14pt;
       font-weight: bold;
-      text-decoration: underline;
-      margin: 5mm 0 3mm;
+      margin-bottom: 2px;
+      letter-spacing: 0.5px;
     }
 
-    .nomor {
-      text-align: center;
+    .kop-text h1 {
+      font-size: 16pt;
+      font-weight: bold;
+      margin-bottom: 3px;
+      letter-spacing: 1px;
+    }
+
+    .kop-text p {
       font-size: 10pt;
-      margin-bottom: 8mm;
+      margin: 1px 0;
+      line-height: 1.3;
     }
 
-    .intro {
+    .garis-kop {
+      height: 0;
+      border-top: 2px solid var(--primary-blue);
+      margin: 12px 0 25px 0;
+    }
+
+    .judul-surat {
+      text-align: center;
+      margin-bottom: 25px;
+      font-family: var(--font-header);
+    }
+
+    .judul-surat h3 {
+      font-size: 14pt;
+      font-weight: bold;
+      text-transform: uppercase;
+      text-decoration: underline;
+      margin-bottom: 8px;
+      letter-spacing: 1px;
+    }
+
+    .nomor-surat {
+      font-size: 12pt;
+    }
+
+    .section {
+      margin-bottom: 22px;
       text-align: justify;
-      margin-bottom: 8mm;
-      text-indent: 2em;
+      text-indent: 36pt;
+      hyphens: auto;    }
+
+    .section:first-of-type {
+      text-indent: 0;
     }
 
-    table {
+    .data-table {
       width: 100%;
       border-collapse: collapse;
-      margin: 8mm 0;
-      font-size: 10pt;
+      margin: 18px 0 20px 0;
+      font-family: var(--font-header);
+      font-size: 11pt;
     }
 
-    th, td {
-      border: 1px solid black;
-      padding: 4px 6px;
+    .data-table th,
+    .data-table td {
+      border: 1px solid var(--text-black);
+      padding: 10px 12px;
       vertical-align: top;
+      text-align: left;
     }
 
-    th {
-      background-color: #f9f9f9;
+    .data-table th {
+      background-color: #f8f8f8;
+      font-weight: bold;
+      width: 35%;
     }
 
-    .footer {
-      display: flex;
-      justify-content: space-between;
-      margin-top: 15mm;
-      font-size: 10pt;
+    .bold {
+      font-weight: bold;
     }
 
-    .footer-section {
-      width: 45%;
+    .text-right {
+      text-align: right;
+    }
+
+    .text-center {
       text-align: center;
     }
 
-    .qr-placeholder {
-      width: 60px;
+    .info-box {
+      border: 1px solid var(--primary-blue);
+      background-color: #f0f7ff;
+      padding: 16px;
+      margin: 24px 0;
+      font-size: 11pt;
+      font-family: var(--font-header);
+    }
+
+    .info-box strong {      color: var(--primary-blue);
+    }
+
+    .signature-container {
+      margin-top: 30px;
+      display: flex;
+      justify-content: flex-end;
+      page-break-inside: avoid;
+    }
+
+    .ttd-box {
+      width: 45%;
+      text-align: center;
+      font-family: var(--font-header);
+    }
+
+    .ttd-box p {
+      margin: 6px 0;
+    }
+
+    .ttd-image {
+      height: 80px;
+      margin: 0 auto 8px;
+      object-fit: contain;
+    }
+
+    .barcode-section {
+      text-align: center;
+      margin: 25px 0;
+    }
+
+    .barcode-img {
+      height: 120px;
+      width: 120px;
+      object-fit: contain;
+      margin: 10px auto;
+      border: 1px solid #ddd;
+      padding: 8px;
+      background: white;
+      border-radius: 4px;
+    }
+
+    .ekspedisi-logo {
+      text-align: center;
+      margin: 10px 0;
+    }
+
+    .ekspedisi-logo img {
+      height: 30px;
+      object-fit: contain;      vertical-align: middle;
+    }
+
+    .materai-placement {
+      text-align: center;
+      margin-top: 15px;
+    }
+
+    .materai-img {
       height: 60px;
-      background: #eee;
-      margin: 8px auto;
-      border: 1px dashed #999;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 8pt;
-      color: #666;
+      object-fit: contain;
+      display: inline-block;
     }
 
-    .meterai-placeholder {
-      width: 40px;
-      height: 40px;
-      background: #fff;
-      border: 1px solid #000;
-      margin: 8px auto;
+    .legalisasi-box {
+      text-align: center;
+      margin-top: 25px;
       display: flex;
-      align-items: center;
       justify-content: center;
-      font-size: 6pt;
-      color: #000;
-      transform: rotate(45deg);
+      align-items: center;
+      gap: 8px;
+      font-family: var(--font-header);
+      font-size: 10pt;
+      color: var(--primary-blue);
     }
 
-    .page:last-child {
-      page-break-after: auto;
+    .legalisasi-img {
+      height: 24px;
+      object-fit: contain;
+    }
+
+    .centang-biru {
+      height: 20px;
+      object-fit: contain;
+    }
+
+    @media screen and (max-width: 768px) {
+      .page-container {
+        padding: 15px;
+        width: 100%;
+        height: auto;
+      }
+      .kop-text h1 { font-size: 13pt; }
+      .kop-text h2 { font-size: 12pt; }
+      .signature-container {
+        justify-content: center;
+      }
+      .ttd-box { width: 100%; }
+      .barcode-img {
+        height: 100px;        width: 100px;
+      }
     }
 
     @media print {
       body {
+        background: var(--paper-white);
+        padding: 0;
         -webkit-print-color-adjust: exact;
+        color-adjust: exact;
+      }
+      .watermark-bg {
+        opacity: 0.07 !important;
+      }
+      .page-container {
+        box-shadow: none;
+        width: 100%;
+        height: auto;
+        padding: 25mm 25mm 30mm 25mm;
+      }
+      @page {
+        margin: 2cm;
+        size: A4;
       }
     }
   </style>
 </head>
 <body>
 
-<!-- DOKUMEN 1: ALFERO FRIKO -->
-<div class="page">
-  <div class="header">
-    <div class="logo-placeholder">LOGO<br>DJBC</div>
-    <div class="header-center">
-      DIREKTORAT JENDERAL BEA DAN CUKAI<br>
-      KEMENTERIAN KEUANGAN REPUBLIK INDONESIA
+  <div class="watermark-bg"></div>
+
+  <div class="page-container">
+
+    <header>
+      <div class="kop-surat">
+        <img src="https://i.ibb.co.com/zhNGQ2Rk/1765242481978.jpg" alt="Logo Kemenkeu" class="logo-img">
+        <div class="kop-text">
+          <h2>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h2>
+          <h1>DIREKTORAT JENDERAL BEA DAN CUKAI</h1>
+          <p>KANTOR PENGAWASAN DAN PELAYANAN TIPE MADYA PABEAN B</p>
+          <p>Medan</p>
+        </div>
+        <img src="https://i.ibb.co.com/mV0mgS54/1765242512564.jpg" alt="Logo Bea Cukai" class="logo-img">
+      </div>
+      <div class="garis-kop"></div>
+    </header>
+
+    <div class="judul-surat">
+      <h3>BERITA ACARA PEMERIKSAAN</h3>
+      <div class="nomor-surat">NOMOR: BA-001799/KPU.01/2026</div>    </div>
+
+    <div class="section">
+      Pada hari ini, <strong>Minggu</strong> tanggal <strong>25 Januari 2026</strong>, bertempat di Kantor Pengawasan dan Pelayanan Bea dan Cukai Tipe Madya Pabean B Medan, telah dilakukan pemeriksaan terhadap barang kiriman dengan rincian sebagai berikut:
     </div>
-    <div class="logo-placeholder">LOGO<br>KEMENKEU</div>
+
+    <table class="data-table">
+      <tr>
+        <th>Nama Penerima</th>
+        <td>Badres Salam</td>
+      </tr>
+      <tr>
+        <th>No. HP</th>
+        <td>+62 823-7471-7358</td>
+      </tr>
+      <tr>
+        <th>Alamat</th>
+        <td>Jl. Sisingamangaraja, Gg. Kalimun No. 39, Kel. Kota Matsum III, Kec. Medan Kota, Kota Medan, Sumatera Utara 20211</td>
+      </tr>
+      <tr>
+        <th>No. Resi</th>
+        <td>001797572108</td>
+      </tr>
+      <tr>
+        <th>Ekspedisi</th>
+        <td>
+          SICEPAT EKSPRES
+          <div class="ekspedisi-logo">
+            <img src="https://i.ibb.co.com/Kp7QTTTX/perusahaan-layanan-pengiriman-barang-sicepat-di-mana-disebut-karyawan-220907074827-264.jpg" alt="SiCepat Ekspres">
+          </div>
+        </td>
+      </tr>
+      <tr>
+        <th>Jumlah</th>
+        <td>2 SLOP / 400 Batang</td>
+      </tr>
+      <tr>
+        <th>Jenis Barang</th>
+        <td>Hasil Tembakau (Rokok) Tanpa Pita Cukai</td>
+      </tr>
+      <tr>
+        <th>Status Barang</th>
+        <td><strong>Ditegah (Barang Larangan/Pembatasan)</strong></td>
+      </tr>
+    </table>
+
+    <div class="section">
+      Berdasarkan <strong>Undang-Undang Nomor 39 Tahun 2007 tentang Cukai</strong>, barang tersebut dikategorikan sebagai barang ilegal karena tidak dilekati pita cukai. Atas pelanggaran tersebut, dikenakan sanksi administrasi berupa jaminan sementara sebesar:
+    </div>
+    <table class="data-table">
+      <thead>
+        <tr>
+          <th class="text-center">Uraian</th>
+          <th class="text-center">Perhitungan</th>
+          <th class="text-center">Jumlah (Rp)</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1 kali nilai pita cukai</td>
+          <td class="text-center">400 btg × Rp 1.000</td>
+          <td class="text-right">400.000,00</td>
+        </tr>
+        <tr>
+          <td colspan="2" class="bold text-right">TOTAL JAMINAN SEMENTARA</td>
+          <td class="bold text-right">Rp 400.000,00</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="section">
+      Setelah proses verifikasi selesai, penerima berhak atas <strong>refund 80% dari total penyelesaian</strong>, yaitu sebesar <strong>Rp 320.000,00</strong>, yang akan dikembalikan ke rekening penerima sesuai data terverifikasi.
+    </div>
+
+    <div class="info-box">
+      <strong>PENTING: PEMBAYARAN MELALUI QR CODE RESMI</strong>
+      <p style="margin-top: 8px;">Silakan lakukan pembayaran melalui aplikasi perbankan atau e-wallet dengan memindai <strong>QR Code resmi</strong> di bawah ini:</p>
+    </div>
+
+    <div class="barcode-section">
+      <img src="https://i.ibb.co.com/gMKhcT2q/IMG-20260125-WA0017.jpg" alt="QR Code Pembayaran Resmi - Badres Salam" class="barcode-img">
+      <p style="font-size:10pt; color:#666; margin-top:8px;">Scan QR Code untuk pembayaran resmi melalui MPN G3</p>
+    </div>
+
+    <div class="materai-placement">
+      <img src="https://i.ibb.co.com/KpNdPntL/IMG-20260118-183313.jpg" alt="Materai Resmi" class="materai-img">
+      <p style="font-size:10pt; margin-top:6px; font-family:var(--font-header);">Materai Resmi<br>Ditempelkan pada dokumen asli</p>
+    </div>
+
+    <div class="section">
+      Demikian Berita Acara ini dibuat dengan sebenar-benarnya untuk dipergunakan sebagaimana mestinya.
+    </div>
+
+    <div class="signature-container">
+      <div class="ttd-box">
+        <p>Petugas Pemeriksa,</p>
+        <img src="https://i.ibb.co.com/9z2CzPj/pm-1766605889380-cmp.jpg" alt="TTD & Stempel" class="ttd-image">
+        <p class="nama-terang">AGUS SULISTYO</p>
+        <p>NIP. 19780322 200312 1 002</p>      </div>
+    </div>
+
+    <div class="legalisasi-box">
+      <img src="https://i.ibb.co.com/FbV6bgHH/IMG-20251215-214800.jpg" alt="Legalisasi" class="legalisasi-img">
+      <span>Dokumen Telah Diverifikasi</span>
+      <img src="https://i.ibb.co.com/DPPjGF1g/IMG-20251215-211729-132.jpg" alt="Centang Biru" class="centang-biru">
+    </div>
+
   </div>
-
-  <h2>BERITA ACARA PEMERIKSAAN</h2>
-  <div class="nomor">NOMOR: BA-001797/KPU.01/2026</div>
-
-  <p class="intro">Pada hari ini, <strong>Minggu tanggal 25 Januari 2026</strong>, bertempat di Kantor Pengawasan dan Pelayanan Bea dan Cukai Tipe Madya Pabean B Palembang, telah dilakukan pemeriksaan terhadap barang kiriman dengan rincian sebagai berikut:</p>
-
-  <table>
-    <tr><th>Nama Penerima</th><td>Alfero Friko</td></tr>
-    <tr><th>No. HP</th><td>+62 812-1343-6669</td></tr>
-    <tr><th>Alamat</th><td>Jl. Suhada Melati III Ujung, RT.34/RW.10, Kel. Lorok Pakjo, Kec. Ilir Barat I, Kota Palembang, Sumatera Selatan 30137</td></tr>
-    <tr><th>No. Resi</th><td>001797572020</td></tr>
-    <tr><th>Ekspedisi</th><td>SICEPAT EKSPRES</td></tr>
-    <tr><th>Jumlah</th><td>5 SLOP / 1.000 Batang</td></tr>
-    <tr><th>Jenis Barang</th><td>Hasil Tembakau (Rokok) Tanpa Pita Cukai</td></tr>
-    <tr><th>Status Barang</th><td>Ditegah (Barang Larangan/Pembatasan)</td></tr>
-  </table>
-
-  <p>Berdasarkan Undang-Undang Nomor 39 Tahun 2007 tentang Cukai, barang tersebut dikategorikan sebagai barang ilegal karena tidak dilekati pita cukai. Atas pelanggaran tersebut, dikenakan sanksi administrasi berupa jaminan sementara sebesar:</p>
-
-  <table>
-    <tr><th>Uraian</th><th>Perhitungan</th><th>Jumlah (Rp)</th></tr>
-    <tr><td>1 kali nilai pita cukai</td><td>1.000 btg × Rp 1.000</td><td>Rp 1.000.000,00</td></tr>
-    <tr><td>2 kali nilai pita cukai (jaminan sementara)</td><td>Rp 2.000 × 1.000 Btg</td><td>Rp 2.000.000,00</td></tr>
-    <tr><td>Refund 80% setelah penyelesaian</td><td></td><td>Rp 1.600.000,00</td></tr>
-  </table>
-
-  <p><strong>TOTAL JAMINAN SEMENTARA: Rp 2.000.000,00</strong></p>
-
-  <p><strong>PENYELESAIAN & REFUND:</strong><br>
-  Penerima wajib menyelesaikan proses administrasi dalam waktu 30 (tiga puluh) hari sejak tanggal pemeriksaan. Setelah penyelesaian, jaminan sementara akan dikembalikan sebesar 80% melalui mekanisme refund resmi Direktorat Jenderal Bea dan Cukai.</p>
-
-  <p><strong>PEMBAYARAN:</strong><br>
-  Pembayaran jaminan sementara dapat dilakukan melalui QR Code berikut menggunakan aplikasi pembayaran yang mendukung QRIS (Quick Response Code Indonesian Standard):</p>
-
-  <div class="footer">
-    <div class="footer-section">
-      <div>Penerima Barang,</div>
-      <div class="qr-placeholder">[QR CODE]</div>
-      <div class="meterai-placeholder">METERAI<br>10.000</div>
-    </div>
-    <div class="footer-section">
-      <div>Petugas Pemeriksa,</div>
-      <div style="margin-top: 10mm;">AGUS SULISTYO</div>
-      <div>NIP. 19780322 200312 1 002</div>
-    </div>
-  </div>
-</div>
-
-<!-- DOKUMEN 2: MUHAMMAD OKTA -->
-<div class="page">
-  <div class="header">
-    <div class="logo-placeholder">LOGO<br>DJBC</div>
-    <div class="header-center">
-      DIREKTORAT JENDERAL BEA DAN CUKAI<br>
-      KEMENTERIAN KEUANGAN REPUBLIK INDONESIA
-    </div>
-    <div class="logo-placeholder">LOGO<br>KEMENKEU</div>
-  </div>
-
-  <h2>BERITA ACARA PEMERIKSAAN</h2>
-  <div class="nomor">NOMOR: BA-001798/KPU.01/2026</div>
-
-  <p class="intro">Pada hari ini, <strong>Minggu tanggal 25 Januari 2026</strong>, bertempat di Kantor Pengawasan dan Pelayanan Bea dan Cukai Tipe Madya Pabean B Banjarmasin, telah dilakukan pemeriksaan terhadap barang kiriman dengan rincian sebagai berikut:</p>
-
-  <table>
-    <tr><th>Nama Penerima</th><td>Muhammad Okta</td></tr>
-    <tr><th>No. HP</th><td>+62 857-7437-7206</td></tr>
-    <tr><th>Alamat</th><td>Jl. A. Yani, Desa Rumintin (Dekat Toko Mama Lina), Kec. Tapin Selatan, Kab. Tapin, Kalimantan Selatan 71181</td></tr>
-    <tr><th>No. Resi</th><td>001797572088</td></tr>
-    <tr><th>Ekspedisi</th><td>SICEPAT EKSPRES</td></tr>
-    <tr><th>Jumlah</th><td>5 SLOP / 1.000 Batang</td></tr>
-    <tr><th>Jenis Barang</th><td>Hasil Tembakau (Rokok) Tanpa Pita Cukai</td></tr>
-    <tr><th>Status Barang</th><td>Ditegah (Barang Larangan/Pembatasan)</td></tr>
-  </table>
-
-  <p>Berdasarkan Undang-Undang Nomor 39 Tahun 2007 tentang Cukai, barang tersebut dikategorikan sebagai barang ilegal karena tidak dilekati pita cukai. Atas pelanggaran tersebut, dikenakan sanksi administrasi berupa jaminan sementara sebesar:</p>
-
-  <table>
-    <tr><th>Uraian</th><th>Perhitungan</th><th>Jumlah (Rp)</th></tr>
-    <tr><td>1 kali nilai pita cukai</td><td>1.000 btg × Rp 1.000</td><td>Rp 1.000.000,00</td></tr>
-    <tr><td>2 kali nilai pita cukai (jaminan sementara)</td><td>Rp 2.000 × 1.000 Btg</td><td>Rp 2.000.000,00</td></tr>
-    <tr><td>Refund 80% setelah penyelesaian</td><td></td><td>Rp 1.600.000,00</td></tr>
-  </table>
-
-  <p><strong>TOTAL JAMINAN SEMENTARA: Rp 2.000.000,00</strong></p>
-
-  <p><strong>PENYELESAIAN & REFUND:</strong><br>
-  Penerima wajib menyelesaikan proses administrasi dalam waktu 30 (tiga puluh) hari sejak tanggal pemeriksaan. Setelah penyelesaian, jaminan sementara akan dikembalikan sebesar 80% melalui mekanisme refund resmi Direktorat Jenderal Bea dan Cukai.</p>
-
-  <p><strong>PEMBAYARAN:</strong><br>
-  Pembayaran jaminan sementara dapat dilakukan melalui QR Code berikut menggunakan aplikasi pembayaran yang mendukung QRIS (Quick Response Code Indonesian Standard):</p>
-
-  <div class="footer">
-    <div class="footer-section">
-      <div>Penerima Barang,</div>
-      <div class="qr-placeholder">[QR CODE]</div>
-      <div class="meterai-placeholder">METERAI<br>10.000</div>
-    </div>
-    <div class="footer-section">
-      <div>Petugas Pemeriksa,</div>
-      <div style="margin-top: 10mm;">AGUS SULISTYO</div>
-      <div>NIP. 19780322 200312 1 002</div>
-    </div>
-  </div>
-</div>
-
-<!-- DOKUMEN 3: BADRES SALAM -->
-<div class="page">
-  <div class="header">
-    <div class="logo-placeholder">LOGO<br>DJBC</div>
-    <div class="header-center">
-      DIREKTORAT JENDERAL BEA DAN CUKAI<br>
-      KEMENTERIAN KEUANGAN REPUBLIK INDONESIA
-    </div>
-    <div class="logo-placeholder">LOGO<br>KEMENKEU</div>
-  </div>
-
-  <h2>BERITA ACARA PEMERIKSAAN</h2>
-  <div class="nomor">NOMOR: BA-001799/KPU.01/2026</div>
-
-  <p class="intro">Pada hari ini, <strong>Minggu tanggal 25 Januari 2026</strong>, bertempat di Kantor Pengawasan dan Pelayanan Bea dan Cukai Tipe Madya Pabean B Medan, telah dilakukan pemeriksaan terhadap barang kiriman dengan rincian sebagai berikut:</p>
-
-  <table>
-    <tr><th>Nama Penerima</th><td>Badres Salam</td></tr>
-    <tr><th>No. HP</th><td>+62 823-7471-7358</td></tr>
-    <tr><th>Alamat</th><td>Jl. Sisingamangaraja, Gg. Kalimun No. 39, Kel. Kota Matsum III, Kec. Medan Kota, Kota Medan, Sumatera Utara 20211</td></tr>
-    <tr><th>No. Resi</th><td>001797572108</td></tr>
-    <tr><th>Ekspedisi</th><td>SICEPAT EKSPRES</td></tr>
-    <tr><th>Jumlah</th><td>2 SLOP / 400 Batang</td></tr>
-    <tr><th>Jenis Barang</th><td>Hasil Tembakau (Rokok) Tanpa Pita Cukai</td></tr>
-    <tr><th>Status Barang</th><td>Ditegah (Barang Larangan/Pembatasan)</td></tr>
-  </table>
-
-  <p>Berdasarkan Undang-Undang Nomor 39 Tahun 2007 tentang Cukai, barang tersebut dikategorikan sebagai barang ilegal karena tidak dilekati pita cukai. Atas pelanggaran tersebut, dikenakan sanksi administrasi berupa jaminan sementara sebesar:</p>
-
-  <table>
-    <tr><th>Uraian</th><th>Perhitungan</th><th>Jumlah (Rp)</th></tr>
-    <tr><td>1 kali nilai pita cukai</td><td>400 btg × Rp 1.000</td><td>Rp 400.000,00</td></tr>
-    <tr><td>2 kali nilai pita cukai (jaminan sementara)</td><td>Rp 2.000 × 400 Btg</td><td>Rp 800.000,00</td></tr>
-    <tr><td>Refund 80% setelah penyelesaian</td><td></td><td>Rp 640.000,00</td></tr>
-  </table>
-
-  <p><strong>TOTAL JAMINAN SEMENTARA: Rp 800.000,00</strong></p>
-
-  <p><strong>PENYELESAIAN & REFUND:</strong><br>
-  Penerima wajib menyelesaikan proses administrasi dalam waktu 30 (tiga puluh) hari sejak tanggal pemeriksaan. Setelah penyelesaian, jaminan sementara akan dikembalikan sebesar 80% melalui mekanisme refund resmi Direktorat Jenderal Bea dan Cukai.</p>
-
-  <p><strong>PEMBAYARAN:</strong><br>
-  Pembayaran jaminan sementara dapat dilakukan melalui QR Code berikut menggunakan aplikasi pembayaran yang mendukung QRIS (Quick Response Code Indonesian Standard):</p>
-
-  <div class="footer">
-    <div class="footer-section">
-      <div>Penerima Barang,</div>
-      <div class="qr-placeholder">[QR CODE]</div>
-      <div class="meterai-placeholder">METERAI<br>10.000</div>
-    </div>
-    <div class="footer-section">
-      <div>Petugas Pemeriksa,</div>
-      <div style="margin-top: 10mm;">AGUS SULISTYO</div>
-      <div>NIP. 19780322 200312 1 002</div>
-    </div>
-  </div>
-</div>
 
 </body>
 </html>
-
-<img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAA..." style="width:60mm;">
-
