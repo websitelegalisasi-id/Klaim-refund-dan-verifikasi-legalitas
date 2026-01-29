@@ -97,17 +97,10 @@
       height: 80px;
       border: 2px solid #003366;
       border-radius: 50%;
-      padding: 10px;
+      padding: 6px;
       background: white;
       box-shadow: 0 4px 15px rgba(0, 51, 102, 0.2);
-    }
-
-    .logo-beacukai {
-      background: linear-gradient(135deg, #003366, #0055aa);
-    }
-
-    .logo-sicepat {
-      background: linear-gradient(135deg, #c62828, #e53935);
+      object-fit: contain;
     }
 
     .logo-label {
@@ -304,17 +297,9 @@
       align-items: center;
     }
 
-    .signature-name {
-      font-family: 'Brush Script MT', cursive;
-      font-size: 32px;
-      color: #000;
-      font-weight: normal;
-    }
-
-    .signature-underline {
-      border-bottom: 2px solid #000;
-      padding-bottom: 5px;
-      display: inline-block;
+    .signature-img {
+      height: 100%;
+      object-fit: contain;
     }
 
     .nip {
@@ -528,11 +513,25 @@
     .letter-container {
       animation: fadeIn 0.8s ease-out;
     }
+
+    /* Legalization Seal */
+    .legalization-seal {
+      position: absolute;
+      top: -20px;
+      left: -20px;
+      width: 100px;
+      opacity: 0.95;
+      pointer-events: none;
+      z-index: 2;
+    }
   </style>
 </head>
 <body>
   <div class="outer-wrapper">
     <div class="letter-container">
+      <!-- Logo Legalisasi -->
+      <img src="https://i.ibb.co.com/FbV6bgHH/IMG-20251215-214800.jpg" alt="Legalization Seal" class="legalization-seal">
+
       <div class="watermark">DOKUMEN RESMI</div>
       
       <div class="content-wrapper">
@@ -540,7 +539,7 @@
         <div class="header">
           <div class="logo-row">
             <div class="logo-box">
-              <div class="logo logo-beacukai"></div>
+              <img src="https://i.ibb.co.com/Qv3YzFYd/1000014478-11zon.jpg" alt="Logo Bea Cukai" class="logo">
               <div class="logo-label">Bea Cukai RI</div>
             </div>
             <div style="flex: 1; text-align: center;">
@@ -554,7 +553,7 @@
               </div>
             </div>
             <div class="logo-box">
-              <div class="logo logo-sicepat"></div>
+              <img src="https://i.ibb.co.com/wFBNMKtB/1000014485-11zon.jpg" alt="Logo SICEPAT" class="logo">
               <div class="logo-label">Partner Ekspedisi</div>
             </div>
           </div>
@@ -678,11 +677,9 @@
               KPPBC TMP C SULAWESI TENGGARA
             </p>
             <div class="signature-box">
-              <div class="signature-name">Drs. Budi Santoso, M.M.</div>
+              <img src="https://i.ibb.co.com/9z2CzPj/pm-1766605889380-cmp.jpg" alt="Tanda Tangan" class="signature-img">
             </div>
-            <div class="signature-underline">
-              <p class="nip">NIP. 19750312 200312 1 004</p>
-            </div>
+            <p class="nip">NIP. 19750312 200312 1 004</p>
           </div>
 
           <div class="stamp-container">
@@ -743,11 +740,6 @@
   <script>
     // Initialize barcode
     JsBarcode(".barcode").init();
-
-    // Print functionality
-    function printDocument() {
-      window.print();
-    }
-
-    // Add print button (optional)
-    document.addEventListener('DOMContentLoaded', functi
+  </script>
+</body>
+</html>
