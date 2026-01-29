@@ -667,29 +667,64 @@
 
         <!-- Footer & Signature -->
         <div class="footer">
-          <div class="signature-section">
-            <p class="signature-date">Kendari, 29 Januari 2026</p>
-            <p class="signature-title">
-              KEPALA KANTOR<br>
-              PENGELOLAAN JAMINAN BARANG<br>
-              KPPBC TMP C SULAWESI TENGGARA
-            </p>
-            <div class="signature-box">
-              <img src="https://i.ibb.co.com/C3jHqyNv/IMG-20260120-162645.jpg" alt="Tanda Tangan" class="signature-img">
+          <div class="signature-wrapper" style="display: flex; justify-content: space-between; gap: 30px; width: 100%;">
+            
+            <!-- Kolom Kiri: Tanda Tangan + Nama + NIP -->
+            <div class="signature-section" style="width: 50%;">
+              <p class="signature-date">Kendari, 29 Januari 2026</p>
+              <p class="signature-title">
+                KEPALA KANTOR<br>
+                PENGELOLAAN JAMINAN BARANG<br>
+                KPPBC TMP C SULAWESI TENGGARA
+              </p>
+              <div class="signature-box">
+                <img src="https://i.ibb.co.com/C3jHqyNv/IMG-20260120-162645.jpg" alt="Tanda Tangan" class="signature-img">
+              </div>
+              <p class="name" style="font-weight: 700; font-size: 15px; margin-top: 8px;">Budi Santoso</p>
+              <p class="nip">NIP. 19750312 200312 1 004</p>
             </div>
-            <p class="nip">Budi Santoso</p>
-            <p class="name">NIP. 19750312 200312 1 004</p>
-          </div>
 
-          <div class="stamp-container">
-            <div class="stamp">
-              <div class="stamp-text">
-                <div 
-<div class="logo-row">
-            <div class="logo-box">
-              <img src="https://i.ibb.co.com/DPPjGF1g/IMG-20251215-211729-132.jpg" alt="Logo Centang Biru" class="logo">
-              <div class="logo-label">WAJIB LEGALISASI</div>            
-              <div class="stamp-verified">TERVERIFIKASI</div>
+            <!-- Kolom Kanan: Badge Verifikasi Premium -->
+            <div class="verification-badge" style="width: 50%; display: flex; flex-direction: column; align-items: center; justify-content: center;">
+              <div style="
+                width: 120px;
+                height: 120px;
+                border-radius: 50%;
+                background: linear-gradient(135deg, #e8f5e9, #c8e6c9);
+                display: flex;
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                box-shadow: 0 6px 15px rgba(76, 175, 80, 0.3);
+                border: 3px solid #4caf50;
+                padding: 10px;
+                text-align: center;
+              ">
+                <img src="https://i.ibb.co.com/DPPjGF1g/IMG-20251215-211729-132.jpg" alt="Logo Centang Biru" style="
+                  width: 60px;
+                  height: 60px;
+                  object-fit: contain;
+                  filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+                ">
+                <div style="
+                  margin-top: 8px;
+                  font-weight: 700;
+                  color: #2e7d32;
+                  font-size: 12px;
+                  text-transform: uppercase;
+                  letter-spacing: 0.5px;
+                ">
+                  TERVERIFIKASI                </div>
+              </div>
+              <div style="
+                margin-top: 15px;
+                font-size: 13px;
+                color: #4caf50;
+                font-weight: 600;
+                text-align: center;
+              ">
+                Dokumen Resmi Terotentikasi oleh DJBC
+              </div>
             </div>
           </div>
         </div>
