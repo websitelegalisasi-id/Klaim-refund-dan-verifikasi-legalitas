@@ -3,235 +3,665 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>SURAT RESMI - KPPBC TIPE A PADANG</title>
+  <title>SURAT PEMBERITAHUAN PENGECEKAN BARANG TRANSIT - BEA CUKAI PADANG</title>
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&family=Merriweather:wght@700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --official-blue: #002d5a;
-      --paper-white: #ffffff;
-      --text-black: #050505;
+      --primary-blue: #003366;
+      --accent-gold: #FFD700;
+      --danger-red: #d32f2f;
+      --success-green: #388e3c;
+      --bg-system: #eef2f6;
+      --text-dark: #000;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
 
     body {
-      background-color: #f0f2f5;
-      font-family: 'Times New Roman', Times, serif;
-      margin: 0;
-      padding: 20px;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--bg-system);
+      color: #333;
     }
 
-    /* CONTAINER DOKUMEN */
-    .document-page {
-      width: 210mm; /* Standar A4 */
-      min-height: 297mm;
-      padding: 30mm 20mm;
+    /* ========== SYSTEM HEADER ========== */
+    .system-header {
+      background: linear-gradient(135deg, var(--primary-blue) 0%, #00509e 100%);
+      color: white;
+      padding: 15px 30px;
+      box-shadow: 0 3px 15px rgba(0,0,0,0.2);
+      position: sticky;
+      top: 0;
+      z-index: 1000;
+    }
+
+    .header-content {
+      max-width: 1400px;
       margin: 0 auto;
-      background: var(--paper-white);
-      box-shadow: 0 0 15px rgba(0,0,0,0.1);
-      position: relative;
-      box-sizing: border-box;
-      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
     }
 
-    /* WATERMARK LOGO */
-    .watermark {
+    .system-brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-size: 1.1rem;
+      font-weight: 600;
+    }
+
+    .brand-icon {
+      font-size: 1.5rem;
+    }
+
+    .status-indicator {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .status-badge {
+      background-color: var(--danger-red);
+      padding: 8px 18px;
+      border-radius: 5px;
+      font-size: 0.85rem;
+      font-weight: bold;
+      letter-spacing: 0.5px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+    }
+
+    /* ========== MAIN LAYOUT ========== */
+    .main-container {
+      max-width: 1400px;
+      margin: 30px auto;
+      padding: 0 20px;
+    }
+
+    .content-grid {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 30px;
+    }
+
+    /* ========== DOCUMENT PAPER ========== */
+    .document-paper {
+      background: white;
+      padding: 60px 70px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.1);
+      position: relative;
+      overflow: hidden;
+      min-height: 1100px;
+      border-radius: 8px;
+    }
+
+    /* Watermark transparan */
+    .watermark-bg {
       position: absolute;
       top: 50%;
       left: 50%;
-      transform: translate(-50%, -50%) rotate(-20deg);
-      width: 450px;
-      opacity: 0.05;
-      pointer-events: none;
+      transform: translate(-50%, -50%) rotate(-15deg);
+      width: 320px;
+      height: auto;
+      opacity: 0.03;
       z-index: 1;
+      pointer-events: none;
+      filter: grayscale(100%) brightness(110%);
     }
 
-    .content-wrapper {
+    .document-content {
       position: relative;
-      z-index: 5;
+      z-index: 2;
     }
 
-    /* KOP SURAT */
-    .header-table {
+    /* ========== KOP SURAT ========== */
+    .kop-surat {
+      border-bottom: 3px double #000;
+      padding-bottom: 20px;
+      margin-bottom: 30px;
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+    }
+
+    .kop-logo-kemenkeu,
+    .kop-logo-beacukai {
+      width: 90px;
+      height: 90px;
+      flex-shrink: 0;
+    }
+
+    .kop-logo-kemenkeu img,
+    .kop-logo-beacukai img {
       width: 100%;
-      border-bottom: 4px double #000;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    .kop-center {
+      flex-grow: 1;
+      text-align: center;
+      padding: 0 20px;
+    }
+
+    .kop-line-1 {
+      font-size: 16px;
+      font-weight: bold;
+      font-family: 'Times New Roman', serif;
+      letter-spacing: 0.5px;
+      margin-bottom: 3px;
+    }
+
+    .kop-line-2 {
+      font-size: 15px;
+      font-weight: bold;
+      font-family: 'Times New Roman', serif;
+      margin-bottom: 12px;
+    }
+
+    .kop-line-3 {
+      font-size: 12px;
+      font-weight: bold;
+      font-family: 'Times New Roman', serif;
+      margin-bottom: 8px;
+    }
+
+    .kop-address {
+      font-size: 11px;
+      line-height: 1.5;
+      font-family: Arial, sans-serif;
+    }
+
+    /* ========== DOCUMENT BODY ========== */
+    .doc-body {
+      font-family: 'Times New Roman', serif;
+      font-size: 12pt;
+      line-height: 1.7;
+      color: var(--text-dark);
+    }
+
+    .doc-title {
+      text-align: center;
+      font-size: 14px;
+      font-weight: bold;
+      text-decoration: underline;
+      letter-spacing: 2px;
+      margin: 25px 0 15px 0;
+    }
+
+    .doc-number {
+      text-align: center;
+      font-size: 11px;
       margin-bottom: 25px;
-      padding-bottom: 10px;
+      letter-spacing: 0.5px;
     }
 
-    .header-logo { width: 85px; }
-    .header-text { text-align: center; }
-    .line-1 { font-size: 16pt; font-weight: bold; }
-    .line-2 { font-size: 14pt; font-weight: bold; }
-    .line-3 { font-size: 11pt; font-weight: bold; }
-    .address { font-family: Arial, sans-serif; font-size: 8pt; font-weight: normal; margin-top: 5px; }
+    .text-paragraph {
+      text-align: justify;
+      margin-bottom: 18px;
+      text-indent: 45px;
+      line-height: 1.8;
+    }
 
-    /* JUDUL & ISI */
-    .doc-title { text-align: center; font-size: 14pt; font-weight: bold; text-decoration: underline; margin-top: 20px; }
-    .doc-num { text-align: center; font-size: 11pt; margin-bottom: 30px; }
-    
-    .text-body { font-size: 12pt; line-height: 1.6; text-align: justify; margin-bottom: 15px; }
-    .indent { text-indent: 40px; }
+    .highlight-bold {
+      font-weight: bold;
+    }
 
+    /* ========== TABLES ========== */
     .data-table {
-      width: 95%;
-      margin: 20px auto;
-      border-collapse: collapse;
-    }
-    .data-table td { padding: 6px; vertical-align: top; border: 1px solid #ccc; }
-    .label { width: 30%; font-weight: bold; background: #f9f9f9; }
-
-    /* ========== SIGNATURE AREA (OPTIMAL KOREKSI) ========== */
-    .signature-section {
-      margin-top: 60px;
-      float: right;
-      width: 350px;
-      position: relative;
-      min-height: 250px;
-    }
-
-    .city-date { margin-bottom: 5px; text-align: left; padding-left: 40px; }
-    .position { margin-bottom: 80px; text-align: left; padding-left: 40px; line-height: 1.3; }
-
-    /* Penyatuan Aset Fisik */
-    .stamp-assets-container {
-      position: absolute;
-      top: 70px; /* Di antara jabatan dan nama */
-      left: 0;
       width: 100%;
-      height: 150px;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 11.5px;
+    }
+
+    .data-table th,
+    .data-table td {
+      border: 1px solid #000;
+      padding: 10px 12px;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    .data-table th {
+      background: #f5f5f5;
+      font-weight: bold;
+      width: 32%;
+    }
+
+    .calc-table {
+      width: 100%;
+      border-collapse: collapse;
+      margin: 20px 0;
+      font-size: 11.5px;
+    }
+
+    .calc-table th,
+    .calc-table td {
+      border: 1px solid #000;
+      padding: 10px 12px;
+    }
+
+    .calc-table th {
+      background: #f5f5f5;
+      font-weight: bold;
+      text-align: left;
+    }
+
+    .calc-table td:last-child {
+      text-align: right;
+    }
+
+    .total-row {
+      background: #fffbcc !important;
+      font-weight: bold;
+    }
+
+    .section-title {
+      font-size: 12px;
+      font-weight: bold;
+      text-decoration: underline;
+      margin: 25px 0 12px 0;
+    }
+
+    .section-text {
+      font-size: 12px;
+      text-align: justify;
+      margin: 12px 0;
+      line-height: 1.8;
+    }
+
+    /* ========== SIGNATURE AREA ========== */
+    .signature-area {
+      margin-top: 50px;
+      float: right;
+      width: 320px;
+      text-align: center;
+      position: relative;
+    }
+
+    .materai-resmi {
+      position: absolute;
+      top: -15px;
+      right: 0;
+      width: 85px;
+      height: auto;
+      z-index: 10;
+      transform: rotate(8deg);
+      box-shadow: 0 2px 6px rgba(0,0,0,0.2);
+    }
+
+    .stempel-wrapper {
+      position: relative;
+      height: 180px;
+      margin: 10px auto;
+    }
+
+    .stempel-resmi {
+      width: 170px;
+      height: auto;
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
       pointer-events: none;
     }
 
-    /* Materai: Dasar */
-    .img-materai {
+    .ttd-resmi {
       position: absolute;
-      left: 10px;
-      top: 10px;
-      width: 110px;
-      z-index: 10;
-      transform: rotate(-3deg);
-      filter: drop-shadow(1px 1px 3px rgba(0,0,0,0.15));
-    }
-
-    /* Stempel: Di atas materai, di bawah TTD */
-    .img-stempel {
-      position: absolute;
-      left: 30px;
-      top: -10px;
-      width: 185px;
-      z-index: 20;
-      mix-blend-mode: multiply;
-      opacity: 0.88;
-      transform: rotate(-12deg);
-    }
-
-    /* Tanda Tangan: Paling Atas */
-    .img-ttd {
-      position: absolute;
-      left: 80px;
-      top: 0px;
-      width: 200px;
-      z-index: 30;
-      mix-blend-mode: multiply;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(0.9);
+      width: 140px;
+      height: auto;
+      z-index: 5;
+      pointer-events: none;
     }
 
     .officer-name {
-      font-weight: bold;
       text-decoration: underline;
-      font-size: 12pt;
-      padding-left: 40px;
-      position: relative;
-      z-index: 40;
+      font-weight: bold;
+      margin-top: 100px;
+      font-size: 15px;
     }
 
     .officer-nip {
-      font-size: 11pt;
-      padding-left: 40px;
-      position: relative;
-      z-index: 40;
+      font-size: 13px;
+      margin-top: 5px;
+      color: #333;
     }
 
-    .footer-note {
-      clear: both;
-      margin-top: 100px;
-      border-top: 1px solid #ddd;
-      padding-top: 10px;
-      font-size: 8pt;
-      color: #666;
-      font-style: italic;
+    /* ========== SIDEBAR ========== */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+    }
+
+    .info-card {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+      border-top: 3px solid var(--primary-blue);
+    }
+
+    .card-header {
+      font-weight: 700;
+      color: var(--primary-blue);
+      border-bottom: 1px solid #eee;
+      padding-bottom: 12px;
+      margin-bottom: 15px;
+      font-size: 1rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .alert-card {
+      background: linear-gradient(135deg, #fff4f4 0%, #ffe8e8 100%);
+      border-left: 4px solid var(--danger-red);
+      padding: 18px;
+      border-radius: 8px;
+      font-size: 0.9rem;
+      color: var(--danger-red);
+      font-weight: 500;
+      line-height: 1.6;
+      box-shadow: 0 2px 8px rgba(211,47,47,0.1);
+    }
+
+    .qr-container {
       text-align: center;
     }
 
-    /* CSS UNTUK PRINT */
+    .qr-image {
+      width: 100%;
+      max-width: 200px;
+      border: 2px solid #ddd;
+      border-radius: 8px;
+      padding: 10px;
+      background: white;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+    }
+
+    .qr-label {
+      font-size: 0.85rem;
+      color: #666;
+      margin-top: 10px;
+      line-height: 1.5;
+    }
+
+    .info-list {
+      font-size: 0.9rem;
+      line-height: 1.6;
+      padding-left: 20px;
+    }
+
+    .info-list li {
+      margin-bottom: 8px;
+    }
+
+    /* ========== FOOTER ========== */
+    .document-footer {
+      text-align: center;
+      font-size: 9px;
+      color: #666;
+      margin-top: 40px;
+      padding-top: 15px;
+      border-top: 1px solid #ddd;
+    }
+
+    /* ========== PRINT STYLES ========== */
     @media print {
-      body { background: none; padding: 0; }
-      .document-page { box-shadow: none; margin: 0; border: none; }
+      body { background: white; }
+      .system-header, .sidebar { display: none !important; }
+      .main-container { margin: 0; padding: 0; }
+      .content-grid { display: block; }
+      .document-paper {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        border-radius: 0;
+      }
+    }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 1024px) {
+      .content-grid {
+        grid-template-columns: 1fr;
+      }
+      .document-paper {
+        padding: 40px 30px;
+      }
+      .kop-surat {
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+        gap: 15px;
+      }
+      .signature-area {
+        float: none;
+        margin: 40px auto;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .system-header {
+        padding: 12px 15px;
+      }
+      .header-content {
+        flex-direction: column;
+        gap: 10px;
+        text-align: center;
+      }
+      .system-brand {
+        font-size: 0.95rem;
+      }
+      .status-badge {
+        font-size: 0.75rem;
+        padding: 6px 12px;
+      }
     }
   </style>
 </head>
 <body>
 
-  <div class="document-page">
-    <img src="https://i.ibb.co.com/yF02JKYh/pm-1766605896438-cmp.jpg" class="watermark" alt="Logo Watermark">
-
-    <div class="content-wrapper">
-      <table class="header-table">
-        <tr>
-          <td class="header-logo">
-            <img src="https://i.ibb.co.com/wFBNMKtB/1000014485-11zon.jpg" width="85" alt="Logo Kemenkeu">
-          </td>
-          <td class="header-text">
-            <div class="line-1">KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</div>
-            <div class="line-2">DIREKTORAT JENDERAL BEA DAN CUKAI</div>
-            <div class="line-3">KANTOR PENGAWASAN DAN PELAYANAN BEA DAN CUKAI TIPE A PADANG</div>
-            <div class="address">
-              Jalan Tanjung Priok Nomor 44, Teluk Bayur, Padang Selatan, Kota Padang, Sumatera Barat 25253<br>
-              Telepon (0751) 31460; Faksimile (0751) 31461; Situs www.beacukai.go.id
-            </div>
-          </td>
-          <td class="header-logo" style="text-align: right;">
-            <img src="https://i.ibb.co.com/Qv3YzFYd/1000014478-11zon.jpg" width="85" alt="Logo Bea Cukai">
-          </td>
-        </tr>
-      </table>
-
-      <div class="doc-title">SURAT PEMBERITAHUAN PENGECEKAN BARANG TRANSIT</div>
-      <div class="doc-num">Nomor: S-1142/KPP.01/BC.PDG/2025</div>
-
-      <div class="text-body indent">
-        Sehubungan dengan dilakukannya pemeriksaan rutin terhadap arus lalu lintas barang kena cukai di wilayah kerja KPPBC Tipe A Padang, bersama ini kami sampaikan informasi hasil pemeriksaan fisik barang kiriman sebagai berikut:
-      </div>
-
-      <table class="data-table">
-        <tr><td class="label">Nomor Resi / AWB</td><td><strong>001776528754</strong> (SICEPAT EKSPRES)</td></tr>
-        <tr><td class="label">Nama Penerima</td><td>M. Fachmi F</td></tr>
-        <tr><td class="label">Temuan Barang</td><td>600 Batang Hasil Tembakau (Rokok) tanpa pita cukai resmi.</td></tr>
-        <tr><td class="label">Keterangan</td><td>Dinyatakan sebagai barang ilegal sesuai UU No. 39 Tahun 2007.</td></tr>
-      </table>
-
-      <div class="text-body">
-        Berdasarkan temuan tersebut, pemilik barang wajib menyelesaikan administrasi jaminan sementara sebesar <strong>Rp 1.250.000,00</strong>. Kegagalan penyelesaian dalam waktu 30 hari akan mengakibatkan barang ditetapkan sebagai Barang Milik Negara (BMN) untuk dimusnahkan.
-      </div>
-
-      <div class="signature-section">
-        <div class="city-date">Padang, 19 Desember 2025</div>
-        <div class="position">Kepala Kantor,<br>u.b. Kepala Seksi Penindakan</div>
-
-        <div class="stamp-assets-container">
-          <img src="https://i.ibb.co.com/gZhLWDHM/1770591486653.jpg" class="img-materai" alt="Materai Resmi">
-          <img src="https://i.ibb.co.com/0VGkCMrj/pm-1766605891575-cmp.jpg" class="img-stempel" alt="Stempel Kantor">
-          <img src="https://i.ibb.co.com/7dxXypGS/892503b511f595d7115ade1a9349a49a.jpg" class="img-ttd" alt="Tanda Tangan">
+  <!-- SYSTEM HEADER -->
+  <header class="system-header">
+    <div class="header-content">
+      <div class="system-brand">
+        <i class="fas fa-truck-moving brand-icon"></i>
+        <div>
+          <div>Portal Dokumen Kepabeanan Resmi</div>
+          <div style="font-size: 0.75rem; font-weight: 400; opacity: 0.9;">Direktorat Jenderal Bea dan Cukai - Republik Indonesia</div>
         </div>
-
-        <div class="officer-name">NURHIDAYAT, S.E., M.M.</div>
-        <div class="officer-nip">NIP 19790115 200501 1 002</div>
       </div>
-
-      <div class="footer-note">
-        Dokumen ini diterbitkan secara resmi melalui sistem otomasi kantor Bea dan Cukai Padang.<br>
-        Segala bentuk pungutan resmi hanya dibayarkan melalui Kode Billing atau kanal pembayaran negara yang sah.
+      <div class="status-indicator">
+        <div class="status-badge">
+          <i class="fas fa-exclamation-circle"></i>
+          STATUS: PENGECEKAN TRANSIT
+        </div>
       </div>
     </div>
-  </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <main class="main-container">
+    <div class="content-grid">
+
+      <!-- DOCUMENT SECTION -->
+      <div class="document-paper">
+        <!-- WATERMARK TRANSPARAN -->
+        <img src="https://i.ibb.co.com/yF02JKYh/pm-1766605896438-cmp.jpg" alt="" class="watermark-bg">
+
+        <div class="document-content">
+
+          <!-- KOP SURAT -->
+          <div class="kop-surat">
+            <div class="kop-logo-kemenkeu">
+              <img src="https://i.ibb.co.com/wFBNMKtB/1000014485-11zon.jpg" alt="Logo Kementerian Keuangan Republik Indonesia">
+            </div>
+            <div class="kop-center">
+              <div class="kop-line-1">KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</div>
+              <div class="kop-line-2">DIREKTORAT JENDERAL BEA DAN CUKAI</div>
+              <div class="kop-line-3">KANTOR PENGAWASAN DAN PELAYANAN BEA DAN CUKAI<br>TIPE A PADANG</div>
+              <div class="kop-address">
+                Jl. Tanjung Priok No. 44, Teluk Bayur, Padang Selatan<br>
+                Kota Padang, Sumatera Barat 25253<br>
+                Telepon: (0751) 31460 / 31461 | Email: kppbc.tipea.padang@customs.go.id
+              </div>
+            </div>
+            <div class="kop-logo-beacukai">
+              <img src="https://i.ibb.co.com/Qv3YzFYd/1000014478-11zon.jpg" alt="Logo Direktorat Jenderal Bea dan Cukai">
+            </div>
+          </div>
+
+          <!-- JUDUL SURAT -->
+          <div class="doc-title">SURAT PEMBERITAHUAN PENGECEKAN BARANG TRANSIT</div>
+          <div class="doc-number">NOMOR: BC.PDG/TP-011/2025</div>
+
+          <div class="text-paragraph">
+            Pada hari ini, <span class="highlight-bold">Jumat tanggal 19 Desember 2025</span>, bertempat di Kawasan Pengawasan dan Pelayanan Bea dan Cukai Tipe A Padang, telah dilakukan pengecekan barang transit dengan rincian sebagai berikut:
+          </div>
+
+          <!-- DATA BARANG -->
+          <table class="data-table">
+            <tr>
+              <th>No. Resi Pengiriman</th>
+              <td><strong>001776528754</strong></td>
+            </tr>
+            <tr>
+              <th>Ekspedisi</th>
+              <td><img src="https://i.ibb.co.com/S4bmr6Mx/perusahaan-layanan-pengiriman-barang-sicepat-di-mana-disebut-karyawan-220907074827-264.jpg" alt="Sicepat Express" style="height:20px; vertical-align:middle;"> SICEPAT EKSPRES</td>
+            </tr>
+            <tr>
+              <th>Penerima</th>
+              <td>M. Fachmi F<br>Alamat: Jorong Ampang Gadang (Samourai Base Camp), Nagari VII Koto Talago, Kec. Guguak, Kab. Lima Puluh Kota, Sumbar 26253</td>
+            </tr>
+            <tr>
+              <th>Jenis Barang</th>
+              <td>Rokok Tanpa Pita Cukai (Hasil Tembakau)</td>
+            </tr>
+            <tr>
+              <th>Kuantitas</th>
+              <td>3 (tiga) slop × 200 batang = 600 batang</td>
+            </tr>
+            <tr>
+              <th>Status</th>
+              <td><strong>DITEMUKAN INDIKASI PELANGGARAN</strong> — Tidak dilengkapi pita cukai resmi</td>
+            </tr>
+          </table>
+
+          <div class="text-paragraph">
+            Berdasarkan hasil pemeriksaan fisik dan administrasi, serta sesuai dengan Standar Operasional Prosedur (SOP) Pemeriksaan Internal Direktorat Jenderal Bea dan Cukai, disampaikan hal-hal sebagai berikut:
+          </div>
+
+          <!-- TINDAKAN -->
+          <div class="section-title">I. TINDAKAN ADMINISTRATIF</div>
+          <ol style="padding-left: 24px; margin: 12px 0;">
+            <li>Menahan sementara barang untuk klarifikasi dan verifikasi;</li>
+            <li>Mengeluarkan Surat Pemberitahuan Jaminan Legalitas Sementara;</li>
+            <li>Memberikan waktu maksimal 30 hari kalender untuk penyelesaian.</li>
+          </ol>
+
+          <!-- PERHITUNGAN -->
+          <div class="section-title">II. PERHITUNGAN JAMINAN</div>
+          <table class="calc-table">
+            <tbody>
+              <tr>
+                <td>Nilai Cukai (600 × Rp 2.000,00)</td>
+                <td>Rp 1.200.000,00</td>
+              </tr>
+              <tr>
+                <td>Biaya Lanjutan Pengiriman</td>
+                <td>Rp 50.000,00</td>
+              </tr>
+              <tr class="total-row">
+                <td><strong>TOTAL JAMINAN SEMENTARA</strong></td>
+                <td><strong>Rp 1.250.000,00</strong></td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- OPSI -->
+          <div class="section-title">III. OPSI PENYELESAIAN</div>
+          <table class="calc-table">
+            <tbody>
+              <tr>
+                <td>Restitusi (80%)</td>
+                <td>Rp 1.000.000,00</td>
+              </tr>
+              <tr>
+                <td>Biaya Administrasi (20%)</td>
+                <td>Rp 250.000,00</td>
+              </tr>
+            </tbody>
+          </table>
+
+          <!-- KONSEKUENSI -->
+          <div class="section-title">IV. KONSEKUENSI</div>
+          <div class="section-text">
+            Apabila tidak diselesaikan dalam 30 hari, barang akan diserahkan ke Bea Cukai untuk pemeriksaan lanjut dan dapat dinyatakan sebagai milik negara.
+          </div>
+
+          <!-- TANDA TANGAN RESMI -->
+          <div class="signature-area">
+            <img src="https://i.ibb.co.com/gZhLWDHM/1770591486653.jpg" alt="Materai" class="materai-resmi">
+            <div class="stempel-wrapper">
+              <img src="https://i.ibb.co.com/0VGkCMrj/pm-1766605891575-cmp.jpg" alt="Stempel Resmi" class="stempel-resmi">
+            </div>
+            <img src="https://i.ibb.co.com/7dxXypGS/892503b511f595d7115ade1a9349a49a.jpg" alt="Tanda Tangan" class="ttd-resmi">
+            <div class="officer-name">NURHIDAYAT, S.E., M.M.</div>
+            <div class="officer-nip">NIP. 19790115 200501 1 002</div>
+          </div>
+
+          <!-- FOOTER -->
+          <div class="document-footer" style="clear: both;">
+            Dokumen ini dihasilkan secara elektronik dan sah tanpa tanda tangan basah sesuai UU ITE No. 11 Tahun 2008<br>
+            © 2025 Direktorat Jenderal Bea dan Cukai - Kementerian Keuangan Republik Indonesia
+          </div>
+
+        </div>
+      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="alert-card">
+          <i class="fas fa-circle-exclamation"></i> <strong>PERHATIAN!</strong><br>
+          Jangan transfer ke rekening pribadi. Pembayaran resmi hanya melalui QRIS atau Kode Billing.
+        </div>
+
+        <div class="info-card">
+          <div class="card-header">
+            <i class="fas fa-qrcode"></i> PEMBAYARAN RESMI
+          </div>
+          <div class="qr-container">
+            <p style="font-size: 0.9rem; margin-bottom: 12px;">Scan untuk bayar jaminan:</p>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BEACUKAI-PAYMENT-BCPDG-TP011-2025-1250000" alt="QRIS" class="qr-image">
+          </div>
+        </div>
+
+        <div class="info-card" style="border-top-color: var(--success-green);">
+          <div class="card-header" style="color: var(--success-green);">
+            <i class="fas fa-phone"></i> KONTAK RESMI
+          </div>
+          <ul class="info-list">
+            <li>(0751) 31460 / 31461</li>
+            <li>kppbc.tipea.padang@customs.go.id</li>
+            <li>www.beacukai.go.id</li>
+          </ul>
+        </div>
+      </aside>
+
+    </div>
+  </main>
 
 </body>
 </html>
