@@ -3,1078 +3,405 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistem Manajemen Keuangan Resmi Las Vegas">
-    <title>Laporan Keuangan | Las Vegas</title>
+    <meta name="description" content="Sistem Manajemen Keuangan Profesional Las Vegas">
+    <title>Las Vegas Finance | Enterprise Edition</title>
     
-    <!-- Preconnect for performance -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    
-    <!-- Font Inter: clean, professional, highly readable -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
-    
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" 
-          integrity="sha512-U3fPA7V8qQmTDqeVu9J4kLzjx5HsF5c5B6dMh6bXnA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
-    
-    <!-- HTML2PDF for export -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-    
+
     <style>
         :root {
-            /* Corporate Color System */
-            --primary: #1e3a8a;
-            --primary-700: #1d4ed8;
-            --primary-600: #2563eb;
-            --primary-500: #3b82f6;
-            --success: #059669;
-            --danger: #dc2626;
-            --warning: #d97706;
-            --gray-50: #f8fafc;
-            --gray-100: #f1f5f9;
-            --gray-200: #e2e8f0;
-            --gray-300: #cbd5e1;
-            --gray-400: #94a8d1;
-            --gray-500: #64748b;
-            --gray-600: #475569;
-            --gray-700: #334155;
-            --gray-800: #1e293b;
-            --gray-900: #0f172a;
-            --white: #ffffff;
-            
-            /* Spacing Scale (8px baseline) */
-            --space-xs: 0.25rem;
-            --space-sm: 0.5rem;
-            --space-md: 1rem;
-            --space-lg: 1.5rem;
-            --space-xl: 2rem;            --space-2xl: 2.5rem;
-            
-            /* Typography Scale */
-            --font-size-xs: 0.75rem;
-            --font-size-sm: 0.875rem;
-            --font-size-base: 1rem;
-            --font-size-lg: 1.125rem;
-            --font-size-xl: 1.25rem;
-            --font-size-2xl: 1.5rem;
-            --font-size-3xl: 1.875rem;
-            --font-size-4xl: 2.25rem;
-            
-            /* Radius & Shadow */
-            --radius-sm: 6px;
-            --radius-md: 12px;
-            --radius-lg: 16px;
-            --radius-xl: 20px;
-            --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-            --shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px -1px rgba(0, 0, 0, 0.1);
-            --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.1);
-            --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+            --primary: #0f172a;
+            --accent: #2563eb;
+            --success: #10b981;
+            --danger: #ef4444;
+            --warning: #f59e0b;
+            --bg-app: #f1f5f9;
+            --surface: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --radius: 12px;
+            --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
         }
 
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background-color: var(--gray-50);
-            color: var(--gray-800);
-            line-height: 1.5;
-            min-height: 100vh;
-            padding-bottom: calc(4rem + env(safe-area-inset-bottom));
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-app);
+            color: var(--text-main);
+            padding-bottom: 100px;
+            -webkit-tap-highlight-color: transparent;
         }
 
-        /* Watermark Background */
-        body::before {
-            content: '';
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-image: url('https://i.ibb.co.com/fzsk2y9K/b6e0e326c4bed93c160b8625ac345a6f.jpg');
-            background-size: cover;
-            background-position: center;
-            opacity: 0.02;            z-index: -1;
-        }
-
-        /* Header */
+        /* Upgrade Header */
         .header {
-            background: linear-gradient(135deg, var(--primary) 0%, var(--primary-700) 100%);
-            padding: var(--space-lg) var(--space-md);
-            color: var(--white);
-            border-bottom-left-radius: var(--radius-xl);
-            border-bottom-right-radius: var(--radius-xl);
-            position: relative;
-            overflow: hidden;
+            background: var(--primary);
+            padding: 2rem 1.5rem 5rem;
+            color: white;
+            border-radius: 0 0 30px 30px;
         }
 
-        .header::before {
-            content: '';
-            position: absolute;
-            top: -50%;
-            right: -20%;
-            width: 400px;
-            height: 400px;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
-            border-radius: 50%;
-        }
-
-        .header-content {
+        .header-top {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            max-width: 1200px;
+            max-width: 800px;
             margin: 0 auto;
-            position: relative;
-            z-index: 2;
         }
 
-        .logo {
-            display: flex;
-            align-items: center;
-            gap: var(--space-md);
+        .brand h1 { font-size: 1.5rem; letter-spacing: 1px; font-weight: 800; }
+        .brand p { font-size: 0.75rem; opacity: 0.7; }
+
+        /* Floating Summary Card */
+        .summary-wrapper {
+            max-width: 800px;
+            margin: -3.5rem auto 2rem;
+            padding: 0 1rem;
         }
 
-        .logo-img {
-            width: 52px;
-            height: 52px;
-            border-radius: var(--radius-md);
-            overflow: hidden;
-            box-shadow: var(--shadow-lg);
-            background: var(--white);
-            display: flex;
-            align-items: center;            justify-content: center;
+        .main-card {
+            background: var(--surface);
+            border-radius: 24px;
+            padding: 1.5rem;
+            shadow: var(--shadow-soft);
+            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
         }
 
-        .logo-img img {
-            width: 100%;
-            height: 100%;
-            object-fit: cover;
-        }
-
-        .logo-text {
-            font-size: var(--font-size-2xl);
-            font-weight: 700;
-            letter-spacing: -0.5px;
-        }
-
-        .btn-export {
-            background: rgba(255, 255, 255, 0.15);
-            border: none;
-            color: white;
-            padding: 0.65rem 1.25rem;
-            border-radius: var(--radius-md);
-            font-weight: 600;
-            font-size: var(--font-size-sm);
-            cursor: pointer;
-            backdrop-filter: blur(10px);
-            transition: all 0.2s ease;
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .btn-export:hover {
-            background: rgba(255, 255, 255, 0.25);
-            transform: translateY(-1px);
-        }
-
-        /* Analytics Summary */
-        .summary-container {
-            max-width: 1200px;
-            margin: -2.25rem auto var(--space-xl);
-            padding: 0 var(--space-md);
-        }
-
-        .summary-card {
-            background: var(--white);
-            padding: var(--space-xl);
-            border-radius: var(--radius-xl);
-            box-shadow: var(--shadow-lg);
-            border: 1px solid var(--gray-200);
-        }
-        .balance-display {
-            text-align: center;
-            margin-bottom: var(--space-lg);
-        }
-
-        .balance-label {
-            font-size: var(--font-size-xs);
-            font-weight: 600;
-            color: var(--gray-500);
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            margin-bottom: var(--space-xs);
-        }
-
-        .balance-value {
-            font-size: var(--font-size-4xl);
-            font-weight: 700;
-            color: var(--primary);
-            letter-spacing: -0.5px;
-            font-feature-settings: "tnum";
-        }
+        .balance-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
+        .balance-value { font-size: 2.2rem; font-weight: 800; color: var(--primary); margin: 0.2rem 0; }
 
         .stats-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
-            gap: var(--space-lg);
-            border-top: 1px solid var(--gray-200);
-            padding-top: var(--space-lg);
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px dashed #e2e8f0;
         }
 
-        .stat-item {
-            text-align: center;
-            padding: var(--space-md) 0;
-        }
+        .stat-box { padding: 0.5rem; }
+        .stat-box small { font-size: 0.7rem; color: var(--text-muted); font-weight: 700; }
+        .stat-box div { font-size: 1.1rem; font-weight: 700; }
 
-        .stat-label {
-            font-size: var(--font-size-xs);
-            font-weight: 600;
-            color: var(--gray-600);
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-            margin-bottom: var(--space-xs);
-        }
-
-        .stat-value {
-            font-size: var(--font-size-xl);
-            font-weight: 700;
-            color: var(--gray-900);
-            font-feature-settings: "tnum";        }
-
-        .stat-value.income { color: var(--success); }
-        .stat-value.expense { color: var(--danger); }
-        .stat-value.debt { color: var(--warning); }
-        .stat-value.net.positive { color: var(--success); }
-        .stat-value.net.negative { color: var(--danger); }
-
-        /* Main Content */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 var(--space-md) var(--space-2xl);
-        }
-
-        .section {
-            display: none;
-        }
-
-        .section.active {
-            display: block;
-            animation: fadeIn 0.3s ease-out;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(8px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
+        /* UI Components */
+        .container { max-width: 800px; margin: 0 auto; padding: 0 1rem; }
+        
         .card {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            padding: var(--space-xl);
-            box-shadow: var(--shadow);
-            border: 1px solid var(--gray-200);
-            margin-bottom: var(--space-xl);
+            background: var(--surface);
+            border-radius: var(--radius);
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            box-shadow: var(--shadow-soft);
         }
 
-        .card-header {
-            font-size: var(--font-size-xl);
-            font-weight: 700;
-            margin-bottom: var(--space-lg);
-            color: var(--gray-900);
-            display: flex;
-            align-items: center;
-            gap: var(--space-sm);
-        }
-
-        .form-row {
-            display: grid;            grid-template-columns: 1fr 1fr;
-            gap: var(--space-md);
-            margin-bottom: var(--space-md);
-        }
-
-        label {
-            display: block;
-            font-size: var(--font-size-sm);
-            font-weight: 600;
-            margin-bottom: var(--space-xs);
-            color: var(--gray-700);
-        }
-
+        .form-label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
+        
         input, select {
             width: 100%;
-            padding: 0.875rem;
-            border-radius: var(--radius-md);
-            border: 1px solid var(--gray-300);
-            background: var(--gray-50);
-            font-size: var(--font-size-base);
-            font-weight: 500;
-            transition: all 0.2s ease;
-            color: var(--gray-900);
-            font-feature-settings: "tnum";
+            padding: 0.8rem 1rem;
+            border: 1.5px solid #e2e8f0;
+            border-radius: 10px;
+            font-family: inherit;
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            transition: all 0.2s;
         }
 
-        input:focus, select:focus {
-            outline: none;
-            border-color: var(--primary-600);
-            background: var(--white);
-            box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.15);
-        }
+        input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
 
-        .btn-primary {
-            width: 100%;
-            background: var(--primary);
-            color: var(--white);
-            border: none;
-            padding: 1rem;
-            border-radius: var(--radius-lg);
-            font-weight: 600;
-            font-size: var(--font-size-base);
+        .btn {
             cursor: pointer;
-            transition: all 0.2s ease;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 0.5rem;
-            font-feature-settings: "tnum";
+            transition: 0.2s;
         }
-        .btn-primary:hover {
-            background: var(--primary-700);
-            transform: translateY(-1px);
-            box-shadow: var(--shadow-md);
-        }
+
+        .btn-primary { background: var(--accent); color: white; padding: 1rem; width: 100%; }
+        .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
 
         /* Transaction List */
-        .section-title {
-            font-size: var(--font-size-lg);
-            font-weight: 700;
-            color: var(--gray-700);
-            margin: var(--space-xl) 0 var(--space-md);
-            padding-bottom: var(--space-xs);
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        .transaction-list {
-            background: var(--white);
-            border-radius: var(--radius-lg);
-            overflow: hidden;
-            box-shadow: var(--shadow);
-            border: 1px solid var(--gray-200);
-        }
-
-        .transaction-item {
+        .list-header {
             display: flex;
             justify-content: space-between;
             align-items: center;
-            padding: var(--space-md) var(--space-xl);
-            border-bottom: 1px solid var(--gray-100);
+            margin-bottom: 1rem;
         }
 
-        .transaction-item:last-child {
-            border-bottom: none;
-        }
-
-        .trx-main {
+        .item {
             display: flex;
+            justify-content: space-between;
             align-items: center;
-            gap: var(--space-md);
-            flex: 1;
+            padding: 1rem;
+            background: white;
+            border-radius: 12px;
+            margin-bottom: 0.75rem;
+            border-left: 4px solid #cbd5e1;
         }
 
-        .trx-icon {
-            width: 48px;
-            height: 48px;
-            border-radius: var(--radius-md);
-            display: flex;
-            align-items: center;            justify-content: center;
-            font-size: 1.25rem;
-            flex-shrink: 0;
-        }
+        .item.in { border-left-color: var(--success); }
+        .item.out { border-left-color: var(--danger); }
+        .item.debt { border-left-color: var(--warning); }
 
-        .icon-income { background: rgba(5, 150, 105, 0.1); color: var(--success); }
-        .icon-expense { background: rgba(220, 38, 38, 0.1); color: var(--danger); }
-        .icon-debt { background: rgba(217, 119, 6, 0.1); color: var(--warning); }
+        .item-info h4 { font-size: 0.95rem; font-weight: 700; color: var(--primary); }
+        .item-info span { font-size: 0.75rem; color: var(--text-muted); }
 
-        .trx-text {
-            min-width: 0;
-        }
+        .item-amount { text-align: right; }
+        .item-amount .val { font-weight: 800; font-size: 1rem; }
 
-        .trx-desc {
-            font-weight: 600;
-            color: var(--gray-900);
-            font-size: var(--font-size-base);
-            white-space: nowrap;
-            overflow: hidden;
-            text-overflow: ellipsis;
-        }
-
-        .trx-meta {
-            font-size: var(--font-size-sm);
-            color: var(--gray-500);
-            margin-top: 0.25rem;
-        }
-
-        .trx-amount {
-            text-align: right;
-            min-width: 110px;
-        }
-
-        .amount-val {
-            font-weight: 700;
-            font-size: var(--font-size-lg);
-            font-feature-settings: "tnum";
-        }
-
-        .amount-income { color: var(--success); }
-        .amount-expense { color: var(--danger); }
-        .amount-debt { color: var(--warning); }
-
-        .action-group {
-            display: flex;
-            gap: var(--space-sm);
-            margin-top: var(--space-sm);
-        }
-
-        .btn-action {            padding: 0.45rem 0.85rem;
-            border-radius: var(--radius-sm);
-            border: none;
-            font-size: var(--font-size-xs);
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            font-feature-settings: "tnum";
-        }
-
-        .btn-edit { 
-            background: var(--gray-200); 
-            color: var(--gray-800);
-        }
-        .btn-edit:hover { 
-            background: var(--gray-300); 
-        }
-        .btn-delete { 
-            background: rgba(220, 38, 38, 0.15); 
-            color: var(--danger);
-        }
-        .btn-delete:hover { 
-            background: rgba(220, 38, 38, 0.25); 
-        }
-        .btn-settle { 
-            background: var(--success); 
-            color: var(--white);
-        }
-        .btn-settle:hover { 
-            background: #047857; 
-        }
-
-        /* Bottom Navigation */
-        .bottom-nav {
+        /* Bottom Nav */
+        .nav {
             position: fixed;
             bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--white);
-            padding: 0.75rem 0 calc(1.25rem + env(safe-area-inset-bottom));
+            width: 100%;
+            background: white;
             display: flex;
             justify-content: space-around;
-            border-top: 1px solid var(--gray-200);
-            box-shadow: 0 -2px 10px rgba(0,0,0,0.05);
-            z-index: 1000;
+            padding: 0.8rem 0 1.5rem;
+            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+            z-index: 100;
         }
 
-        .nav-item {
-            text-align: center;
-            color: var(--gray-500);            cursor: pointer;
-            padding: 0.5rem;
-            border-radius: var(--radius-md);
-            transition: all 0.2s ease;
-            flex: 1;
-            max-width: 120px;
-        }
-
-        .nav-item.active {
-            color: var(--primary);
-            background: rgba(30, 58, 138, 0.1);
-        }
-
-        .nav-icon {
-            font-size: 1.4rem;
-            display: block;
-            margin-bottom: 0.25rem;
-        }
-
-        .nav-label {
-            font-size: 0.75rem;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-        }
-
-        /* Report Template (Hidden) */
-        #report-template {
-            display: none;
-            padding: 2.5rem 2rem;
-            background: var(--white);
-            max-width: 800px;
-            margin: 0 auto;
-            font-size: 12px;
-            line-height: 1.5;
-        }
-
-        .report-header {
-            text-align: center;
-            margin-bottom: 2rem;
-        }
-
-        .report-title {
-            font-size: 22px;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.25rem;
-            letter-spacing: -0.5px;
-        }
-
-        .report-subtitle {            font-size: 14px;
-            color: var(--gray-600);
-            font-weight: 600;
-        }
-
-        .report-date {
-            text-align: center;
-            font-size: 12px;
-            color: var(--gray-500);
-            margin-bottom: 2rem;
-            font-style: italic;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 1.5rem;
-            font-feature-settings: "tnum";
-        }
-
-        th, td {
-            padding: 10px;
-            text-align: left;
-            border-bottom: 1px solid var(--gray-200);
-        }
-
-        th {
-            background: var(--gray-100);
-            font-weight: 600;
-            color: var(--gray-700);
-            font-size: 11px;
-            text-transform: uppercase;
-            letter-spacing: 0.5px;
-        }
-
-        td {
-            font-size: 12px;
-        }
-
-        .summary-table td:first-child {
-            font-weight: 600;
-        }
-
-        .signature-block {
-            margin-top: 2.5rem;
-            text-align: right;
-        }
-
-        .signature-img {
-            width: 180px;            margin: 1.5rem auto 0.5rem;
-            display: block;
-        }
-
-        .signature-text {
-            font-weight: 600;
-            color: var(--gray-900);
-            font-size: 13px;
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            .form-row { grid-template-columns: 1fr; }
-            .stats-grid { grid-template-columns: repeat(2, 1fr); }
-            .balance-value { font-size: var(--font-size-3xl); }
-            .transaction-item {
-                flex-direction: column;
-                align-items: flex-start;
-                gap: var(--space-md);
-            }
-            .trx-amount {
-                width: 100%;
-                padding-top: var(--space-md);
-                border-top: 1px solid var(--gray-100);
-            }
-            .action-group { justify-content: flex-end; }
-            .header { padding: 1.25rem; }
-            .logo-text { font-size: 1.5rem; }
-            .logo-img { width: 44px; height: 44px; }
-        }
+        .nav-link { color: var(--text-muted); text-decoration: none; text-align: center; font-size: 0.7rem; font-weight: 700; }
+        .nav-link.active { color: var(--accent); }
+        .nav-link i { font-size: 1.2rem; display: block; margin-bottom: 4px; }
 
         @media (max-width: 480px) {
-            .header-content { flex-direction: column; gap: 1rem; }
-            .nav-label { font-size: 0.7rem; }
-            .stats-grid { grid-template-columns: 1fr 1fr; }
-            .balance-value { font-size: 2rem; }
-            .card, .summary-card { padding: 1.25rem; }
+            .balance-value { font-size: 1.8rem; }
         }
     </style>
 </head>
 <body>
 
-    <!-- Header -->
     <header class="header">
-        <div class="header-content">
-            <div class="logo">
-                <div class="logo-img">
-                    <img src="https://i.ibb.co.com/NnVbybC2/e8390bc0f87df5c7b5d173ed7023be37.jpg" alt="Las Vegas Logo">
-                </div>
-                <span class="logo-text">LAS VEGAS</span>            </div>
-            <button class="btn-export" onclick="generatePDF()">
-                <i class="fas fa-file-pdf"></i> Ekspor PDF
+        <div class="header-top">
+            <div class="brand">
+                <h1>LAS VEGAS</h1>
+                <p id="live-clock">Finance Management System</p>
+            </div>
+            <button class="btn" style="background: rgba(255,255,255,0.1); color: white; padding: 0.5rem 1rem;" onclick="generatePDF()">
+                <i class="fas fa-file-export"></i> PDF
             </button>
         </div>
     </header>
 
-    <!-- Financial Summary -->
-    <div class="summary-container">
-        <div class="summary-card">
-            <div class="balance-display">
-                <div class="balance-label">Saldo Kas Liquid</div>
-                <div class="balance-value" id="total-kas">Rp 0</div>
-            </div>
+    <div class="summary-wrapper">
+        <div class="main-card">
+            <div class="balance-label">Total Saldo Kas</div>
+            <div class="balance-value" id="display-total">Rp 0</div>
+            
             <div class="stats-grid">
-                <div class="stat-item">
-                    <div class="stat-label">Pemasukan</div>
-                    <div class="stat-value income" id="stat-in">Rp 0</div>
+                <div class="stat-box">
+                    <small>PEMASUKAN</small>
+                    <div style="color: var(--success)" id="display-in">Rp 0</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-label">Pengeluaran</div>
-                    <div class="stat-value expense" id="stat-out">Rp 0</div>
+                <div class="stat-box">
+                    <small>PENGELUARAN</small>
+                    <div style="color: var(--danger)" id="display-out">Rp 0</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-label">Piutang</div>
-                    <div class="stat-value debt" id="stat-debt">Rp 0</div>
+                <div class="stat-box">
+                    <small>PIUTANG AKTIF</small>
+                    <div style="color: var(--warning)" id="display-debt">Rp 0</div>
                 </div>
-                <div class="stat-item">
-                    <div class="stat-label">Saldo Netto</div>
-                    <div class="stat-value net" id="stat-net">Rp 0</div>
+                <div class="stat-box">
+                    <small>ESTIMASI NETTO</small>
+                    <div id="display-net" style="color: var(--primary)">Rp 0</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <!-- Main Content -->
     <main class="container">
-        <div id="view-home" class="section active">
+        <div id="view-home" class="view">
             <div class="card">
-                <h2 class="card-header"><i class="fas fa-plus-circle"></i> Input Transaksi Baru</h2>
-                <form id="mainForm">
+                <form id="financeForm">
                     <input type="hidden" id="edit-id">
-                    <div class="form-group">
-                        <label for="f-type">Kategori Transaksi</label>
-                        <select id="f-type">
-                            <option value="in">Kas Masuk (Pendapatan)</option>
-                            <option value="out">Kas Keluar (Biaya)</option>
-                            <option value="debt">Piutang Barang</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label for="f-desc">Keterangan</label>
-                        <input type="text" id="f-desc" placeholder="Contoh: Penjualan Grosir, Listrik Kantor" required maxlength="100">
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <label for="f-date">Tanggal</label>
-                            <input type="date" id="f-date" required>
+                    
+                    <label class="form-label">Kategori</label>
+                    <select id="type" required>
+                        <option value="in">Kas Masuk (Pendapatan)</option>
+                        <option value="out">Kas Keluar (Biaya)</option>
+                        <option value="debt">Piutang (Barang/Jasa)</option>
+                    </select>
+
+                    <label class="form-label">Keterangan Transaksi</label>
+                    <input type="text" id="desc" placeholder="Contoh: Penjualan Barang A" required>
+
+                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
+                        <div>
+                            <label class="form-label">Tanggal</label>
+                            <input type="date" id="date" required>
                         </div>
-                        <div class="form-group">
-                            <label for="f-amount">Nominal (Rp)</label>
-                            <input type="number" id="f-amount" placeholder="0" required min="1" step="1">
+                        <div>
+                            <label class="form-label">Nominal (Rp)</label>
+                            <input type="number" id="amount" placeholder="0" required>
                         </div>
                     </div>
-                    <button type="submit" id="btn-submit" class="btn-primary">
-                        <i class="fas fa-save"></i> Simpan Transaksi
+
+                    <button type="submit" class="btn btn-primary" id="submit-btn">
+                        <i class="fas fa-check-circle"></i> Simpan Data
                     </button>
                 </form>
             </div>
 
-            <h3 class="section-title">Riwayat Transaksi</h3>
-            <div class="transaction-list" id="list-jurnal"></div>
-        </div>
-
-        <div id="view-debts" class="section">
-            <h2 class="card-header"><i class="fas fa-hand-holding-usd"></i> Manajemen Piutang</h2>
-            <div class="transaction-list" id="list-piutang"></div>
+            <div class="list-header">
+                <h3 style="font-size: 1rem">Aktivitas Terbaru</h3>
+                <input type="text" id="searchBar" placeholder="Cari transaksi..." style="width: 150px; margin-bottom: 0; padding: 0.4rem 0.8rem; font-size: 0.8rem;">
+            </div>
+            
+            <div id="transaction-list">
+                </div>
         </div>
     </main>
 
-    <!-- Bottom Navigation -->
-    <nav class="bottom-nav">
-        <div class="nav-item active" onclick="switchView('home', this)">
-            <i class="fas fa-chart-line nav-icon"></i>
-            <span class="nav-label">Dashboard</span>
-        </div>
-        <div class="nav-item" onclick="switchView('debts', this)">
-            <i class="fas fa-receipt nav-icon"></i>
-            <span class="nav-label">Piutang</span>
-        </div>
-        <div class="nav-item" onclick="wipeDB()">
-            <i class="fas fa-trash-alt nav-icon"></i>
-            <span class="nav-label">Reset</span>
-        </div>
+    <nav class="nav">
+        <a href="#" class="nav-link active" onclick="showView('home')">
+            <i class="fas fa-home"></i>Dashboard
+        </a>
+        <a href="#" class="nav-link" onclick="downloadBackup()">
+            <i class="fas fa-database"></i>Backup
+        </a>
+        <a href="#" class="nav-link" onclick="wipeData()">
+            <i class="fas fa-sync-alt"></i>Reset
+        </a>
     </nav>
 
-    <!-- Hidden Report Template -->
-    <div id="report-template">
-        <div class="report-header">
-            <div class="report-title">LAPORAN KEUANGAN RESMI</div>
-            <div class="report-subtitle">PT LAS VEGAS MANAGEMENT</div>
-        </div>
-        <div class="report-date" id="pdf-ts"></div>
-        
-        <table class="summary-table">
-            <tr><th>Pos Keuangan</th><th>Nilai (Rp)</th></tr>
-            <tr><td>Total Kas Liquid</td><td id="p-kas"></td></tr>
-            <tr><td>Total Pemasukan</td><td id="p-in"></td></tr>
-            <tr><td>Total Pengeluaran</td><td id="p-out"></td></tr>
-            <tr><td>Total Piutang Aktif</td><td id="p-debt"></td></tr>
-            <tr><td><strong>Saldo Bersih</strong></td><td id="p-net"></td></tr>
-        </table>
-
-        <h3 style="margin: 1.5rem 0 0.75rem; font-weight: 600; font-size: 14px;">Detail Jurnal Umum</h3>
-        <table id="p-table">
-            <thead>
-                <tr><th>Tanggal</th><th>Keterangan</th><th>Jenis</th><th>Nominal</th></tr>
-            </thead>
-            <tbody></tbody>
-        </table>
-
-        <div class="signature-block">
-            <img src="https://i.ibb.co.com/gbmQr5LW/Screenshot-2026-02-10-01-39-43-648-com-pinterest-edit.jpg" alt="Tanda Tangan" class="signature-img">
-            <div class="signature-text">Hormat Kami,<br>Manajemen Las Vegas</div>
-        </div>
-    </div>
-
     <script>
-        // ======================
-        // CORE APPLICATION LOGIC
-        // ======================
-        let store = JSON.parse(localStorage.getItem('lasvegas_finance_db')) || { logs: [], debts: [] };
-        const IDR_FORMATTER = new Intl.NumberFormat('id-ID');
+        // Data Management
+        let db = JSON.parse(localStorage.getItem('lv_pro_db')) || { logs: [] };
+        
+        const fmtr = new Intl.NumberFormat('id-ID');
+        const formatIDR = (v) => "Rp " + fmtr.format(v);
 
-        // Utility Functions
-        const idr = (n) => "Rp " + IDR_FORMATTER.format(Math.abs(n));
-        const cleanNumber = (str) => parseFloat(str.replace(/[^0-9.-]+/g, "")) || 0;
-        const formatDateDisplay = (dateStr) => {
-            return new Date(dateStr).toLocaleDateString('id-ID', {
-                day: '2-digit',
-                month: 'short',
-                year: 'numeric'
-            });
-        };
-
-        // Initialize today's date
-        document.getElementById('f-date').valueAsDate = new Date();
-
-        // ======================
-        // RENDERING & SYNC
-        // ======================
-        function sync() {
-            localStorage.setItem('lasvegas_finance_db', JSON.stringify(store));
-            render();
+        // Update Clock
+        function updateClock() {
+            const now = new Date();
+            document.getElementById('live-clock').textContent = now.toLocaleTimeString('id-ID', {
+                hour: '2-digit', minute: '2-digit', second: '2-digit'
+            }) + " | Las Vegas Enterprise";
         }
+        setInterval(updateClock, 1000);
 
-        function switchView(id, el) {
-            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
-            document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
-            document.getElementById('view-' + id).classList.add('active');
-            el.classList.add('active');
-        }
+        // Form Logic
+        const form = document.getElementById('financeForm');
+        document.getElementById('date').valueAsDate = new Date();
 
-        // ======================
-        // FORM HANDLING
-        // ======================
-        document.getElementById('mainForm').addEventListener('submit', (e) => {
+        form.onsubmit = (e) => {
             e.preventDefault();
-            
-            const formData = new FormData(e.target);
             const id = document.getElementById('edit-id').value;
-            const type = formData.get('f-type');
-            const desc = formData.get('f-desc').trim();
-            const amount = parseFloat(formData.get('f-amount'));
-            const date = formData.get('f-date');
-
-            // Validation
-            if (!desc || desc.length === 0) {
-                alert("Keterangan tidak boleh kosong.");
-                return;
-            }
-            if (desc.length > 100) {
-                alert("Keterangan maksimal 100 karakter.");
-                return;
-            }
-            if (isNaN(amount) || amount <= 0) {
-                alert("Nominal harus berupa angka positif.");
-                return;
-            }
-            if (!date) {
-                alert("Tanggal wajib diisi.");
-                return;
-            }
-
-            const entry = { 
-                id: id ? parseInt(id) : Date.now(), 
-                type, 
-                desc, 
-                amount, 
-                date 
+            const entry = {
+                id: id ? parseInt(id) : Date.now(),
+                type: document.getElementById('type').value,
+                desc: document.getElementById('desc').value,
+                amount: parseFloat(document.getElementById('amount').value),
+                date: document.getElementById('date').value
             };
 
             if (id) {
-                if (type === 'debt') {
-                    const idx = store.debts.findIndex(x => x.id == id);
-                    if (idx !== -1) store.debts[idx] = entry;
-                } else {
-                    const idx = store.logs.findIndex(x => x.id == id);
-                    if (idx !== -1) store.logs[idx] = entry;
-                }
+                const idx = db.logs.findIndex(x => x.id == id);
+                db.logs[idx] = entry;
             } else {
-                if (type === 'debt') store.debts.push(entry);
-                else store.logs.push(entry);
+                db.logs.unshift(entry);
             }
 
-            resetForm();
-            sync();
-        });
-
-        function resetForm() {
-            document.getElementById('mainForm').reset();
+            saveAndRender();
+            form.reset();
             document.getElementById('edit-id').value = '';
-            document.getElementById('btn-submit').innerHTML = '<i class="fas fa-save"></i> Simpan Transaksi';
-            document.getElementById('f-date').valueAsDate = new Date();
+            document.getElementById('submit-btn').innerHTML = '<i class="fas fa-check-circle"></i> Simpan Data';
+            document.getElementById('date').valueAsDate = new Date();
+        };
+
+        function saveAndRender() {
+            localStorage.setItem('lv_pro_db', JSON.stringify(db));
+            render();
         }
 
-        // ======================
-        // TRANSACTION ACTIONS
-        // ======================
-        function editEntry(id, isDebt) {
-            const data = isDebt ? store.debts.find(x => x.id == id) : store.logs.find(x => x.id == id);
-            if (!data) return;
-            
-            document.getElementById('edit-id').value = data.id;
-            document.getElementById('f-type').value = data.type;
-            document.getElementById('f-desc').value = data.desc;
-            document.getElementById('f-amount').value = data.amount;
-            document.getElementById('f-date').value = data.date;
-            document.getElementById('btn-submit').innerHTML = '<i class="fas fa-sync"></i> Update Transaksi';
-            document.querySelector('.card').scrollIntoView({ behavior: 'smooth', block: 'start' });
-        }
-
-        function removeEntry(id, isDebt) {
-            if (confirm("Hapus transaksi ini? Tindakan ini tidak dapat dibatalkan.")) {
-                if (isDebt) {
-                    store.debts = store.debts.filter(x => x.id != id);
-                } else {
-                    store.logs = store.logs.filter(x => x.id != id);
-                }
-                sync();
-            }
-        }
-
-        function settleDebt(id) {
-            const debt = store.debts.find(x => x.id == id);
-            if (!debt) return;
-            
-            if (confirm(`Lunasi piutang "${debt.desc}" sebesar ${idr(debt.amount)}?`)) {
-                // Add payment as income
-                store.logs.push({ 
-                    id: Date.now(), 
-                    type: 'in', 
-                    desc: `Pelunasan Piutang: ${debt.desc}`, 
-                    amount: debt.amount, 
-                    date: new Date().toISOString().split('T')[0] 
-                });
-                // Remove from debts
-                store.debts = store.debts.filter(x => x.id != id);
-                sync();
-            }
-        }
-
-        // ======================
-        // RENDERING
-        // ======================
         function render() {
-            const jurnalEl = document.getElementById('list-jurnal');
-            const piutangEl = document.getElementById('list-piutang');
-            jurnalEl.innerHTML = ''; 
-            piutangEl.innerHTML = '';
+            const list = document.getElementById('transaction-list');
+            const term = document.getElementById('searchBar').value.toLowerCase();
+            list.innerHTML = '';
 
-            // Calculate totals
-            let balance = 0, income = 0, expense = 0, debtTotal = 0;
+            let totalIn = 0, totalOut = 0, totalDebt = 0;
 
-            store.logs.forEach(t => {
-                if (t.type === 'in') { 
-                    income += t.amount; 
-                    balance += t.amount; 
-                } else { 
-                    expense += t.amount; 
-                    balance -= t.amount; 
-                }
-            });
-            store.debts.forEach(d => debtTotal += d.amount);
+            db.logs.filter(item => item.desc.toLowerCase().includes(term)).forEach(item => {
+                const isInc = item.type === 'in';
+                const isDebt = item.type === 'debt';
+                
+                if(isInc) totalIn += item.amount;
+                else if(isDebt) totalDebt += item.amount;
+                else totalOut += item.amount;
 
-            // Render transactions
-            const sortedLogs = [...store.logs].sort((a,b) => new Date(b.date) - new Date(a.date));
-            sortedLogs.forEach(t => {
-                const isIn = t.type === 'in';
-                const iconClass = isIn ? 'icon-income' : 'icon-expense';
-                const amountClass = isIn ? 'amount-income' : 'amount-expense';
-                const prefix = isIn ? '+' : '-';
-
-                jurnalEl.innerHTML += `
-                    <div class="transaction-item">
-                        <div class="trx-main">
-                            <div class="trx-icon ${iconClass}">
-                                <i class="fas ${isIn ? 'fa-arrow-down' : 'fa-arrow-up'}"></i>
+                list.innerHTML += `
+                    <div class="item ${item.type}">
+                        <div class="item-info">
+                            <h4>${item.desc}</h4>
+                            <span>${item.date} • ${item.type.toUpperCase()}</span>
+                        </div>
+                        <div class="item-amount">
+                            <div class="val" style="color: ${isInc ? 'var(--success)' : isDebt ? 'var(--warning)' : 'var(--danger)'}">
+                                ${isInc ? '+' : isDebt ? '' : '-'} ${formatIDR(item.amount)}
                             </div>
-                            <div class="trx-text">
-                                <div class="trx-desc">${t.desc}</div>
-                                <div class="trx-meta">${formatDateDisplay(t.date)} • ${isIn ? 'Pemasukan' : 'Pengeluaran'}</div>
+                            <div style="margin-top: 5px">
+                                <small onclick="editItem(${item.id})" style="cursor:pointer; color: var(--accent); font-weight:700">EDIT</small>
+                                <small onclick="deleteItem(${item.id})" style="cursor:pointer; color: var(--danger); font-weight:700; margin-left:10px">HAPUS</small>
                             </div>
                         </div>
-                        <div class="trx-amount">
-                            <div class="amount-val ${amountClass}">${prefix} ${idr(t.amount)}</div>
-                            <div class="action-group">
-                                <button class="btn-action btn-edit" onclick="editEntry(${t.id}, false)">Edit</button>
-                                <button class="btn-action btn-delete" onclick="removeEntry(${t.id}, false)">Hapus</button>
-                            </div>
-                        </div>
-                    </div>`;
+                    </div>
+                `;
             });
 
-            store.debts.forEach(d => {
-                piutangEl.innerHTML += `
-                    <div class="transaction-item">
-                        <div class="trx-main">
-                            <div class="trx-icon icon-debt">
-                                <i class="fas fa-hourglass-half"></i>
-                            </div>
-                            <div class="trx-text">
-                                <div class="trx-desc">${d.desc}</div>
-                                <div class="trx-meta">${formatDateDisplay(d.date)} • Piutang</div>
-                            </div>
-                        </div>
-                        <div class="trx-amount">
-                            <div class="amount-val amount-debt">${idr(d.amount)}</div>
-                            <div class="action-group">
-                                <button class="btn-action btn-settle" onclick="settleDebt(${d.id})">Lunas</button>
-                                <button class="btn-action btn-edit" onclick="editEntry(${d.id}, true)">Edit</button>
-                            </div>
-                        </div>
-                    </div>`;
-            });
-
-            // Update summary stats
-            document.getElementById('total-kas').textContent = idr(balance);
-            document.getElementById('stat-in').textContent = idr(income);
-            document.getElementById('stat-out').textContent = idr(expense);
-            document.getElementById('stat-debt').textContent = idr(debtTotal);
-            
-            const netBalance = balance - debtTotal;
-            const netEl = document.getElementById('stat-net');
-            netEl.textContent = idr(netBalance);
-            netEl.className = 'stat-value net ' + (netBalance >= 0 ? 'positive' : 'negative');
+            const currentKas = totalIn - totalOut;
+            document.getElementById('display-total').textContent = formatIDR(currentKas);
+            document.getElementById('display-in').textContent = formatIDR(totalIn);
+            document.getElementById('display-out').textContent = formatIDR(totalOut);
+            document.getElementById('display-debt').textContent = formatIDR(totalDebt);
+            document.getElementById('display-net').textContent = formatIDR(currentKas - totalDebt);
         }
 
-        // ======================
-        // PDF GENERATION
-        // ======================
-        function generatePDF() {
-            const now = new Date();
-            document.getElementById('pdf-ts').textContent = `Dibuat pada: ${now.toLocaleDateString('id-ID', {
-                weekday: 'long', 
-                day: 'numeric', 
-                month: 'long', 
-                year: 'numeric',
-                hour: '2-digit', 
-                minute: '2-digit'
-            })}`;
-            
-            // Get current values
-            const kas = cleanNumber(document.getElementById('total-kas').textContent);
-            const inVal = cleanNumber(document.getElementById('stat-in').textContent);
-            const outVal = cleanNumber(document.getElementById('stat-out').textContent);
-            const debtVal = cleanNumber(document.getElementById('stat-debt').textContent);
-            const netVal = kas - debtVal;
-
-            // Set PDF values
-            document.getElementById('p-kas').textContent = idr(kas);
-            document.getElementById('p-in').textContent = idr(inVal);
-            document.getElementById('p-out').textContent = idr(outVal);
-            document.getElementById('p-debt').textContent = idr(debtVal);
-            document.getElementById('p-net').textContent = idr(netVal);
-            document.getElementById('p-net').style.color = netVal >= 0 ? 'var(--success)' : 'var(--danger)';
-
-            // Populate transaction table
-            const tbody = document.querySelector('#p-table tbody');
-            tbody.innerHTML = '';
-            const allTransactions = [...store.logs, ...store.debts]
-                .sort((a,b) => new Date(b.date) - new Date(a.date));
-            
-            allTransactions.forEach(t => {
-                const jenis = t.type === 'in' ? 'MASUK' : t.type === 'out' ? 'KELUAR' : 'PIUTANG';
-                const warna = t.type === 'in' ? 'color: var(--success);' : 
-                             t.type === 'out' ? 'color: var(--danger);' : 'color: var(--warning);';
-                tbody.innerHTML += `<tr>
-                    <td>${formatDateDisplay(t.date)}</td>
-                    <td>${t.desc}</td>
-                    <td style="${warna} font-weight:600;">${jenis}</td>
-                    <td>${idr(t.amount)}</td>
-                </tr>`;
-            });
-
-            // Generate PDF
-            const element = document.getElementById('report-template');
-            element.style.display = 'block';
-            
-            const opt = {
-                margin: [15, 10, 15, 10],
-                filename: `Laporan_Keuangan_LasVegas_${now.toISOString().split('T')[0]}.pdf`,
-                image: { type: 'jpeg', quality: 0.98 },
-                html2canvas: { scale: 2, useCORS: true, letterRendering: true },
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-            };
-
-            html2pdf().from(element).set(opt).save().then(() => {
-                element.style.display = 'none';
-            }).catch(err => {
-                console.error('PDF Error:', err);
-                element.style.display = 'none';
-                alert('Gagal membuat PDF. Silakan coba lagi.');
-            });
+        function editItem(id) {
+            const item = db.logs.find(x => x.id == id);
+            document.getElementById('edit-id').value = item.id;
+            document.getElementById('type').value = item.type;
+            document.getElementById('desc').value = item.desc;
+            document.getElementById('amount').value = item.amount;
+            document.getElementById('date').value = item.date;
+            document.getElementById('submit-btn').innerHTML = '<i class="fas fa-sync"></i> Update Data';
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
-        // ======================
-        // DATABASE MANAGEMENT
-        // ======================
-        function wipeDB() {
-            if (confirm("⚠️ PERINGATAN: Hapus seluruh data keuangan?\n\nTindakan ini permanen dan tidak bisa dikembalikan.")) {
-                if (confirm("Konfirmasi akhir: HAPUS SEMUA DATA?")) {
-                    store = { logs: [], debts: [] };
-                    sync();
-                    alert("Database berhasil direset.");
-                }
+        function deleteItem(id) {
+            if(confirm('Hapus transaksi ini?')) {
+                db.logs = db.logs.filter(x => x.id != id);
+                saveAndRender();
             }
         }
 
-        // Initialize
+        function downloadBackup() {
+            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
+            const dlAnchorElem = document.createElement('a');
+            dlAnchorElem.setAttribute("href", dataStr);
+            dlAnchorElem.setAttribute("download", `Backup_LasVegas_${new Date().toLocaleDateString()}.json`);
+            dlAnchorElem.click();
+        }
+
+        function wipeData() {
+            if(confirm('Hapus seluruh data? Pastikan Anda sudah backup.')) {
+                db = { logs: [] };
+                saveAndRender();
+            }
+        }
+
+        document.getElementById('searchBar').oninput = render;
+
+        // Init
         render();
     </script>
 </body>
