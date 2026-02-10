@@ -3,337 +3,304 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Las Vegas Finance | Corporate Ledger v3.0</title>
+    <title>Las Vegas Finance | Pro Accounting System</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
 
     <style>
         :root {
-            --primary: #0f172a;
-            --accent: #2563eb;
-            --success: #10b981;
-            --danger: #ef4444;
-            --warning: #f59e0b;
-            --bg-app: #f1f5f9;
-            --surface: #ffffff;
-            --text-main: #1e293b;
-            --text-muted: #64748b;
+            --primary: #0f172a; --accent: #2563eb; --success: #10b981;
+            --danger: #ef4444; --warning: #f59e0b; --bg-app: #f1f5f9;
         }
-
         * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-app); color: var(--text-main); padding-bottom: 120px; }
-
-        /* Header */
-        .header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 2.5rem 1.5rem 6rem; color: white; border-radius: 0 0 32px 32px; }
-        .header-top { display: flex; justify-content: space-between; align-items: center; max-width: 850px; margin: 0 auto; }
-        .brand h1 { font-size: 1.6rem; letter-spacing: 2px; font-weight: 800; }
-        .brand p { font-size: 0.7rem; opacity: 0.7; text-transform: uppercase; }
-
-        /* Dashboard */
-        .summary-wrapper { max-width: 850px; margin: -4.5rem auto 2rem; padding: 0 1rem; }
-        .main-card { background: var(--surface); border-radius: 24px; padding: 1.8rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
-        .balance-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
-        .balance-value { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin: 0.3rem 0; letter-spacing: -1px; }
-
-        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #f1f5f9; }
-        .stat-box { padding: 10px; background: #f8fafc; border-radius: 12px; }
-        .stat-box small { font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; display: block; margin-bottom: 4px; }
-        .stat-box div { font-size: 1.1rem; font-weight: 700; }
-
-        /* Main Form */
-        .container { max-width: 850px; margin: 0 auto; padding: 0 1rem; }
-        .card { background: var(--surface); border-radius: 20px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .form-label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem; }
-        input, select { width: 100%; padding: 0.85rem; border: 1.5px solid #e2e8f0; border-radius: 12px; font-family: inherit; font-size: 0.95rem; margin-bottom: 1.2rem; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-app); color: #1e293b; padding-bottom: 120px; }
         
-        .btn-primary { background: var(--accent); color: white; border: none; padding: 1rem; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 10px 15px -3px rgba(37, 99, 235, 0.3); }
-
-        /* List Items */
-        .item { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem; background: white; border-radius: 16px; margin-bottom: 0.8rem; border-left: 6px solid #cbd5e1; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
-        .item.MD { border-left-color: #6366f1; }
-        .item.RJ { border-left-color: #ec4899; }
-        .item.ED { border-left-color: #f59e0b; }
-        .item.OPS { border-left-color: #94a3b8; }
+        .header { background: #0f172a; padding: 2.5rem 1rem 6rem; color: white; border-radius: 0 0 30px 30px; text-align: center; }
+        .summary-container { max-width: 1000px; margin: -4.5rem auto 2rem; padding: 0 1rem; }
+        .main-card { background: white; border-radius: 24px; padding: 2rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
         
-        .item-info h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 4px; }
-        .badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #f1f5f9; color: var(--primary); font-weight: 800; }
-        .item-info span { font-size: 0.75rem; color: var(--text-muted); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 20px; }
+        .stat-item { padding: 15px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0; }
+        .stat-item small { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 5px;}
+        .stat-item div { font-size: 15px; font-weight: 700; }
 
-        /* Navigation */
-        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 1rem 0 1.8rem; border-top: 1px solid #e2e8f0; z-index: 100; }
-        .nav-link { color: var(--text-muted); text-decoration: none; text-align: center; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
-        .nav-link.active { color: var(--accent); }
-        .nav-link i { font-size: 1.3rem; display: block; margin-bottom: 4px; }
+        .container { max-width: 1000px; margin: 0 auto; padding: 0 1rem; }
+        .card { background: white; border-radius: 20px; padding: 1.5rem; margin-bottom: 1.2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
+        label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
+        input, select, textarea { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-family: inherit; font-size: 14px; margin-bottom: 15px; }
+        input:focus { border-color: var(--accent); outline: none; background: #fdfdfd; }
+        
+        .btn { padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .btn-save { background: var(--accent); color: white; font-size: 16px; }
+        .btn-save:hover { background: #1d4ed8; transform: translateY(-2px); }
+        
+        .nav { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 15px 0 25px; border-top: 1px solid #e2e8f0; z-index: 100; }
+        .nav-item { font-size: 11px; font-weight: 800; text-align: center; cursor: pointer; color: #64748b; text-decoration: none; }
+        .nav-item i { font-size: 20px; margin-bottom: 5px; display: block; }
+        .nav-item.active { color: var(--accent); }
+
+        /* Style per Kategori di List */
+        .log-item { border-left: 5px solid #cbd5e1; transition: 0.2s; }
+        .log-item.MODAL { border-left-color: var(--accent); }
+        .log-item.JUAL { border-left-color: var(--success); }
+        .log-item.OPS { border-left-color: var(--danger); }
+        .log-item.PINJAM { border-left-color: var(--warning); }
+        .log-item.TAGIHAN { border-left-color: #6366f1; }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <div class="header-top">
-            <div class="brand">
-                <h1>LAS VEGAS</h1>
-                <p>Corporate Ledger & Audit</p>
-            </div>
-            <button class="btn-primary" style="width: auto; padding: 0.6rem 1.2rem; font-size: 0.8rem;" onclick="generatePDF()">
-                <i class="fas fa-file-pdf"></i> CETAK LAPORAN TERPISAH
-            </button>
-        </div>
-    </header>
+    <div class="header">
+        <h1 style="letter-spacing: 3px; font-weight: 800;">LAS VEGAS</h1>
+        <p style="font-size: 11px; opacity: 0.8; letter-spacing: 1px;">PROFESSIONAL ACCOUNTING SYSTEM</p>
+    </div>
 
-    <div class="summary-wrapper">
+    <div class="summary-container">
         <div class="main-card">
-            <div class="balance-label">Current Net Balance</div>
-            <div class="balance-value" id="display-total">Rp 0</div>
+            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
+                <div>
+                    <small style="font-weight: 800; color: #64748b;">TOTAL SALDO KAS (CASH ON HAND)</small>
+                    <h2 id="net-cash" style="font-size: 2.5rem; color: var(--primary); letter-spacing: -1px;">Rp 0</h2>
+                </div>
+                <div style="text-align: right;">
+                    <small style="font-weight: 800; color: var(--danger);">TOTAL UTANG BARANG</small>
+                    <div id="sum-tagihan" style="font-size: 1.2rem; font-weight: 800; color: var(--danger);">Rp 0</div>
+                </div>
+            </div>
             
             <div class="stats-grid">
-                <div class="stat-box"><small>Pinjaman MD</small><div style="color:#6366f1" id="sum-md">0</div></div>
-                <div class="stat-box"><small>Pinjaman RJ</small><div style="color:#ec4899" id="sum-rj">0</div></div>
-                <div class="stat-box"><small>Pinjaman ED</small><div style="color:#f59e0b" id="sum-ed">0</div></div>
-                <div class="stat-box"><small>Operasional</small><div style="color:var(--danger)" id="sum-ops">0</div></div>
+                <div class="stat-item"><small>Suntikan Modal</small><div id="sum-modal" style="color:var(--accent)">Rp 0</div></div>
+                <div class="stat-item"><small>Hasil Penjualan</small><div id="sum-jual" style="color:var(--success)">Rp 0</div></div>
+                <div class="stat-item"><small>Operasional</small><div id="sum-ops" style="color:var(--danger)">Rp 0</div></div>
+                <div class="stat-item"><small>Total Pinjaman</small><div id="sum-pinjam" style="color:var(--warning)">Rp 0</div></div>
             </div>
         </div>
     </div>
 
-    <main class="container">
+    <div class="container">
         <div class="card">
-            <form id="financeForm">
+            <form id="lvForm">
                 <input type="hidden" id="edit-id">
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                <div class="form-grid">
                     <div>
-                        <label class="form-label">Identitas Nama</label>
-                        <select id="person" required>
-                            <option value="MD">MD (Identity 1)</option>
-                            <option value="RJ">RJ (Identity 2)</option>
-                            <option value="ED">ED (Identity 3)</option>
-                            <option value="OPS">OPERASIONAL UMUM</option>
-                        </select>
+                        <label>Penanggung Jawab</label>
+                        <select id="person"><option>MD</option><option>RJ</option><option>ED</option><option>OPS</option></select>
                     </div>
                     <div>
-                        <label class="form-label">Arus Kas</label>
-                        <select id="type" required>
-                            <option value="in">MASUK (Setoran/Debit)</option>
-                            <option value="out">KELUAR (Pinjaman/Kredit)</option>
+                        <label>Kategori Transaksi</label>
+                        <select id="category">
+                            <option value="MODAL">1. MODAL (Masuk)</option>
+                            <option value="JUAL">2. PENJUALAN (Masuk)</option>
+                            <option value="OPS">3. OPERASIONAL (Keluar)</option>
+                            <option value="PINJAM">4. PINJAMAN (Keluar)</option>
+                            <option value="TAGIHAN">5. UTANG BARANG (Belum Lunas)</option>
+                            <option value="NOTE">6. CATATAN / NOTE (Info)</option>
                         </select>
                     </div>
                 </div>
-
-                <label class="form-label">Keterangan Deskripsi</label>
-                <input type="text" id="desc" placeholder="Rincian transaksi..." required>
-
-                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
-                    <div><label class="form-label">Tanggal</label><input type="date" id="date" required></div>
-                    <div><label class="form-label">Nominal (Rp)</label><input type="number" id="amount" required></div>
+                
+                <label>Keterangan Lengkap</label>
+                <textarea id="desc" rows="2" placeholder="Contoh: Pembelian unit B, Bayar Listrik, atau Catatan Stok..." required></textarea>
+                
+                <div class="form-grid">
+                    <div><label>Tanggal</label><input type="date" id="date" required></div>
+                    <div><label>Nominal (Rp)</label><input type="number" id="amount" value="0"></div>
                 </div>
-
-                <button type="submit" class="btn-primary" id="submit-btn"><i class="fas fa-save"></i> UPDATE JURNAL</button>
+                
+                <button type="submit" class="btn btn-save"><i class="fas fa-check-circle"></i> SIMPAN KE DATABASE</button>
             </form>
         </div>
-
-        <div id="transaction-list"></div>
-    </main>
+        
+        <div style="margin: 20px 0 10px; font-weight: 800; font-size: 14px; color: var(--primary);">RIWAYAT JURNAL TERBARU</div>
+        <div id="log-list"></div>
+    </div>
 
     <nav class="nav">
-        <a class="nav-link" onclick="downloadBackup()"><i class="fas fa-cloud-download-alt"></i>Backup</a>
-        <a class="nav-link active" onclick="location.reload()"><i class="fas fa-sync-alt"></i>Refresh</a>
-        <a class="nav-link" onclick="wipeData()"><i class="fas fa-trash"></i>Reset</a>
+        <a class="nav-item" onclick="generatePDF()"><i class="fas fa-file-invoice-dollar"></i>LAPORAN</a>
+        <a class="nav-item active" onclick="location.reload()"><i class="fas fa-home"></i>BERANDA</a>
+        <a class="nav-item" onclick="downloadBackup()"><i class="fas fa-cloud-download-alt"></i>BACKUP</a>
+        <a class="nav-item" onclick="wipeData()" style="color:var(--danger)"><i class="fas fa-trash-alt"></i>RESET</a>
     </nav>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('lv_v3_db')) || { logs: [] };
-        const fmtr = new Intl.NumberFormat('id-ID');
-        const formatIDR = (v) => "Rp " + fmtr.format(v);
-
+        let db = JSON.parse(localStorage.getItem('lv_v4_db')) || { logs: [] };
+        const formatIDR = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(v);
         document.getElementById('date').valueAsDate = new Date();
 
-        document.getElementById('financeForm').onsubmit = (e) => {
+        document.getElementById('lvForm').onsubmit = (e) => {
             e.preventDefault();
             const id = document.getElementById('edit-id').value;
             const entry = {
                 id: id ? parseInt(id) : Date.now(),
                 person: document.getElementById('person').value,
-                type: document.getElementById('type').value,
+                cat: document.getElementById('category').value,
                 desc: document.getElementById('desc').value,
-                amount: parseFloat(document.getElementById('amount').value),
+                amount: parseFloat(document.getElementById('amount').value) || 0,
                 date: document.getElementById('date').value
             };
 
-            if (id) {
+            if(id) {
                 const idx = db.logs.findIndex(x => x.id == id);
                 db.logs[idx] = entry;
             } else { db.logs.unshift(entry); }
 
-            localStorage.setItem('lv_v3_db', JSON.stringify(db));
-            render();
-            e.target.reset();
-            document.getElementById('date').valueAsDate = new Date();
+            localStorage.setItem('lv_v4_db', JSON.stringify(db));
+            location.reload();
         };
 
         function render() {
-            const list = document.getElementById('transaction-list');
-            list.innerHTML = '';
-            let total = 0, md = 0, rj = 0, ed = 0, ops = 0;
+            const list = document.getElementById('log-list');
+            let m=0, j=0, o=0, p=0, t=0;
 
-            db.logs.forEach(item => {
-                const isInc = item.type === 'in';
-                if (isInc) total += item.amount; else total -= item.amount;
-                
-                if(item.person === 'MD') md += item.amount;
-                else if(item.person === 'RJ') rj += item.amount;
-                else if(item.person === 'ED') ed += item.amount;
-                else ops += item.amount;
+            db.logs.forEach(i => {
+                if(i.cat === 'MODAL') m += i.amount;
+                if(i.cat === 'JUAL') j += i.amount;
+                if(i.cat === 'OPS') o += i.amount;
+                if(i.cat === 'PINJAM') p += i.amount;
+                if(i.cat === 'TAGIHAN') t += i.amount;
 
                 list.innerHTML += `
-                    <div class="item ${item.person}">
-                        <div class="item-info">
-                            <h4>${item.desc.toUpperCase()} <span class="badge">${item.person}</span></h4>
-                            <span>${item.date}</span>
-                        </div>
-                        <div style="text-align:right">
-                            <div style="font-weight:800; color:${isInc ? 'var(--success)' : 'var(--danger)'}">
-                                ${isInc ? '+' : '-'} ${formatIDR(item.amount)}
+                    <div class="card log-item ${i.cat}" style="padding:15px; margin-bottom:10px;">
+                        <div style="display:flex; justify-content:space-between; align-items:center">
+                            <div>
+                                <span style="font-size:9px; font-weight:800; padding:2px 8px; border-radius:5px; background:#f1f5f9; color:var(--primary)">${i.cat}</span>
+                                <h4 style="font-size:14px; margin-top:5px; text-transform:uppercase;">${i.desc}</h4>
+                                <small style="color:#64748b">${i.date} | Oleh: <b>${i.person}</b></small>
                             </div>
-                            <div style="margin-top:5px">
-                                <i class="fas fa-edit" onclick="editItem(${item.id})" style="cursor:pointer; font-size:12px; margin-right:8px; color:var(--text-muted)"></i>
-                                <i class="fas fa-trash" onclick="deleteItem(${item.id})" style="cursor:pointer; font-size:12px; color:var(--danger)"></i>
+                            <div style="text-align:right">
+                                <div style="font-weight:800; font-size:15px; color:${(i.cat=='JUAL'||i.cat=='MODAL')?'var(--success)':'var(--primary)'}">
+                                    ${formatIDR(i.amount)}
+                                </div>
+                                <div style="margin-top:8px">
+                                    <i class="fas fa-edit" onclick="editItem(${i.id})" style="cursor:pointer; color:var(--accent); margin-right:15px"></i>
+                                    <i class="fas fa-trash" onclick="deleteItem(${i.id})" style="cursor:pointer; color:var(--danger)"></i>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                `;
+                    </div>`;
             });
 
-            document.getElementById('display-total').textContent = formatIDR(total);
-            document.getElementById('sum-md').textContent = formatIDR(md);
-            document.getElementById('sum-rj').textContent = formatIDR(rj);
-            document.getElementById('sum-ed').textContent = formatIDR(ed);
-            document.getElementById('sum-ops').textContent = formatIDR(ops);
+            document.getElementById('net-cash').textContent = formatIDR((j + m) - (o + p));
+            document.getElementById('sum-modal').textContent = formatIDR(m);
+            document.getElementById('sum-jual').textContent = formatIDR(j);
+            document.getElementById('sum-pinjam').textContent = formatIDR(p);
+            document.getElementById('sum-ops').textContent = formatIDR(o);
+            document.getElementById('sum-tagihan').textContent = formatIDR(t);
         }
 
         function editItem(id) {
-            const item = db.logs.find(x => x.id == id);
-            document.getElementById('edit-id').value = item.id;
-            document.getElementById('person').value = item.person;
-            document.getElementById('type').value = item.type;
-            document.getElementById('desc').value = item.desc;
-            document.getElementById('amount').value = item.amount;
-            document.getElementById('date').value = item.date;
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            const i = db.logs.find(x => x.id == id);
+            document.getElementById('edit-id').value = i.id;
+            document.getElementById('person').value = i.person;
+            document.getElementById('category').value = i.cat;
+            document.getElementById('desc').value = i.desc;
+            document.getElementById('amount').value = i.amount;
+            document.getElementById('date').value = i.date;
+            window.scrollTo({top: 0, behavior: 'smooth'});
         }
 
         function deleteItem(id) {
-            if(confirm('Hapus selamanya?')) {
+            if(confirm('Hapus permanen data ini?')) {
                 db.logs = db.logs.filter(x => x.id != id);
-                localStorage.setItem('lv_v3_db', JSON.stringify(db));
-                render();
+                localStorage.setItem('lv_v4_db', JSON.stringify(db));
+                location.reload();
             }
         }
 
+        function generatePDF() {
+            const element = document.createElement('div');
+            element.style.padding = '40px';
+            element.style.color = '#1e293b';
+
+            const sections = [
+                { title: "I. MODAL USAHA (SUNTIKAN DANA)", cat: "MODAL", color: "#2563eb" },
+                { title: "II. LAPORAN PENJUALAN (INCOME)", cat: "JUAL", color: "#10b981" },
+                { title: "III. BIAYA OPERASIONAL (EXPENSE)", cat: "OPS", color: "#ef4444" },
+                { title: "IV. PINJAMAN / PIUTANG KARYAWAN", cat: "PINJAM", color: "#f59e0b" },
+                { title: "V. UTANG BARANG (BELUM LUNAS)", cat: "TAGIHAN", color: "#6366f1" },
+                { title: "VI. CATATAN PENTING (RECORDS)", cat: "NOTE", color: "#475569" }
+            ];
+
+            let html = `
+                <div style="text-align:center; margin-bottom:30px;">
+                    <h1 style="margin:0; font-size:28px; letter-spacing:4px;">PT LAS VEGAS</h1>
+                    <p style="margin:0; font-size:12px; font-weight:800; color:#64748b;">LAPORAN KEUANGAN KONSOLIDASI - ${new Date().toLocaleDateString('id-ID', {month:'long', year:'numeric'}).toUpperCase()}</p>
+                </div>
+                
+                <div style="background:#f8fafc; padding:20px; border:1px solid #000; margin-bottom:30px; display:grid; grid-template-columns:1fr 1fr;">
+                    <div>
+                        <small style="font-weight:800;">SALDO KAS SAAT INI:</small><br>
+                        <span style="font-size:24px; font-weight:800; color:#0f172a;">${document.getElementById('net-cash').textContent}</span>
+                    </div>
+                    <div style="text-align:right;">
+                        <small style="font-weight:800; color:#dc2626;">SISA UTANG BARANG:</small><br>
+                        <span style="font-size:24px; font-weight:800; color:#dc2626;">${document.getElementById('sum-tagihan').textContent}</span>
+                    </div>
+                </div>`;
+
+            sections.forEach(sec => {
+                const logs = db.logs.filter(l => l.cat === sec.cat);
+                html += `
+                    <div style="margin-top:25px;">
+                        <div style="background:${sec.color}; color:#fff; padding:10px; font-size:13px; font-weight:800; border-radius:5px 5px 0 0;">${sec.title}</div>
+                        <table style="width:100%; border-collapse:collapse; font-size:10px;">
+                            <thead>
+                                <tr style="background:#f1f5f9; border-bottom:1px solid #000;">
+                                    <th style="padding:10px; text-align:left; border:1px solid #ddd;">TANGGAL</th>
+                                    <th style="padding:10px; text-align:center; border:1px solid #ddd;">PIC</th>
+                                    <th style="padding:10px; text-align:left; border:1px solid #ddd;">KETERANGAN</th>
+                                    <th style="padding:10px; text-align:right; border:1px solid #ddd;">NOMINAL</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                ${logs.map(l => `
+                                    <tr>
+                                        <td style="padding:8px; border:1px solid #ddd;">${l.date}</td>
+                                        <td style="padding:8px; text-align:center; border:1px solid #ddd; font-weight:800;">${l.person}</td>
+                                        <td style="padding:8px; border:1px solid #ddd; text-transform:uppercase;">${l.desc}</td>
+                                        <td style="padding:8px; text-align:right; border:1px solid #ddd; font-weight:800;">${formatIDR(l.amount)}</td>
+                                    </tr>
+                                `).join('')}
+                                ${logs.length === 0 ? '<tr><td colspan="4" style="text-align:center; padding:10px; color:#999 italic;">Tidak ada catatan pada periode ini</td></tr>' : ''}
+                            </tbody>
+                        </table>
+                    </div>`;
+            });
+
+            html += `
+                <div style="margin-top:50px; display:flex; justify-content:space-between; align-items:flex-end;">
+                    <div style="font-size:9px; color:#64748b;">
+                        Dokumen ini dihasilkan secara sistem otomatis.<br>Waktu Cetak: ${new Date().toLocaleString()}
+                    </div>
+                    <div style="text-align:center; width:200px;">
+                        <p style="font-size:11px; margin-bottom:60px;">Disetujui Oleh,</p>
+                        <div style="border-top:1.5px solid #000; padding-top:5px; font-weight:800;">MANAGEMENT LAS VEGAS</div>
+                    </div>
+                </div>`;
+
+            element.innerHTML = html;
+            const opt = { 
+                margin: 10, 
+                filename: `LAS_VEGAS_REPORT_${new Date().toISOString().split('T')[0]}.pdf`, 
+                image: { type: 'jpeg', quality: 1.0 }, 
+                html2canvas: { scale: 3 }, 
+                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } 
+            };
+            html2pdf().from(element).set(opt).save();
+        }
+
+        function wipeData() { if(confirm('⚠️ PERHATIAN: Semua data akan dihapus permanen. Pastikan Anda sudah membackup data.')) { localStorage.clear(); location.reload(); } }
         function downloadBackup() {
             const blob = new Blob([JSON.stringify(db)], {type:'application/json'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `LV_BACKUP_${new Date().toISOString().split('T')[0]}.json`;
+            a.download = `LV_DATABASE_BACKUP_${new Date().toISOString().split('T')[0]}.json`;
             a.click();
-        }
-
-        function wipeData() { if(confirm('Hapus semua data?')) { localStorage.clear(); location.reload(); } }
-
-        function generatePDF() {
-            const now = new Date();
-            const incLogs = db.logs.filter(l => l.type === 'in');
-            const outLogs = db.logs.filter(l => l.type === 'out');
-
-            const element = document.createElement('div');
-            element.style.padding = '40px';
-            element.style.fontFamily = "'Plus Jakarta Sans', sans-serif";
-            
-            element.innerHTML = `
-                <div style="border-bottom:3px solid #0f172a; padding-bottom:15px; margin-bottom:30px; display:flex; justify-content:space-between; align-items:flex-end;">
-                    <div>
-                        <h1 style="margin:0; font-size:24px; color:#0f172a;">LAS VEGAS MANAGEMENT</h1>
-                        <p style="margin:0; font-size:10px; color:#64748b; font-weight:800; letter-spacing:1px;">CONSOLIDATED FINANCIAL REPORT</p>
-                    </div>
-                    <div style="text-align:right; font-size:10px;">
-                        <p style="margin:0">Generated: ${now.toLocaleString()}</p>
-                        <p style="margin:0">Periode: ${now.toLocaleDateString('id-ID', {month:'long', year:'numeric'})}</p>
-                    </div>
-                </div>
-
-                <div style="display:grid; grid-template-columns:repeat(4, 1fr); gap:10px; margin-bottom:30px;">
-                    <div style="background:#f1f5f9; padding:15px; border-radius:10px; text-align:center">
-                        <small style="font-size:8px; font-weight:800; color:#64748b;">TOTAL MD</small>
-                        <div style="font-size:12px; font-weight:800;">${document.getElementById('sum-md').textContent}</div>
-                    </div>
-                    <div style="background:#f1f5f9; padding:15px; border-radius:10px; text-align:center">
-                        <small style="font-size:8px; font-weight:800; color:#64748b;">TOTAL RJ</small>
-                        <div style="font-size:12px; font-weight:800;">${document.getElementById('sum-rj').textContent}</div>
-                    </div>
-                    <div style="background:#f1f5f9; padding:15px; border-radius:10px; text-align:center">
-                        <small style="font-size:8px; font-weight:800; color:#64748b;">TOTAL ED</small>
-                        <div style="font-size:12px; font-weight:800;">${document.getElementById('sum-ed').textContent}</div>
-                    </div>
-                    <div style="background:#0f172a; padding:15px; border-radius:10px; text-align:center; color:#fff">
-                        <small style="font-size:8px; font-weight:800; opacity:0.7;">NET BALANCE</small>
-                        <div style="font-size:12px; font-weight:800;">${document.getElementById('display-total').textContent}</div>
-                    </div>
-                </div>
-
-                <h3 style="background:#10b981; color:#fff; padding:10px; font-size:12px; border-radius:5px 5px 0 0; margin-bottom:0;">BAGIAN I: PEMASUKAN & SETORAN (INCOME)</h3>
-                <table style="width:100%; border-collapse:collapse; margin-bottom:30px; font-size:10px;">
-                    <thead><tr style="background:#ecfdf5; border-bottom:2px solid #10b981">
-                        <th style="padding:10px; text-align:left; width:15%">TANGGAL</th>
-                        <th style="padding:10px; text-align:center; width:10%">NAMA</th>
-                        <th style="padding:10px; text-align:left;">KETERANGAN</th>
-                        <th style="padding:10px; text-align:right; width:20%">NOMINAL</th>
-                    </tr></thead>
-                    <tbody>
-                        ${incLogs.map(l => `<tr style="border-bottom:1px solid #e2e8f0">
-                            <td style="padding:8px;">${l.date}</td>
-                            <td style="padding:8px; text-align:center; font-weight:800;">${l.person}</td>
-                            <td style="padding:8px; text-transform:uppercase;">${l.desc}</td>
-                            <td style="padding:8px; text-align:right; font-weight:800; color:#059669;">${formatIDR(l.amount)}</td>
-                        </tr>`).join('')}
-                    </tbody>
-                </table>
-
-                <h3 style="background:#ef4444; color:#fff; padding:10px; font-size:12px; border-radius:5px 5px 0 0; margin-bottom:0;">BAGIAN II: PENGELUARAN & PINJAMAN (EXPENSE)</h3>
-                <table style="width:100%; border-collapse:collapse; font-size:10px;">
-                    <thead><tr style="background:#fef2f2; border-bottom:2px solid #ef4444">
-                        <th style="padding:10px; text-align:left; width:15%">TANGGAL</th>
-                        <th style="padding:10px; text-align:center; width:10%">NAMA</th>
-                        <th style="padding:10px; text-align:left;">KETERANGAN</th>
-                        <th style="padding:10px; text-align:right; width:20%">NOMINAL</th>
-                    </tr></thead>
-                    <tbody>
-                        ${outLogs.map(l => `<tr style="border-bottom:1px solid #e2e8f0">
-                            <td style="padding:8px;">${l.date}</td>
-                            <td style="padding:8px; text-align:center; font-weight:800;">${l.person}</td>
-                            <td style="padding:8px; text-transform:uppercase;">${l.desc}</td>
-                            <td style="padding:8px; text-align:right; font-weight:800; color:#dc2626;">${formatIDR(l.amount)}</td>
-                        </tr>`).join('')}
-                    </tbody>
-                </table>
-
-                <div style="margin-top:50px; display:flex; justify-content:flex-end;">
-                    <div style="text-align:center; width:200px;">
-                        <p style="font-size:10px; margin-bottom:60px;">Approved By,</p>
-                        <div style="border-top:1px solid #000; padding-top:5px; font-weight:800; font-size:11px;">LAS VEGAS MANAGEMENT</div>
-                    </div>
-                </div>
-            `;
-
-            const opt = { 
-                margin: 10, 
-                filename: `REPORT_LV_${now.toISOString().split('T')[0]}.pdf`, 
-                image: { type: 'jpeg', quality: 0.98 }, 
-                html2canvas: { scale: 2 }, 
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } 
-            };
-            html2pdf().from(element).set(opt).save();
         }
 
         render();
