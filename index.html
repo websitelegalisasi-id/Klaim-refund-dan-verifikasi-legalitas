@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="Sistem Manajemen Keuangan Profesional Las Vegas">
-    <title>Las Vegas Finance | Enterprise Edition</title>
+    <title>Las Vegas Finance System | Enterprise v2.0</title>
     
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -23,160 +22,52 @@
             --surface: #ffffff;
             --text-main: #1e293b;
             --text-muted: #64748b;
-            --radius: 12px;
-            --shadow-soft: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+            --radius: 16px;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-app); color: var(--text-main); padding-bottom: 120px; }
 
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background-color: var(--bg-app);
-            color: var(--text-main);
-            padding-bottom: 100px;
-            -webkit-tap-highlight-color: transparent;
-        }
+        /* Header */
+        .header { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); padding: 2.5rem 1.5rem 6rem; color: white; border-radius: 0 0 32px 32px; }
+        .header-top { display: flex; justify-content: space-between; align-items: center; max-width: 800px; margin: 0 auto; }
+        .brand h1 { font-size: 1.6rem; letter-spacing: 2px; font-weight: 800; }
+        .brand p { font-size: 0.7rem; opacity: 0.7; font-weight: 600; text-transform: uppercase; }
 
-        /* Upgrade Header */
-        .header {
-            background: var(--primary);
-            padding: 2rem 1.5rem 5rem;
-            color: white;
-            border-radius: 0 0 30px 30px;
-        }
+        /* Dashboard */
+        .summary-wrapper { max-width: 800px; margin: -4.5rem auto 2rem; padding: 0 1rem; }
+        .main-card { background: var(--surface); border-radius: 24px; padding: 1.8rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .balance-label { font-size: 0.75rem; color: var(--text-muted); font-weight: 700; text-transform: uppercase; }
+        .balance-value { font-size: 2.4rem; font-weight: 800; color: var(--primary); margin: 0.3rem 0; letter-spacing: -1px; }
 
-        .header-top {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            max-width: 800px;
-            margin: 0 auto;
-        }
-
-        .brand h1 { font-size: 1.5rem; letter-spacing: 1px; font-weight: 800; }
-        .brand p { font-size: 0.75rem; opacity: 0.7; }
-
-        /* Floating Summary Card */
-        .summary-wrapper {
-            max-width: 800px;
-            margin: -3.5rem auto 2rem;
-            padding: 0 1rem;
-        }
-
-        .main-card {
-            background: var(--surface);
-            border-radius: 24px;
-            padding: 1.5rem;
-            shadow: var(--shadow-soft);
-            box-shadow: 0 20px 25px -5px rgb(0 0 0 / 0.1);
-        }
-
-        .balance-label { font-size: 0.8rem; color: var(--text-muted); font-weight: 600; text-transform: uppercase; }
-        .balance-value { font-size: 2.2rem; font-weight: 800; color: var(--primary); margin: 0.2rem 0; }
-
-        .stats-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-top: 1.5rem;
-            padding-top: 1.5rem;
-            border-top: 1px dashed #e2e8f0;
-        }
-
-        .stat-box { padding: 0.5rem; }
-        .stat-box small { font-size: 0.7rem; color: var(--text-muted); font-weight: 700; }
+        .stats-grid { display: grid; grid-template-columns: repeat(2, 1fr); gap: 1.2rem; margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid #f1f5f9; }
+        .stat-box small { font-size: 0.65rem; color: var(--text-muted); font-weight: 800; text-transform: uppercase; }
         .stat-box div { font-size: 1.1rem; font-weight: 700; }
 
-        /* UI Components */
+        /* Form */
         .container { max-width: 800px; margin: 0 auto; padding: 0 1rem; }
+        .card { background: var(--surface); border-radius: var(--radius); padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .form-label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 0.5rem; }
+        input, select { width: 100%; padding: 0.85rem; border: 1.5px solid #e2e8f0; border-radius: 12px; font-family: inherit; font-size: 0.95rem; margin-bottom: 1.2rem; }
         
-        .card {
-            background: var(--surface);
-            border-radius: var(--radius);
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            box-shadow: var(--shadow-soft);
-        }
-
-        .form-label { display: block; font-size: 0.85rem; font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); }
-        
-        input, select {
-            width: 100%;
-            padding: 0.8rem 1rem;
-            border: 1.5px solid #e2e8f0;
-            border-radius: 10px;
-            font-family: inherit;
-            font-size: 1rem;
-            margin-bottom: 1rem;
-            transition: all 0.2s;
-        }
-
-        input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1); }
-
-        .btn {
-            cursor: pointer;
-            border: none;
-            border-radius: 10px;
-            font-weight: 700;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.5rem;
-            transition: 0.2s;
-        }
-
-        .btn-primary { background: var(--accent); color: white; padding: 1rem; width: 100%; }
+        .btn-primary { background: var(--accent); color: white; border: none; padding: 1rem; width: 100%; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 8px; transition: 0.2s; }
         .btn-primary:hover { opacity: 0.9; transform: translateY(-1px); }
 
-        /* Transaction List */
-        .list-header {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin-bottom: 1rem;
-        }
-
-        .item {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 1rem;
-            background: white;
-            border-radius: 12px;
-            margin-bottom: 0.75rem;
-            border-left: 4px solid #cbd5e1;
-        }
-
-        .item.in { border-left-color: var(--success); }
-        .item.out { border-left-color: var(--danger); }
-        .item.debt { border-left-color: var(--warning); }
-
-        .item-info h4 { font-size: 0.95rem; font-weight: 700; color: var(--primary); }
+        /* List Items */
+        .item { display: flex; justify-content: space-between; align-items: center; padding: 1.2rem; background: white; border-radius: 16px; margin-bottom: 0.8rem; border-left: 6px solid #cbd5e1; }
+        .item.MD { border-left-color: #6366f1; }
+        .item.RJ { border-left-color: #ec4899; }
+        .item.ED { border-left-color: #f59e0b; }
+        
+        .item-info h4 { font-size: 0.95rem; font-weight: 700; display: flex; align-items: center; gap: 8px; }
+        .badge { font-size: 10px; padding: 2px 8px; border-radius: 20px; background: #f1f5f9; color: var(--text-muted); }
         .item-info span { font-size: 0.75rem; color: var(--text-muted); }
 
-        .item-amount { text-align: right; }
-        .item-amount .val { font-weight: 800; font-size: 1rem; }
-
-        /* Bottom Nav */
-        .nav {
-            position: fixed;
-            bottom: 0;
-            width: 100%;
-            background: white;
-            display: flex;
-            justify-content: space-around;
-            padding: 0.8rem 0 1.5rem;
-            box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
-            z-index: 100;
-        }
-
-        .nav-link { color: var(--text-muted); text-decoration: none; text-align: center; font-size: 0.7rem; font-weight: 700; }
+        /* Nav */
+        .nav { position: fixed; bottom: 0; left: 0; right: 0; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 1rem 0 1.8rem; border-top: 1px solid #e2e8f0; z-index: 100; }
+        .nav-link { color: var(--text-muted); text-decoration: none; text-align: center; font-size: 0.65rem; font-weight: 700; text-transform: uppercase; cursor: pointer; }
         .nav-link.active { color: var(--accent); }
-        .nav-link i { font-size: 1.2rem; display: block; margin-bottom: 4px; }
-
-        @media (max-width: 480px) {
-            .balance-value { font-size: 1.8rem; }
-        }
+        .nav-link i { font-size: 1.3rem; display: block; margin-bottom: 4px; }
     </style>
 </head>
 <body>
@@ -185,120 +76,106 @@
         <div class="header-top">
             <div class="brand">
                 <h1>LAS VEGAS</h1>
-                <p id="live-clock">Finance Management System</p>
+                <p>Enterprise Financial Tracking</p>
             </div>
-            <button class="btn" style="background: rgba(255,255,255,0.1); color: white; padding: 0.5rem 1rem;" onclick="generatePDF()">
-                <i class="fas fa-file-export"></i> PDF
+            <button class="btn-primary" style="width: auto; padding: 0.6rem 1.2rem; font-size: 0.8rem;" onclick="generatePDF()">
+                <i class="fas fa-file-pdf"></i> PDF PREMIUM
             </button>
         </div>
     </header>
 
     <div class="summary-wrapper">
         <div class="main-card">
-            <div class="balance-label">Total Saldo Kas</div>
+            <div class="balance-label">Total Saldo Kas Operasional</div>
             <div class="balance-value" id="display-total">Rp 0</div>
             
             <div class="stats-grid">
                 <div class="stat-box">
-                    <small>PEMASUKAN</small>
-                    <div style="color: var(--success)" id="display-in">Rp 0</div>
+                    <small>Pinjaman MD</small>
+                    <div style="color: #6366f1" id="sum-md">Rp 0</div>
                 </div>
                 <div class="stat-box">
-                    <small>PENGELUARAN</small>
-                    <div style="color: var(--danger)" id="display-out">Rp 0</div>
+                    <small>Pinjaman RJ</small>
+                    <div style="color: #ec4899" id="sum-rj">Rp 0</div>
                 </div>
                 <div class="stat-box">
-                    <small>PIUTANG AKTIF</small>
-                    <div style="color: var(--warning)" id="display-debt">Rp 0</div>
+                    <small>Pinjaman ED</small>
+                    <div style="color: #f59e0b" id="sum-ed">Rp 0</div>
                 </div>
                 <div class="stat-box">
-                    <small>ESTIMASI NETTO</small>
-                    <div id="display-net" style="color: var(--primary)">Rp 0</div>
+                    <small>Biaya Operasional</small>
+                    <div style="color: var(--danger)" id="sum-ops">Rp 0</div>
                 </div>
             </div>
         </div>
     </div>
 
     <main class="container">
-        <div id="view-home" class="view">
-            <div class="card">
-                <form id="financeForm">
-                    <input type="hidden" id="edit-id">
-                    
-                    <label class="form-label">Kategori</label>
-                    <select id="type" required>
-                        <option value="in">Kas Masuk (Pendapatan)</option>
-                        <option value="out">Kas Keluar (Biaya)</option>
-                        <option value="debt">Piutang (Barang/Jasa)</option>
-                    </select>
-
-                    <label class="form-label">Keterangan Transaksi</label>
-                    <input type="text" id="desc" placeholder="Contoh: Penjualan Barang A" required>
-
-                    <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 10px;">
-                        <div>
-                            <label class="form-label">Tanggal</label>
-                            <input type="date" id="date" required>
-                        </div>
-                        <div>
-                            <label class="form-label">Nominal (Rp)</label>
-                            <input type="number" id="amount" placeholder="0" required>
-                        </div>
+        <div class="card">
+            <form id="financeForm">
+                <input type="hidden" id="edit-id">
+                
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <label class="form-label">Identitas Nama</label>
+                        <select id="person" required>
+                            <option value="MD">MD (Identity 1)</option>
+                            <option value="RJ">RJ (Identity 2)</option>
+                            <option value="ED">ED (Identity 3)</option>
+                            <option value="OPS">OPERASIONAL UMUM</option>
+                        </select>
                     </div>
-
-                    <button type="submit" class="btn btn-primary" id="submit-btn">
-                        <i class="fas fa-check-circle"></i> Simpan Data
-                    </button>
-                </form>
-            </div>
-
-            <div class="list-header">
-                <h3 style="font-size: 1rem">Aktivitas Terbaru</h3>
-                <input type="text" id="searchBar" placeholder="Cari transaksi..." style="width: 150px; margin-bottom: 0; padding: 0.4rem 0.8rem; font-size: 0.8rem;">
-            </div>
-            
-            <div id="transaction-list">
+                    <div>
+                        <label class="form-label">Kategori</label>
+                        <select id="type" required>
+                            <option value="in">Pemasukan / Setoran</option>
+                            <option value="out">Pengeluaran / Pinjaman</option>
+                        </select>
+                    </div>
                 </div>
+
+                <label class="form-label">Keterangan Transaksi</label>
+                <input type="text" id="desc" placeholder="Contoh: Pinjaman Barang atau Biaya Listrik" required>
+
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <label class="form-label">Tanggal</label>
+                        <input type="date" id="date" required>
+                    </div>
+                    <div>
+                        <label class="form-label">Nominal (Rp)</label>
+                        <input type="number" id="amount" placeholder="0" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-primary" id="submit-btn">
+                    <i class="fas fa-save"></i> SIMPAN KE JURNAL
+                </button>
+            </form>
         </div>
+
+        <div id="transaction-list"></div>
     </main>
 
     <nav class="nav">
-        <a href="#" class="nav-link active" onclick="showView('home')">
-            <i class="fas fa-home"></i>Dashboard
-        </a>
-        <a href="#" class="nav-link" onclick="downloadBackup()">
-            <i class="fas fa-database"></i>Backup
-        </a>
-        <a href="#" class="nav-link" onclick="wipeData()">
-            <i class="fas fa-sync-alt"></i>Reset
-        </a>
+        <a class="nav-link active" onclick="location.reload()"><i class="fas fa-sync"></i>Refresh</a>
+        <a class="nav-link" onclick="downloadBackup()"><i class="fas fa-download"></i>Backup</a>
+        <a class="nav-link" onclick="wipeData()"><i class="fas fa-trash"></i>Wipe</a>
     </nav>
 
     <script>
-        // Data Management
-        let db = JSON.parse(localStorage.getItem('lv_pro_db')) || { logs: [] };
-        
+        let db = JSON.parse(localStorage.getItem('lv_final_db')) || { logs: [] };
         const fmtr = new Intl.NumberFormat('id-ID');
         const formatIDR = (v) => "Rp " + fmtr.format(v);
 
-        // Update Clock
-        function updateClock() {
-            const now = new Date();
-            document.getElementById('live-clock').textContent = now.toLocaleTimeString('id-ID', {
-                hour: '2-digit', minute: '2-digit', second: '2-digit'
-            }) + " | Las Vegas Enterprise";
-        }
-        setInterval(updateClock, 1000);
-
-        // Form Logic
-        const form = document.getElementById('financeForm');
         document.getElementById('date').valueAsDate = new Date();
 
-        form.onsubmit = (e) => {
+        document.getElementById('financeForm').onsubmit = (e) => {
             e.preventDefault();
             const id = document.getElementById('edit-id').value;
             const entry = {
                 id: id ? parseInt(id) : Date.now(),
+                person: document.getElementById('person').value,
                 type: document.getElementById('type').value,
                 desc: document.getElementById('desc').value,
                 amount: parseFloat(document.getElementById('amount').value),
@@ -312,96 +189,116 @@
                 db.logs.unshift(entry);
             }
 
-            saveAndRender();
-            form.reset();
+            localStorage.setItem('lv_final_db', JSON.stringify(db));
+            render();
+            e.target.reset();
             document.getElementById('edit-id').value = '';
-            document.getElementById('submit-btn').innerHTML = '<i class="fas fa-check-circle"></i> Simpan Data';
             document.getElementById('date').valueAsDate = new Date();
         };
 
-        function saveAndRender() {
-            localStorage.setItem('lv_pro_db', JSON.stringify(db));
-            render();
-        }
-
         function render() {
             const list = document.getElementById('transaction-list');
-            const term = document.getElementById('searchBar').value.toLowerCase();
             list.innerHTML = '';
+            let total = 0, md = 0, rj = 0, ed = 0, ops = 0;
 
-            let totalIn = 0, totalOut = 0, totalDebt = 0;
-
-            db.logs.filter(item => item.desc.toLowerCase().includes(term)).forEach(item => {
+            db.logs.forEach(item => {
                 const isInc = item.type === 'in';
-                const isDebt = item.type === 'debt';
+                const amt = item.amount;
                 
-                if(isInc) totalIn += item.amount;
-                else if(isDebt) totalDebt += item.amount;
-                else totalOut += item.amount;
+                if (isInc) total += amt; else total -= amt;
+                
+                if(item.person === 'MD') md += amt;
+                else if(item.person === 'RJ') rj += amt;
+                else if(item.person === 'ED') ed += amt;
+                else ops += amt;
 
                 list.innerHTML += `
-                    <div class="item ${item.type}">
+                    <div class="item ${item.person}">
                         <div class="item-info">
-                            <h4>${item.desc}</h4>
-                            <span>${item.date} • ${item.type.toUpperCase()}</span>
+                            <h4>${item.desc.toUpperCase()} <span class="badge">${item.person}</span></h4>
+                            <span>${item.date}</span>
                         </div>
-                        <div class="item-amount">
-                            <div class="val" style="color: ${isInc ? 'var(--success)' : isDebt ? 'var(--warning)' : 'var(--danger)'}">
-                                ${isInc ? '+' : isDebt ? '' : '-'} ${formatIDR(item.amount)}
+                        <div style="text-align:right">
+                            <div style="font-weight:800; color:${isInc ? 'var(--success)' : 'var(--danger)'}">
+                                ${isInc ? '+' : '-'} ${formatIDR(amt)}
                             </div>
-                            <div style="margin-top: 5px">
-                                <small onclick="editItem(${item.id})" style="cursor:pointer; color: var(--accent); font-weight:700">EDIT</small>
-                                <small onclick="deleteItem(${item.id})" style="cursor:pointer; color: var(--danger); font-weight:700; margin-left:10px">HAPUS</small>
-                            </div>
+                            <small onclick="editItem(${item.id})" style="cursor:pointer; color:var(--accent)">Edit</small>
+                            <small onclick="deleteItem(${item.id})" style="cursor:pointer; color:var(--danger); margin-left:10px">Hapus</small>
                         </div>
                     </div>
                 `;
             });
 
-            const currentKas = totalIn - totalOut;
-            document.getElementById('display-total').textContent = formatIDR(currentKas);
-            document.getElementById('display-in').textContent = formatIDR(totalIn);
-            document.getElementById('display-out').textContent = formatIDR(totalOut);
-            document.getElementById('display-debt').textContent = formatIDR(totalDebt);
-            document.getElementById('display-net').textContent = formatIDR(currentKas - totalDebt);
+            document.getElementById('display-total').textContent = formatIDR(total);
+            document.getElementById('sum-md').textContent = formatIDR(md);
+            document.getElementById('sum-rj').textContent = formatIDR(rj);
+            document.getElementById('sum-ed').textContent = formatIDR(ed);
+            document.getElementById('sum-ops').textContent = formatIDR(ops);
         }
 
         function editItem(id) {
             const item = db.logs.find(x => x.id == id);
             document.getElementById('edit-id').value = item.id;
+            document.getElementById('person').value = item.person;
             document.getElementById('type').value = item.type;
             document.getElementById('desc').value = item.desc;
             document.getElementById('amount').value = item.amount;
             document.getElementById('date').value = item.date;
-            document.getElementById('submit-btn').innerHTML = '<i class="fas fa-sync"></i> Update Data';
             window.scrollTo({ top: 0, behavior: 'smooth' });
         }
 
         function deleteItem(id) {
-            if(confirm('Hapus transaksi ini?')) {
+            if(confirm('Hapus data ini?')) {
                 db.logs = db.logs.filter(x => x.id != id);
-                saveAndRender();
+                localStorage.setItem('lv_final_db', JSON.stringify(db));
+                render();
             }
         }
 
-        function downloadBackup() {
-            const dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(db));
-            const dlAnchorElem = document.createElement('a');
-            dlAnchorElem.setAttribute("href", dataStr);
-            dlAnchorElem.setAttribute("download", `Backup_LasVegas_${new Date().toLocaleDateString()}.json`);
-            dlAnchorElem.click();
+        function wipeData() { if(confirm('Wipe all data?')) { db.logs = []; localStorage.clear(); render(); } }
+
+        function generatePDF() {
+            const element = document.createElement('div');
+            element.style.padding = '30px';
+            element.innerHTML = `
+                <div style="text-align:center; border-bottom:2px solid #000; padding-bottom:10px; margin-bottom:20px;">
+                    <h1 style="margin:0">PT LAS VEGAS MANAGEMENT</h1>
+                    <p style="margin:0">Financial Report - MD | RJ | ED</p>
+                </div>
+                <table style="width:100%; border-collapse:collapse; margin-bottom:20px;">
+                    <tr style="background:#f1f5f9">
+                        <th style="border:1px solid #000; padding:8px">MD Total</th>
+                        <th style="border:1px solid #000; padding:8px">RJ Total</th>
+                        <th style="border:1px solid #000; padding:8px">ED Total</th>
+                        <th style="border:1px solid #000; padding:8px">Saldo Kas</th>
+                    </tr>
+                    <tr>
+                        <td style="border:1px solid #000; padding:8px; text-align:center">${document.getElementById('sum-md').textContent}</td>
+                        <td style="border:1px solid #000; padding:8px; text-align:center">${document.getElementById('sum-rj').textContent}</td>
+                        <td style="border:1px solid #000; padding:8px; text-align:center">${document.getElementById('sum-ed').textContent}</td>
+                        <td style="border:1px solid #000; padding:8px; text-align:center; font-weight:bold">${document.getElementById('display-total').textContent}</td>
+                    </tr>
+                </table>
+                <table style="width:100%; border-collapse:collapse; font-size:10px;">
+                    <thead><tr style="background:#0f172a; color:#fff">
+                        <th style="border:1px solid #000; padding:8px">Tgl</th>
+                        <th style="border:1px solid #000; padding:8px">Nama</th>
+                        <th style="border:1px solid #000; padding:8px">Keterangan</th>
+                        <th style="border:1px solid #000; padding:8px">Nominal</th>
+                    </tr></thead>
+                    <tbody>
+                        ${db.logs.map(i => `<tr>
+                            <td style="border:1px solid #000; padding:5px">${i.date}</td>
+                            <td style="border:1px solid #000; padding:5px; text-align:center">${i.person}</td>
+                            <td style="border:1px solid #000; padding:5px">${i.desc.toUpperCase()}</td>
+                            <td style="border:1px solid #000; padding:5px; text-align:right">${formatIDR(i.amount)}</td>
+                        </tr>`).join('')}
+                    </tbody>
+                </table>
+            `;
+            html2pdf().from(element).set({ margin:10, filename:'LV_Report.pdf', html2canvas:{scale:2} }).save();
         }
 
-        function wipeData() {
-            if(confirm('Hapus seluruh data? Pastikan Anda sudah backup.')) {
-                db = { logs: [] };
-                saveAndRender();
-            }
-        }
-
-        document.getElementById('searchBar').oninput = render;
-
-        // Init
         render();
     </script>
 </body>
