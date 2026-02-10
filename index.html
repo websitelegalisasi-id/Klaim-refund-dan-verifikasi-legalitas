@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Las Vegas Finance | Pro Accounting System</title>
+    <title>Las Vegas ERP | Precision Accounting v6.0</title>
     
-    <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
@@ -18,119 +17,113 @@
         * { margin: 0; padding: 0; box-sizing: border-box; }
         body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-app); color: #1e293b; padding-bottom: 120px; }
         
-        .header { background: #0f172a; padding: 2.5rem 1rem 6rem; color: white; border-radius: 0 0 30px 30px; text-align: center; }
-        .summary-container { max-width: 1000px; margin: -4.5rem auto 2rem; padding: 0 1rem; }
-        .main-card { background: white; border-radius: 24px; padding: 2rem; box-shadow: 0 20px 25px -5px rgba(0,0,0,0.1); }
+        .header { background: var(--primary); padding: 3rem 1rem 7rem; color: white; border-radius: 0 0 40px 40px; text-align: center; }
+        .wrapper { max-width: 1100px; margin: -5rem auto 0; padding: 0 1rem; }
         
-        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 15px; margin-top: 20px; }
-        .stat-item { padding: 15px; background: #f8fafc; border-radius: 16px; border: 1px solid #e2e8f0; }
-        .stat-item small { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; display: block; margin-bottom: 5px;}
-        .stat-item div { font-size: 15px; font-weight: 700; }
+        /* Dashboard Premium */
+        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
+        .stat-card { background: white; padding: 1.5rem; border-radius: 24px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
+        .stat-card::after { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent); }
+        .stat-card.success::after { background: var(--success); }
+        .stat-card.danger::after { background: var(--danger); }
+        .stat-card small { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
+        .stat-card .val { font-size: 1.6rem; font-weight: 800; margin-top: 5px; color: var(--primary); }
 
-        .container { max-width: 1000px; margin: 0 auto; padding: 0 1rem; }
-        .card { background: white; border-radius: 20px; padding: 1.5rem; margin-bottom: 1.2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        /* Form Card */
+        .main-card { background: white; border-radius: 24px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
+        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
+        label { display: block; font-size: 11px; font-weight: 800; margin-bottom: 8px; color: var(--primary); text-transform: uppercase; }
+        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: inherit; font-size: 14px; margin-bottom: 15px; transition: 0.3s; }
+        input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
         
-        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 15px; }
-        label { display: block; font-size: 12px; font-weight: 700; margin-bottom: 8px; color: var(--primary); }
-        input, select, textarea { width: 100%; padding: 12px; border: 1.5px solid #e2e8f0; border-radius: 10px; font-family: inherit; font-size: 14px; margin-bottom: 15px; }
-        input:focus { border-color: var(--accent); outline: none; background: #fdfdfd; }
-        
-        .btn { padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; width: 100%; transition: 0.3s; display: flex; align-items: center; justify-content: center; gap: 10px; }
-        .btn-save { background: var(--accent); color: white; font-size: 16px; }
+        .btn { padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
+        .btn-save { background: var(--accent); color: white; width: 100%; font-size: 16px; }
         .btn-save:hover { background: #1d4ed8; transform: translateY(-2px); }
-        
-        .nav { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.9); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 15px 0 25px; border-top: 1px solid #e2e8f0; z-index: 100; }
-        .nav-item { font-size: 11px; font-weight: 800; text-align: center; cursor: pointer; color: #64748b; text-decoration: none; }
-        .nav-item i { font-size: 20px; margin-bottom: 5px; display: block; }
-        .nav-item.active { color: var(--accent); }
 
-        /* Style per Kategori di List */
-        .log-item { border-left: 5px solid #cbd5e1; transition: 0.2s; }
-        .log-item.MODAL { border-left-color: var(--accent); }
+        /* Log Styling */
+        .log-item { background: white; padding: 1.2rem; border-radius: 18px; margin-bottom: 0.8rem; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid #cbd5e1; }
         .log-item.JUAL { border-left-color: var(--success); }
+        .log-item.MODAL { border-left-color: var(--accent); }
         .log-item.OPS { border-left-color: var(--danger); }
         .log-item.PINJAM { border-left-color: var(--warning); }
         .log-item.TAGIHAN { border-left-color: #6366f1; }
+
+        /* Navigation */
+        .nav { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 1rem 0 2rem; border-top: 1px solid #e2e8f0; z-index: 100; }
+        .nav-item { font-size: 11px; font-weight: 800; text-align: center; cursor: pointer; color: #64748b; }
+        .nav-item i { font-size: 22px; margin-bottom: 5px; display: block; }
     </style>
 </head>
 <body>
 
-    <div class="header">
-        <h1 style="letter-spacing: 3px; font-weight: 800;">LAS VEGAS</h1>
-        <p style="font-size: 11px; opacity: 0.8; letter-spacing: 1px;">PROFESSIONAL ACCOUNTING SYSTEM</p>
-    </div>
+    <header class="header">
+        <h1 style="letter-spacing: 4px; font-weight: 800;">LAS VEGAS</h1>
+        <p id="current-date-display" style="font-size: 12px; opacity: 0.7; letter-spacing: 2px;"></p>
+    </header>
 
-    <div class="summary-container">
-        <div class="main-card">
-            <div style="display: flex; justify-content: space-between; align-items: flex-start;">
-                <div>
-                    <small style="font-weight: 800; color: #64748b;">TOTAL SALDO KAS (CASH ON HAND)</small>
-                    <h2 id="net-cash" style="font-size: 2.5rem; color: var(--primary); letter-spacing: -1px;">Rp 0</h2>
-                </div>
-                <div style="text-align: right;">
-                    <small style="font-weight: 800; color: var(--danger);">TOTAL UTANG BARANG</small>
-                    <div id="sum-tagihan" style="font-size: 1.2rem; font-weight: 800; color: var(--danger);">Rp 0</div>
-                </div>
+    <div class="wrapper">
+        <div class="dashboard">
+            <div class="stat-card">
+                <small>Saldo Kas Fisik (Cash)</small>
+                <div class="val" id="net-cash" style="color: var(--accent);">Rp 0</div>
             </div>
-            
-            <div class="stats-grid">
-                <div class="stat-item"><small>Suntikan Modal</small><div id="sum-modal" style="color:var(--accent)">Rp 0</div></div>
-                <div class="stat-item"><small>Hasil Penjualan</small><div id="sum-jual" style="color:var(--success)">Rp 0</div></div>
-                <div class="stat-item"><small>Operasional</small><div id="sum-ops" style="color:var(--danger)">Rp 0</div></div>
-                <div class="stat-item"><small>Total Pinjaman</small><div id="sum-pinjam" style="color:var(--warning)">Rp 0</div></div>
+            <div class="stat-card success">
+                <small>Laba/Rugi Hari Ini</small>
+                <div class="val" id="net-profit">Rp 0</div>
+            </div>
+            <div class="stat-card danger">
+                <small>Utang Barang (Kewajiban)</small>
+                <div class="val" id="sum-tagihan">Rp 0</div>
             </div>
         </div>
-    </div>
 
-    <div class="container">
-        <div class="card">
+        <div class="main-card">
             <form id="lvForm">
                 <input type="hidden" id="edit-id">
                 <div class="form-grid">
                     <div>
-                        <label>Penanggung Jawab</label>
-                        <select id="person"><option>MD</option><option>RJ</option><option>ED</option><option>OPS</option></select>
+                        <label>PIC / Identitas</label>
+                        <select id="person"><option>MD</option><option>RJ</option><option>ED</option><option>OPERASIONAL</option></select>
                     </div>
                     <div>
-                        <label>Kategori Transaksi</label>
+                        <label>Kategori Laporan</label>
                         <select id="category">
-                            <option value="MODAL">1. MODAL (Masuk)</option>
-                            <option value="JUAL">2. PENJUALAN (Masuk)</option>
-                            <option value="OPS">3. OPERASIONAL (Keluar)</option>
-                            <option value="PINJAM">4. PINJAMAN (Keluar)</option>
-                            <option value="TAGIHAN">5. UTANG BARANG (Belum Lunas)</option>
-                            <option value="NOTE">6. CATATAN / NOTE (Info)</option>
+                            <option value="JUAL">📦 PENJUALAN (Pemasukan)</option>
+                            <option value="MODAL">💰 MODAL (Setoran/Debit)</option>
+                            <option value="OPS">💸 OPERASIONAL (Pengeluaran)</option>
+                            <option value="PINJAM">🏦 PINJAMAN (Piutang Personel)</option>
+                            <option value="TAGIHAN">⚠️ UTANG BARANG (Belum Lunas)</option>
+                            <option value="NOTE">📝 CATATAN / INFO BARANG</option>
                         </select>
                     </div>
                 </div>
                 
-                <label>Keterangan Lengkap</label>
-                <textarea id="desc" rows="2" placeholder="Contoh: Pembelian unit B, Bayar Listrik, atau Catatan Stok..." required></textarea>
+                <label>Rincian Deskripsi</label>
+                <textarea id="desc" rows="2" placeholder="Contoh: Beli ecer, Sarapan, Komit MD, atau Sisa Bayar 5 Unit..." required></textarea>
                 
                 <div class="form-grid">
-                    <div><label>Tanggal</label><input type="date" id="date" required></div>
-                    <div><label>Nominal (Rp)</label><input type="number" id="amount" value="0"></div>
+                    <div><label>Tanggal Transaksi</label><input type="date" id="date" required></div>
+                    <div><label>Nominal Rupiah (Rp)</label><input type="number" id="amount" placeholder="0" required></div>
                 </div>
                 
-                <button type="submit" class="btn btn-save"><i class="fas fa-check-circle"></i> SIMPAN KE DATABASE</button>
+                <button type="submit" class="btn btn-save"><i class="fas fa-check-double"></i> VALIDASI & SIMPAN</button>
             </form>
         </div>
-        
-        <div style="margin: 20px 0 10px; font-weight: 800; font-size: 14px; color: var(--primary);">RIWAYAT JURNAL TERBARU</div>
+
         <div id="log-list"></div>
     </div>
 
     <nav class="nav">
-        <a class="nav-item" onclick="generatePDF()"><i class="fas fa-file-invoice-dollar"></i>LAPORAN</a>
-        <a class="nav-item active" onclick="location.reload()"><i class="fas fa-home"></i>BERANDA</a>
-        <a class="nav-item" onclick="downloadBackup()"><i class="fas fa-cloud-download-alt"></i>BACKUP</a>
-        <a class="nav-item" onclick="wipeData()" style="color:var(--danger)"><i class="fas fa-trash-alt"></i>RESET</a>
+        <div class="nav-item" onclick="generatePDF()"><i class="fas fa-file-pdf"></i>PDF</div>
+        <div class="nav-item" onclick="downloadBackup()"><i class="fas fa-cloud-download-alt"></i>BACKUP</div>
+        <div class="nav-item" onclick="wipeData()" style="color:var(--danger)"><i class="fas fa-sync-alt"></i>RESET</div>
     </nav>
 
     <script>
-        let db = JSON.parse(localStorage.getItem('lv_v4_db')) || { logs: [] };
+        let db = JSON.parse(localStorage.getItem('lv_v6_db')) || { logs: [] };
         const formatIDR = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(v);
         document.getElementById('date').valueAsDate = new Date();
+        document.getElementById('current-date-display').textContent = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
 
         document.getElementById('lvForm').onsubmit = (e) => {
             e.preventDefault();
@@ -143,54 +136,49 @@
                 amount: parseFloat(document.getElementById('amount').value) || 0,
                 date: document.getElementById('date').value
             };
-
             if(id) {
                 const idx = db.logs.findIndex(x => x.id == id);
                 db.logs[idx] = entry;
             } else { db.logs.unshift(entry); }
-
-            localStorage.setItem('lv_v4_db', JSON.stringify(db));
+            localStorage.setItem('lv_v6_db', JSON.stringify(db));
             location.reload();
         };
 
         function render() {
             const list = document.getElementById('log-list');
-            let m=0, j=0, o=0, p=0, t=0;
+            let modal=0, jual=0, ops=0, pinjam=0, utang=0;
 
             db.logs.forEach(i => {
-                if(i.cat === 'MODAL') m += i.amount;
-                if(i.cat === 'JUAL') j += i.amount;
-                if(i.cat === 'OPS') o += i.amount;
-                if(i.cat === 'PINJAM') p += i.amount;
-                if(i.cat === 'TAGIHAN') t += i.amount;
+                if(i.cat === 'MODAL') modal += i.amount;
+                if(i.cat === 'JUAL') jual += i.amount;
+                if(i.cat === 'OPS') ops += i.amount;
+                if(i.cat === 'PINJAM') pinjam += i.amount;
+                if(i.cat === 'TAGIHAN') utang += i.amount;
 
                 list.innerHTML += `
-                    <div class="card log-item ${i.cat}" style="padding:15px; margin-bottom:10px;">
-                        <div style="display:flex; justify-content:space-between; align-items:center">
-                            <div>
-                                <span style="font-size:9px; font-weight:800; padding:2px 8px; border-radius:5px; background:#f1f5f9; color:var(--primary)">${i.cat}</span>
-                                <h4 style="font-size:14px; margin-top:5px; text-transform:uppercase;">${i.desc}</h4>
-                                <small style="color:#64748b">${i.date} | Oleh: <b>${i.person}</b></small>
-                            </div>
-                            <div style="text-align:right">
-                                <div style="font-weight:800; font-size:15px; color:${(i.cat=='JUAL'||i.cat=='MODAL')?'var(--success)':'var(--primary)'}">
-                                    ${formatIDR(i.amount)}
-                                </div>
-                                <div style="margin-top:8px">
-                                    <i class="fas fa-edit" onclick="editItem(${i.id})" style="cursor:pointer; color:var(--accent); margin-right:15px"></i>
-                                    <i class="fas fa-trash" onclick="deleteItem(${i.id})" style="cursor:pointer; color:var(--danger)"></i>
-                                </div>
+                    <div class="log-item ${i.cat}">
+                        <div>
+                            <small style="font-weight:800; color:#64748b">${i.cat} | ${i.person}</small>
+                            <h4 style="font-size:14px; margin-top:3px; text-transform:uppercase;">${i.desc}</h4>
+                            <small>${i.date}</small>
+                        </div>
+                        <div style="text-align:right">
+                            <div style="font-weight:800; font-size:15px; color:${(i.cat=='JUAL'||i.cat=='MODAL')?'var(--success)':'var(--primary)'}">${formatIDR(i.amount)}</div>
+                            <div style="margin-top:5px">
+                                <i class="fas fa-edit" onclick="editItem(${i.id})" style="cursor:pointer; color:var(--accent); margin-right:15px"></i>
+                                <i class="fas fa-trash" onclick="deleteItem(${i.id})" style="cursor:pointer; color:var(--danger)"></i>
                             </div>
                         </div>
                     </div>`;
             });
 
-            document.getElementById('net-cash').textContent = formatIDR((j + m) - (o + p));
-            document.getElementById('sum-modal').textContent = formatIDR(m);
-            document.getElementById('sum-jual').textContent = formatIDR(j);
-            document.getElementById('sum-pinjam').textContent = formatIDR(p);
-            document.getElementById('sum-ops').textContent = formatIDR(o);
-            document.getElementById('sum-tagihan').textContent = formatIDR(t);
+            // LOGIKA KALKULASI AKURAT
+            // Kas Fisik = (Modal Terbayar + Penjualan) - (Operasional + Pinjaman Keluar)
+            document.getElementById('net-cash').textContent = formatIDR((modal + jual) - (ops + pinjam));
+            // Profit = Penjualan - Operasional
+            document.getElementById('net-profit').textContent = formatIDR(jual - ops);
+            // Utang = Sisa pembayaran barang
+            document.getElementById('sum-tagihan').textContent = formatIDR(utang);
         }
 
         function editItem(id) {
@@ -205,9 +193,9 @@
         }
 
         function deleteItem(id) {
-            if(confirm('Hapus permanen data ini?')) {
+            if(confirm('Hapus selamanya?')) {
                 db.logs = db.logs.filter(x => x.id != id);
-                localStorage.setItem('lv_v4_db', JSON.stringify(db));
+                localStorage.setItem('lv_v6_db', JSON.stringify(db));
                 location.reload();
             }
         }
@@ -215,93 +203,60 @@
         function generatePDF() {
             const element = document.createElement('div');
             element.style.padding = '40px';
-            element.style.color = '#1e293b';
-
             const sections = [
-                { title: "I. MODAL USAHA (SUNTIKAN DANA)", cat: "MODAL", color: "#2563eb" },
-                { title: "II. LAPORAN PENJUALAN (INCOME)", cat: "JUAL", color: "#10b981" },
-                { title: "III. BIAYA OPERASIONAL (EXPENSE)", cat: "OPS", color: "#ef4444" },
-                { title: "IV. PINJAMAN / PIUTANG KARYAWAN", cat: "PINJAM", color: "#f59e0b" },
-                { title: "V. UTANG BARANG (BELUM LUNAS)", cat: "TAGIHAN", color: "#6366f1" },
-                { title: "VI. CATATAN PENTING (RECORDS)", cat: "NOTE", color: "#475569" }
+                { title: "I. MODAL & PENJUALAN (TOTAL INCOME)", cats: ["MODAL", "JUAL"], color: "#10b981" },
+                { title: "II. OPERASIONAL & KOMITMEN (TOTAL EXPENSE)", cats: ["OPS"], color: "#ef4444" },
+                { title: "III. PINJAMAN / PIUTANG PERSONEL", cats: ["PINJAM"], color: "#f59e0b" },
+                { title: "IV. KEWAJIBAN UTANG BARANG", cats: ["TAGIHAN"], color: "#6366f1" },
+                { title: "V. CATATAN & URAIAN BARANG", cats: ["NOTE"], color: "#475569" }
             ];
 
-            let html = `
-                <div style="text-align:center; margin-bottom:30px;">
-                    <h1 style="margin:0; font-size:28px; letter-spacing:4px;">PT LAS VEGAS</h1>
-                    <p style="margin:0; font-size:12px; font-weight:800; color:#64748b;">LAPORAN KEUANGAN KONSOLIDASI - ${new Date().toLocaleDateString('id-ID', {month:'long', year:'numeric'}).toUpperCase()}</p>
-                </div>
-                
-                <div style="background:#f8fafc; padding:20px; border:1px solid #000; margin-bottom:30px; display:grid; grid-template-columns:1fr 1fr;">
-                    <div>
-                        <small style="font-weight:800;">SALDO KAS SAAT INI:</small><br>
-                        <span style="font-size:24px; font-weight:800; color:#0f172a;">${document.getElementById('net-cash').textContent}</span>
-                    </div>
-                    <div style="text-align:right;">
-                        <small style="font-weight:800; color:#dc2626;">SISA UTANG BARANG:</small><br>
-                        <span style="font-size:24px; font-weight:800; color:#dc2626;">${document.getElementById('sum-tagihan').textContent}</span>
-                    </div>
-                </div>`;
+            let html = `<h1 style="text-align:center; border-bottom:3px solid #000; padding-bottom:10px;">LAS VEGAS FINANCIAL REPORT</h1>
+                        <table style="width:100%; border:2px solid #000; margin:20px 0; border-collapse:collapse;">
+                            <tr style="background:#f1f5f9">
+                                <th style="border:1px solid #000; padding:10px;">CASH ON HAND</th>
+                                <th style="border:1px solid #000; padding:10px;">TOTAL PROFIT</th>
+                                <th style="border:1px solid #000; padding:10px;">TOTAL UTANG</th>
+                            </tr>
+                            <tr style="text-align:center; font-size:16px; font-weight:bold;">
+                                <td style="border:1px solid #000; padding:10px;">${document.getElementById('net-cash').textContent}</td>
+                                <td style="border:1px solid #000; padding:10px; color:green;">${document.getElementById('net-profit').textContent}</td>
+                                <td style="border:1px solid #000; padding:10px; color:red;">${document.getElementById('sum-tagihan').textContent}</td>
+                            </tr>
+                        </table>`;
 
             sections.forEach(sec => {
-                const logs = db.logs.filter(l => l.cat === sec.cat);
-                html += `
-                    <div style="margin-top:25px;">
-                        <div style="background:${sec.color}; color:#fff; padding:10px; font-size:13px; font-weight:800; border-radius:5px 5px 0 0;">${sec.title}</div>
-                        <table style="width:100%; border-collapse:collapse; font-size:10px;">
-                            <thead>
-                                <tr style="background:#f1f5f9; border-bottom:1px solid #000;">
-                                    <th style="padding:10px; text-align:left; border:1px solid #ddd;">TANGGAL</th>
-                                    <th style="padding:10px; text-align:center; border:1px solid #ddd;">PIC</th>
-                                    <th style="padding:10px; text-align:left; border:1px solid #ddd;">KETERANGAN</th>
-                                    <th style="padding:10px; text-align:right; border:1px solid #ddd;">NOMINAL</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                ${logs.map(l => `
-                                    <tr>
-                                        <td style="padding:8px; border:1px solid #ddd;">${l.date}</td>
-                                        <td style="padding:8px; text-align:center; border:1px solid #ddd; font-weight:800;">${l.person}</td>
-                                        <td style="padding:8px; border:1px solid #ddd; text-transform:uppercase;">${l.desc}</td>
-                                        <td style="padding:8px; text-align:right; border:1px solid #ddd; font-weight:800;">${formatIDR(l.amount)}</td>
-                                    </tr>
-                                `).join('')}
-                                ${logs.length === 0 ? '<tr><td colspan="4" style="text-align:center; padding:10px; color:#999 italic;">Tidak ada catatan pada periode ini</td></tr>' : ''}
-                            </tbody>
-                        </table>
-                    </div>`;
+                const logs = db.logs.filter(l => sec.cats.includes(l.cat));
+                html += `<h3 style="background:${sec.color}; color:#fff; padding:8px; font-size:13px; margin-top:20px;">${sec.title}</h3>
+                         <table style="width:100%; border-collapse:collapse; font-size:10px;">
+                            <tr style="background:#eee;">
+                                <th style="border:1px solid #000; padding:8px; text-align:left;">TANGGAL</th>
+                                <th style="border:1px solid #000; padding:8px;">PIC</th>
+                                <th style="border:1px solid #000; padding:8px; text-align:left;">DESKRIPSI</th>
+                                <th style="border:1px solid #000; padding:8px; text-align:right;">NOMINAL</th>
+                            </tr>
+                            ${logs.map(l => `<tr>
+                                <td style="border:1px solid #000; padding:8px;">${l.date}</td>
+                                <td style="border:1px solid #000; padding:8px; text-align:center; font-weight:bold;">${l.person}</td>
+                                <td style="border:1px solid #000; padding:8px;">${l.desc.toUpperCase()}</td>
+                                <td style="border:1px solid #000; padding:8px; text-align:right; font-weight:bold;">${formatIDR(l.amount)}</td>
+                            </tr>`).join('')}
+                         </table>`;
             });
 
-            html += `
-                <div style="margin-top:50px; display:flex; justify-content:space-between; align-items:flex-end;">
-                    <div style="font-size:9px; color:#64748b;">
-                        Dokumen ini dihasilkan secara sistem otomatis.<br>Waktu Cetak: ${new Date().toLocaleString()}
-                    </div>
-                    <div style="text-align:center; width:200px;">
-                        <p style="font-size:11px; margin-bottom:60px;">Disetujui Oleh,</p>
-                        <div style="border-top:1.5px solid #000; padding-top:5px; font-weight:800;">MANAGEMENT LAS VEGAS</div>
-                    </div>
-                </div>`;
-
             element.innerHTML = html;
-            const opt = { 
-                margin: 10, 
-                filename: `LAS_VEGAS_REPORT_${new Date().toISOString().split('T')[0]}.pdf`, 
-                image: { type: 'jpeg', quality: 1.0 }, 
-                html2canvas: { scale: 3 }, 
-                jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' } 
-            };
-            html2pdf().from(element).set(opt).save();
+            html2pdf().from(element).set({ margin:10, filename:'LV_Precision_Report.pdf', html2canvas:{scale:2} }).save();
         }
 
-        function wipeData() { if(confirm('⚠️ PERHATIAN: Semua data akan dihapus permanen. Pastikan Anda sudah membackup data.')) { localStorage.clear(); location.reload(); } }
         function downloadBackup() {
             const blob = new Blob([JSON.stringify(db)], {type:'application/json'});
             const a = document.createElement('a');
             a.href = URL.createObjectURL(blob);
-            a.download = `LV_DATABASE_BACKUP_${new Date().toISOString().split('T')[0]}.json`;
+            a.download = `LV_DATABASE_V6.json`;
             a.click();
         }
+
+        function wipeData() { if(confirm('Reset semua data?')) { localStorage.clear(); location.reload(); } }
 
         render();
     </script>
