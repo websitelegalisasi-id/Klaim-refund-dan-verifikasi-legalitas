@@ -2,261 +2,372 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Las Vegas ERP | Precision Accounting v6.0</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>FinancePro Sovereign | Enterprise Financial Ledger</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@700;800&display=swap" rel="stylesheet">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
     <style>
         :root {
-            --primary: #0f172a; --accent: #2563eb; --success: #10b981;
-            --danger: #ef4444; --warning: #f59e0b; --bg-app: #f1f5f9;
+            --brand: #0F172A; --accent: #C5A059; --success: #10B981;
+            --danger: #EF4444; --warning: #F59E0B; --text-p: #1E293B;
+            --text-s: #64748B; --bg-sub: #F8FAFC; --glass: rgba(255, 255, 255, 0.9);
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-app); color: #1e293b; padding-bottom: 120px; }
-        
-        .header { background: var(--primary); padding: 3rem 1rem 7rem; color: white; border-radius: 0 0 40px 40px; text-align: center; }
-        .wrapper { max-width: 1100px; margin: -5rem auto 0; padding: 0 1rem; }
-        
-        /* Dashboard Premium */
-        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card { background: white; padding: 1.5rem; border-radius: 24px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
-        .stat-card::after { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent); }
-        .stat-card.success::after { background: var(--success); }
-        .stat-card.danger::after { background: var(--danger); }
-        .stat-card small { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
-        .stat-card .val { font-size: 1.6rem; font-weight: 800; margin-top: 5px; color: var(--primary); }
 
-        /* Form Card */
-        .main-card { background: white; border-radius: 24px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        label { display: block; font-size: 11px; font-weight: 800; margin-bottom: 8px; color: var(--primary); text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: inherit; font-size: 14px; margin-bottom: 15px; transition: 0.3s; }
-        input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
-        
-        .btn { padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
-        .btn-save { background: var(--accent); color: white; width: 100%; font-size: 16px; }
-        .btn-save:hover { background: #1d4ed8; transform: translateY(-2px); }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        body { font-family: 'Inter', sans-serif; background-color: #F1F5F9; color: var(--text-p); line-height: 1.6; }
 
-        /* Log Styling */
-        .log-item { background: white; padding: 1.2rem; border-radius: 18px; margin-bottom: 0.8rem; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid #cbd5e1; }
-        .log-item.JUAL { border-left-color: var(--success); }
-        .log-item.MODAL { border-left-color: var(--accent); }
-        .log-item.OPS { border-left-color: var(--danger); }
-        .log-item.PINJAM { border-left-color: var(--warning); }
-        .log-item.TAGIHAN { border-left-color: #6366f1; }
+        /* Navigation & Header */
+        header { 
+            background: var(--brand); padding: 45px 25px 90px; color: white;
+            border-bottom-left-radius: 40px; border-bottom-right-radius: 40px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+        }
+        .header-top { display: flex; justify-content: space-between; align-items: center; max-width: 1000px; margin: 0 auto; }
+        .brand-logo { font-family: 'Playfair Display', serif; font-size: 1.4rem; letter-spacing: -0.5px; color: var(--accent); }
+        .btn-pdf { background: var(--accent); color: var(--brand); border: none; padding: 10px 20px; border-radius: 12px; font-weight: 700; cursor: pointer; font-size: 0.8rem; }
 
-        /* Navigation */
-        .nav { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 1rem 0 2rem; border-top: 1px solid #e2e8f0; z-index: 100; }
-        .nav-item { font-size: 11px; font-weight: 800; text-align: center; cursor: pointer; color: #64748b; }
-        .nav-item i { font-size: 22px; margin-bottom: 5px; display: block; }
+        /* Executive Dashboard */
+        .dashboard {
+            max-width: 1000px; margin: -60px auto 0; padding: 0 20px;
+        }
+        .main-card {
+            background: white; padding: 35px; border-radius: 30px;
+            box-shadow: 0 20px 40px rgba(0,0,0,0.05); border: 1px solid rgba(255,255,255,0.8);
+        }
+        .bal-label { font-size: 0.75rem; color: var(--text-s); font-weight: 700; text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 5px; }
+        .bal-value { font-size: 2.6rem; font-weight: 800; color: var(--brand); letter-spacing: -1.5px; margin-bottom: 25px; }
+
+        .stat-row { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; padding-top: 25px; border-top: 1px solid #F1F5F9; }
+        .stat-box h6 { font-size: 0.65rem; color: var(--text-s); font-weight: 700; text-transform: uppercase; margin-bottom: 6px; }
+        .stat-box p { font-size: 1rem; font-weight: 700; }
+
+        /* Content Layout */
+        .content { max-width: 1000px; margin: 0 auto; padding: 40px 20px 120px; }
+        .section { display: none; animation: fadeIn 0.4s ease; }
+        .section.active { display: block; }
+        @keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+        /* Form Controls */
+        .input-card { background: white; padding: 30px; border-radius: 25px; border: 1px solid #E2E8F0; margin-bottom: 30px; }
+        .grid-input { display: grid; grid-template-columns: repeat(2, 1fr); gap: 20px; }
+        .full-w { grid-column: span 2; }
+        label { display: block; font-size: 0.8rem; font-weight: 700; margin-bottom: 10px; color: var(--brand); }
+        input, select { 
+            width: 100%; padding: 15px; border-radius: 12px; border: 1.5px solid #E2E8F0;
+            font-size: 0.95rem; outline: none; transition: 0.3s; background: var(--bg-sub);
+        }
+        input:focus { border-color: var(--accent); background: white; box-shadow: 0 0 0 4px rgba(197, 160, 89, 0.1); }
+
+        .btn-submit { 
+            width: 100%; background: var(--brand); color: white; border: none; padding: 18px; 
+            border-radius: 15px; font-weight: 700; cursor: pointer; transition: 0.3s; font-size: 1rem;
+        }
+        .btn-submit:hover { background: #1e293b; transform: translateY(-2px); }
+
+        /* Transaction Items */
+        .trx-item { 
+            background: white; padding: 20px; border-radius: 20px; margin-bottom: 12px;
+            display: flex; justify-content: space-between; align-items: center;
+            border: 1px solid #F1F5F9; transition: 0.3s;
+        }
+        .trx-item:hover { transform: scale(1.01); box-shadow: 0 10px 20px rgba(0,0,0,0.02); }
+        .trx-lead { display: flex; align-items: center; gap: 15px; }
+        .trx-icon { width: 45px; height: 45px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-weight: 700; }
+        .in-icon { background: rgba(16, 185, 129, 0.1); color: var(--success); }
+        .out-icon { background: rgba(239, 68, 68, 0.1); color: var(--danger); }
+        .debt-icon { background: rgba(245, 158, 11, 0.1); color: var(--warning); }
+
+        .trx-info h4 { font-size: 0.95rem; font-weight: 700; margin-bottom: 2px; }
+        .trx-info p { font-size: 0.75rem; color: var(--text-s); }
+
+        .trx-amt { text-align: right; }
+        .amt-val { font-weight: 800; font-size: 1rem; margin-bottom: 5px; }
+        .actions { display: flex; gap: 5px; justify-content: flex-end; }
+        .btn-opt { padding: 6px 12px; border-radius: 8px; border: none; font-size: 0.65rem; font-weight: 700; cursor: pointer; background: var(--bg-sub); color: var(--text-s); }
+        .btn-lunas { background: var(--success); color: white; }
+
+        /* Bottom Navigation */
+        nav {
+            position: fixed; bottom: 0; left: 0; right: 0; background: var(--glass);
+            backdrop-filter: blur(20px); padding: 15px 20px 35px; display: flex;
+            justify-content: space-around; border-top: 1px solid #E2E8F0; z-index: 1000;
+        }
+        .nav-link { text-align: center; color: var(--text-s); cursor: pointer; text-decoration: none; transition: 0.3s; }
+        .nav-link.active { color: var(--brand); }
+        .nav-link i { font-size: 1.5rem; display: block; margin-bottom: 4px; }
+        .nav-link span { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; }
+
+        /* Report PDF (Hidden) */
+        #pdf-export { display: none; padding: 50px; background: white; }
+        .report-table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+        .report-table th, .report-table td { border: 1px solid #E2E8F0; padding: 14px; text-align: left; font-size: 12px; }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <h1 style="letter-spacing: 4px; font-weight: 800;">LAS VEGAS</h1>
-        <p id="current-date-display" style="font-size: 12px; opacity: 0.7; letter-spacing: 2px;"></p>
+    <header>
+        <div class="header-top">
+            <span class="brand-logo">SOVEREIGN LEDGER</span>
+            <button class="btn-pdf" onclick="exportLaporan()">Cetak Laporan Resmi</button>
+        </div>
     </header>
 
-    <div class="wrapper">
-        <div class="dashboard">
-            <div class="stat-card">
-                <small>Saldo Kas Fisik (Cash)</small>
-                <div class="val" id="net-cash" style="color: var(--accent);">Rp 0</div>
-            </div>
-            <div class="stat-card success">
-                <small>Laba/Rugi Hari Ini</small>
-                <div class="val" id="net-profit">Rp 0</div>
-            </div>
-            <div class="stat-card danger">
-                <small>Utang Barang (Kewajiban)</small>
-                <div class="val" id="sum-tagihan">Rp 0</div>
-            </div>
-        </div>
-
+    <div class="dashboard">
         <div class="main-card">
-            <form id="lvForm">
-                <input type="hidden" id="edit-id">
-                <div class="form-grid">
-                    <div>
-                        <label>PIC / Identitas</label>
-                        <select id="person"><option>MD</option><option>RJ</option><option>ED</option><option>OPERASIONAL</option></select>
-                    </div>
-                    <div>
-                        <label>Kategori Laporan</label>
-                        <select id="category">
-                            <option value="JUAL">📦 PENJUALAN (Pemasukan)</option>
-                            <option value="MODAL">💰 MODAL (Setoran/Debit)</option>
-                            <option value="OPS">💸 OPERASIONAL (Pengeluaran)</option>
-                            <option value="PINJAM">🏦 PINJAMAN (Piutang Personel)</option>
-                            <option value="TAGIHAN">⚠️ UTANG BARANG (Belum Lunas)</option>
-                            <option value="NOTE">📝 CATATAN / INFO BARANG</option>
-                        </select>
-                    </div>
+            <p class="bal-label">Total Kas Liquid (Tunai)</p>
+            <h1 class="bal-value" id="disp-kas">Rp 0</h1>
+            <div class="stat-row">
+                <div class="stat-box">
+                    <h6>Pemasukan</h6>
+                    <p style="color: var(--success)" id="disp-in">Rp 0</p>
                 </div>
-                
-                <label>Rincian Deskripsi</label>
-                <textarea id="desc" rows="2" placeholder="Contoh: Beli ecer, Sarapan, Komit MD, atau Sisa Bayar 5 Unit..." required></textarea>
-                
-                <div class="form-grid">
-                    <div><label>Tanggal Transaksi</label><input type="date" id="date" required></div>
-                    <div><label>Nominal Rupiah (Rp)</label><input type="number" id="amount" placeholder="0" required></div>
+                <div class="stat-box">
+                    <h6>Pengeluaran</h6>
+                    <p style="color: var(--danger)" id="disp-out">Rp 0</p>
                 </div>
-                
-                <button type="submit" class="btn btn-save"><i class="fas fa-check-double"></i> VALIDASI & SIMPAN</button>
-            </form>
+                <div class="stat-box" style="text-align: right;">
+                    <h6>Total Piutang</h6>
+                    <p style="color: var(--warning)" id="disp-debt">Rp 0</p>
+                </div>
+            </div>
         </div>
-
-        <div id="log-list"></div>
     </div>
 
-    <nav class="nav">
-        <div class="nav-item" onclick="generatePDF()"><i class="fas fa-file-pdf"></i>PDF</div>
-        <div class="nav-item" onclick="downloadBackup()"><i class="fas fa-cloud-download-alt"></i>BACKUP</div>
-        <div class="nav-item" onclick="wipeData()" style="color:var(--danger)"><i class="fas fa-sync-alt"></i>RESET</div>
+    <main class="content">
+        <div id="sec-jurnal" class="section active">
+            <div class="input-card">
+                <h3 style="margin-bottom: 20px; font-weight: 800; letter-spacing: -0.5px;">Input Transaksi Kas</h3>
+                <form id="formTrx">
+                    <input type="hidden" id="edit-id">
+                    <div class="grid-input">
+                        <div class="full-w">
+                            <label>Kategori Alur Kas</label>
+                            <select id="f-tipe">
+                                <option value="masuk">Kas Masuk (Pendapatan)</option>
+                                <option value="keluar">Kas Keluar (Beban/Pengeluaran)</option>
+                                <option value="piutang">Sangkutan (Piutang Aktif)</option>
+                            </select>
+                        </div>
+                        <div class="full-w">
+                            <label>Keterangan Deskriptif</label>
+                            <input type="text" id="f-ket" placeholder="Misal: Penjualan Unit, Operasional Kantor" required>
+                        </div>
+                        <div>
+                            <label>Tanggal</label>
+                            <input type="date" id="f-tgl" required>
+                        </div>
+                        <div>
+                            <label>Nominal (Rp)</label>
+                            <input type="number" id="f-amt" placeholder="0" required>
+                        </div>
+                    </div>
+                    <button type="submit" id="btn-save" class="btn-submit" style="margin-top: 25px;">Finalisasi Transaksi</button>
+                </form>
+            </div>
+
+            <h4 style="margin: 35px 0 15px; font-weight: 700; font-size: 0.85rem; color: var(--text-s); text-transform: uppercase; letter-spacing: 1px;">Aktivitas Jurnal Terbaru</h4>
+            <div id="list-jurnal"></div>
+        </div>
+
+        <div id="sec-piutang" class="section">
+            <h3 style="margin-bottom: 20px; font-weight: 800;">Manajemen Piutang & Tagihan</h3>
+            <div id="list-piutang"></div>
+        </div>
+    </main>
+
+    <nav>
+        <div class="nav-link active" onclick="nav('jurnal', this)">
+            <i>📂</i><span>Jurnal</span>
+        </div>
+        <div class="nav-link" onclick="nav('piutang', this)">
+            <i>⏳</i><span>Piutang</span>
+        </div>
+        <div class="nav-link" onclick="resetDB()">
+            <i>♻️</i><span>Reset</span>
+        </div>
     </nav>
 
-    <script>
-        let db = JSON.parse(localStorage.getItem('lv_v6_db')) || { logs: [] };
-        const formatIDR = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(v);
-        document.getElementById('date').valueAsDate = new Date();
-        document.getElementById('current-date-display').textContent = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+    <div id="pdf-export">
+        <h1 style="text-align: center; font-family: 'Playfair Display', serif;">LAPORAN KEUANGAN RESMI</h1>
+        <p id="pdf-date" style="text-align: center; color: #64748B; font-size: 12px; margin-bottom: 40px;"></p>
+        <table class="report-table">
+            <tr style="background: #F8FAFC;"><th>RINGKASAN NERACA</th><th>TOTAL NILAI</th></tr>
+            <tr><td>Saldo Kas Tunai</td><td id="r-kas" style="font-weight: bold;"></td></tr>
+            <tr><td>Total Akumulasi Pemasukan</td><td id="r-in"></td></tr>
+            <tr><td>Total Akumulasi Pengeluaran</td><td id="r-out"></td></tr>
+            <tr><td>Total Piutang Tak Tertagih</td><td id="r-debt"></td></tr>
+        </table>
+        <h3 style="margin-top: 40px;">DETAIL MUTASI KAS</h3>
+        <table class="report-table" id="r-detail">
+            <thead>
+                <tr style="background: #F8FAFC;"><th>Tanggal</th><th>Keterangan</th><th>Jenis</th><th>Nominal</th></tr>
+            </thead>
+            <tbody></tbody>
+        </table>
+    </div>
 
-        document.getElementById('lvForm').onsubmit = (e) => {
+    <script>
+        // --- CORE ENGINE SOVEREIGN ---
+        let db = JSON.parse(localStorage.getItem('sov_ledger_v7')) || { logs: [], debts: [] };
+        const fmt = (n) => "Rp " + new Intl.NumberFormat('id-ID').format(n);
+        document.getElementById('f-tgl').valueAsDate = new Date();
+
+        function sync() {
+            localStorage.setItem('sov_ledger_v7', JSON.stringify(db));
+            render();
+        }
+
+        function nav(sec, el) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-link').forEach(n => n.classList.remove('active'));
+            document.getElementById('sec-' + sec).classList.add('active');
+            el.classList.add('active');
+        }
+
+        document.getElementById('formTrx').addEventListener('submit', (e) => {
             e.preventDefault();
             const id = document.getElementById('edit-id').value;
-            const entry = {
-                id: id ? parseInt(id) : Date.now(),
-                person: document.getElementById('person').value,
-                cat: document.getElementById('category').value,
-                desc: document.getElementById('desc').value,
-                amount: parseFloat(document.getElementById('amount').value) || 0,
-                date: document.getElementById('date').value
-            };
+            const tipe = document.getElementById('f-tipe').value;
+            const ket = document.getElementById('f-ket').value;
+            const amt = parseFloat(document.getElementById('f-amt').value);
+            const tgl = document.getElementById('f-tgl').value;
+
+            const entry = { id: id ? parseInt(id) : Date.now(), tipe, ket, amt, tgl };
+
             if(id) {
-                const idx = db.logs.findIndex(x => x.id == id);
-                db.logs[idx] = entry;
-            } else { db.logs.unshift(entry); }
-            localStorage.setItem('lv_v6_db', JSON.stringify(db));
-            location.reload();
-        };
+                if(tipe === 'piutang') {
+                    const idx = db.debts.findIndex(x => x.id == id);
+                    db.debts[idx] = entry;
+                } else {
+                    const idx = db.logs.findIndex(x => x.id == id);
+                    db.logs[idx] = entry;
+                }
+            } else {
+                if(tipe === 'piutang') db.debts.push(entry);
+                else db.logs.push(entry);
+            }
+
+            clearForm();
+            sync();
+        });
+
+        function clearForm() {
+            document.getElementById('formTrx').reset();
+            document.getElementById('edit-id').value = '';
+            document.getElementById('btn-save').innerText = "Finalisasi Transaksi";
+            document.getElementById('f-tgl').valueAsDate = new Date();
+        }
+
+        function edit(id, isDebt) {
+            const data = isDebt ? db.debts.find(x => x.id == id) : db.logs.find(x => x.id == id);
+            document.getElementById('edit-id').value = data.id;
+            document.getElementById('f-tipe').value = data.tipe;
+            document.getElementById('f-ket').value = data.ket;
+            document.getElementById('f-amt').value = data.amt;
+            document.getElementById('f-tgl').value = data.tgl;
+            document.getElementById('btn-save').innerText = "Update Record";
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function hapus(id, isDebt) {
+            if(confirm("Hapus entri ini secara permanen?")) {
+                if(isDebt) db.debts = db.debts.filter(x => x.id != id);
+                else db.logs = db.logs.filter(x => x.id != id);
+                sync();
+            }
+        }
+
+        function lunas(id) {
+            const item = db.debts.find(x => x.id == id);
+            db.logs.push({ id: Date.now(), tipe: 'masuk', ket: `Pelunasan: ${item.ket}`, amt: item.amt, tgl: new Date().toISOString().split('T')[0] });
+            db.debts = db.debts.filter(x => x.id != id);
+            sync();
+        }
 
         function render() {
-            const list = document.getElementById('log-list');
-            let modal=0, jual=0, ops=0, pinjam=0, utang=0;
+            const jBox = document.getElementById('list-jurnal');
+            const pBox = document.getElementById('list-piutang');
+            jBox.innerHTML = ''; pBox.innerHTML = '';
 
-            db.logs.forEach(i => {
-                if(i.cat === 'MODAL') modal += i.amount;
-                if(i.cat === 'JUAL') jual += i.amount;
-                if(i.cat === 'OPS') ops += i.amount;
-                if(i.cat === 'PINJAM') pinjam += i.amount;
-                if(i.cat === 'TAGIHAN') utang += i.amount;
+            let kas = 0, pms = 0, pgl = 0, piu = 0;
 
-                list.innerHTML += `
-                    <div class="log-item ${i.cat}">
-                        <div>
-                            <small style="font-weight:800; color:#64748b">${i.cat} | ${i.person}</small>
-                            <h4 style="font-size:14px; margin-top:3px; text-transform:uppercase;">${i.desc}</h4>
-                            <small>${i.date}</small>
+            db.logs.sort((a,b) => new Date(b.tgl) - new Date(a.tgl)).forEach(t => {
+                const isIn = t.tipe === 'masuk';
+                if(isIn) { pms += t.amt; kas += t.amt; }
+                else { pgl += t.amt; kas -= t.amt; }
+
+                jBox.innerHTML += `
+                    <div class="trx-item">
+                        <div class="trx-lead">
+                            <div class="trx-icon ${isIn ? 'in-icon' : 'out-icon'}">${isIn ? '↓' : '↑'}</div>
+                            <div class="trx-info">
+                                <h4>${t.ket}</h4>
+                                <p>${t.tgl} • ${isIn ? 'Kas Masuk' : 'Kas Keluar'}</p>
+                            </div>
                         </div>
-                        <div style="text-align:right">
-                            <div style="font-weight:800; font-size:15px; color:${(i.cat=='JUAL'||i.cat=='MODAL')?'var(--success)':'var(--primary)'}">${formatIDR(i.amount)}</div>
-                            <div style="margin-top:5px">
-                                <i class="fas fa-edit" onclick="editItem(${i.id})" style="cursor:pointer; color:var(--accent); margin-right:15px"></i>
-                                <i class="fas fa-trash" onclick="deleteItem(${i.id})" style="cursor:pointer; color:var(--danger)"></i>
+                        <div class="trx-amt">
+                            <div class="amt-val" style="color:${isIn ? 'var(--success)' : 'var(--danger)'}">
+                                ${isIn ? '+' : '-'} ${fmt(t.amt)}
+                            </div>
+                            <div class="actions">
+                                <button class="btn-opt" onclick="edit(${t.id}, false)">Edit</button>
+                                <button class="btn-opt" onclick="hapus(${t.id}, false)">Del</button>
                             </div>
                         </div>
                     </div>`;
             });
 
-            // LOGIKA KALKULASI AKURAT
-            // Kas Fisik = (Modal Terbayar + Penjualan) - (Operasional + Pinjaman Keluar)
-            document.getElementById('net-cash').textContent = formatIDR((modal + jual) - (ops + pinjam));
-            // Profit = Penjualan - Operasional
-            document.getElementById('net-profit').textContent = formatIDR(jual - ops);
-            // Utang = Sisa pembayaran barang
-            document.getElementById('sum-tagihan').textContent = formatIDR(utang);
-        }
-
-        function editItem(id) {
-            const i = db.logs.find(x => x.id == id);
-            document.getElementById('edit-id').value = i.id;
-            document.getElementById('person').value = i.person;
-            document.getElementById('category').value = i.cat;
-            document.getElementById('desc').value = i.desc;
-            document.getElementById('amount').value = i.amount;
-            document.getElementById('date').value = i.date;
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        function deleteItem(id) {
-            if(confirm('Hapus selamanya?')) {
-                db.logs = db.logs.filter(x => x.id != id);
-                localStorage.setItem('lv_v6_db', JSON.stringify(db));
-                location.reload();
-            }
-        }
-
-        function generatePDF() {
-            const element = document.createElement('div');
-            element.style.padding = '40px';
-            const sections = [
-                { title: "I. MODAL & PENJUALAN (TOTAL INCOME)", cats: ["MODAL", "JUAL"], color: "#10b981" },
-                { title: "II. OPERASIONAL & KOMITMEN (TOTAL EXPENSE)", cats: ["OPS"], color: "#ef4444" },
-                { title: "III. PINJAMAN / PIUTANG PERSONEL", cats: ["PINJAM"], color: "#f59e0b" },
-                { title: "IV. KEWAJIBAN UTANG BARANG", cats: ["TAGIHAN"], color: "#6366f1" },
-                { title: "V. CATATAN & URAIAN BARANG", cats: ["NOTE"], color: "#475569" }
-            ];
-
-            let html = `<h1 style="text-align:center; border-bottom:3px solid #000; padding-bottom:10px;">LAS VEGAS FINANCIAL REPORT</h1>
-                        <table style="width:100%; border:2px solid #000; margin:20px 0; border-collapse:collapse;">
-                            <tr style="background:#f1f5f9">
-                                <th style="border:1px solid #000; padding:10px;">CASH ON HAND</th>
-                                <th style="border:1px solid #000; padding:10px;">TOTAL PROFIT</th>
-                                <th style="border:1px solid #000; padding:10px;">TOTAL UTANG</th>
-                            </tr>
-                            <tr style="text-align:center; font-size:16px; font-weight:bold;">
-                                <td style="border:1px solid #000; padding:10px;">${document.getElementById('net-cash').textContent}</td>
-                                <td style="border:1px solid #000; padding:10px; color:green;">${document.getElementById('net-profit').textContent}</td>
-                                <td style="border:1px solid #000; padding:10px; color:red;">${document.getElementById('sum-tagihan').textContent}</td>
-                            </tr>
-                        </table>`;
-
-            sections.forEach(sec => {
-                const logs = db.logs.filter(l => sec.cats.includes(l.cat));
-                html += `<h3 style="background:${sec.color}; color:#fff; padding:8px; font-size:13px; margin-top:20px;">${sec.title}</h3>
-                         <table style="width:100%; border-collapse:collapse; font-size:10px;">
-                            <tr style="background:#eee;">
-                                <th style="border:1px solid #000; padding:8px; text-align:left;">TANGGAL</th>
-                                <th style="border:1px solid #000; padding:8px;">PIC</th>
-                                <th style="border:1px solid #000; padding:8px; text-align:left;">DESKRIPSI</th>
-                                <th style="border:1px solid #000; padding:8px; text-align:right;">NOMINAL</th>
-                            </tr>
-                            ${logs.map(l => `<tr>
-                                <td style="border:1px solid #000; padding:8px;">${l.date}</td>
-                                <td style="border:1px solid #000; padding:8px; text-align:center; font-weight:bold;">${l.person}</td>
-                                <td style="border:1px solid #000; padding:8px;">${l.desc.toUpperCase()}</td>
-                                <td style="border:1px solid #000; padding:8px; text-align:right; font-weight:bold;">${formatIDR(l.amount)}</td>
-                            </tr>`).join('')}
-                         </table>`;
+            db.debts.forEach(d => {
+                piu += d.amt;
+                pBox.innerHTML += `
+                    <div class="trx-item">
+                        <div class="trx-lead">
+                            <div class="trx-icon debt-icon">⌛</div>
+                            <div class="trx-info">
+                                <h4>${d.ket}</h4>
+                                <p>${d.tgl} • Piutang</p>
+                            </div>
+                        </div>
+                        <div class="trx-amt">
+                            <div class="amt-val" style="color:var(--warning)">${fmt(d.amt)}</div>
+                            <div class="actions">
+                                <button class="btn-opt btn-lunas" onclick="lunas(${d.id})">Lunas</button>
+                                <button class="btn-opt" onclick="edit(${d.id}, true)">Edit</button>
+                            </div>
+                        </div>
+                    </div>`;
             });
 
-            element.innerHTML = html;
-            html2pdf().from(element).set({ margin:10, filename:'LV_Precision_Report.pdf', html2canvas:{scale:2} }).save();
+            document.getElementById('disp-kas').innerText = fmt(kas);
+            document.getElementById('disp-in').innerText = fmt(pms);
+            document.getElementById('disp-out').innerText = fmt(pgl);
+            document.getElementById('disp-debt').innerText = fmt(piu);
         }
 
-        function downloadBackup() {
-            const blob = new Blob([JSON.stringify(db)], {type:'application/json'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `LV_DATABASE_V6.json`;
-            a.click();
+        function exportLaporan() {
+            const body = document.querySelector('#r-detail tbody');
+            document.getElementById('pdf-date').innerText = "Export Date: " + new Date().toLocaleString('id-ID');
+            document.getElementById('r-kas').innerText = document.getElementById('disp-kas').innerText;
+            document.getElementById('r-in').innerText = document.getElementById('disp-in').innerText;
+            document.getElementById('r-out').innerText = document.getElementById('disp-out').innerText;
+            document.getElementById('r-debt').innerText = document.getElementById('disp-debt').innerText;
+            
+            body.innerHTML = '';
+            db.logs.concat(db.debts).forEach(t => {
+                body.innerHTML += `<tr><td>${t.tgl}</td><td>${t.ket}</td><td>${t.tipe.toUpperCase()}</td><td>${fmt(t.amt)}</td></tr>`;
+            });
+
+            const element = document.getElementById('pdf-export');
+            element.style.display = 'block';
+            html2pdf().from(element).set({ margin: 1, filename: 'Laporan_Keuangan_Sovereign.pdf' }).save().then(() => element.style.display = 'none');
         }
 
-        function wipeData() { if(confirm('Reset semua data?')) { localStorage.clear(); location.reload(); } }
+        function resetDB() {
+            if(confirm("DANGER: Hapus seluruh data ledger? Tindakan ini tidak dapat dibatalkan.")) {
+                db = { logs: [], debts: [] };
+                sync();
+            }
+        }
 
         render();
     </script>
