@@ -1,499 +1,739 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faktur Tagihan Pelunasan - R2 Nusantara</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Berita Acara Jaminan Pengiriman Sementara – Bea Cukai Makassar</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+        * { 
+            margin: 0; 
+            padding: 0; 
+            box-sizing: border-box; 
         }
-
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            font-family: 'Times New Roman', Times, serif;
+            line-height: 1.6;
+            color: #000;
+            background: linear-gradient(to bottom, #f0f4f8 0%, #e8eef5 100%);
             padding: 20px;
-            min-height: 100vh;
+            scroll-behavior: smooth;
         }
 
-        .download-button {
+        .scroll-indicator {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            border: none;
-            padding: 12px 25px;
-            border-radius: 50px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
-            z-index: 1000;
+            bottom: 25px;
+            right: 25px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, #003366 0%, #00509e 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            pointer-events: none;
+            opacity: 0;
             transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,51,102,0.3);
+        }
+        .scroll-indicator.show {
+            opacity: 1;
+        }
+        .scroll-indicator::after {
+            content: "↓";
+            font-size: 24px;
+            color: white;
+            font-weight: bold;
         }
 
-        .download-button:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 20px rgba(0,0,0,0.4);
-        }
-
-        .container {
-            max-width: 210mm;
-            margin: 50px auto 0 auto;
-            background: white;
-            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        #invoice-content {
-            background: white;
-            width: 210mm;
-            min-height: 297mm;
-            max-height: 297mm;
-            padding: 15mm;
+        .ui-controls {
+            text-align: center; 
+            margin: 20px 0; 
+            z-index: 10; 
             position: relative;
+        }
+        
+        .download-btn {
+            background: linear-gradient(135deg, #003366 0%, #00509e 100%);
+            color: white; 
+            border: none; 
+            padding: 14px 32px;
+            font-size: 15pt; 
+            font-weight: bold; 
+            border-radius: 8px; 
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(0,51,102,0.3);
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        .download-btn:hover:not(:disabled) { 
+            background: linear-gradient(135deg, #002244 0%, #003a7a 100%);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,51,102,0.4);
+        }
+        
+        .download-btn:disabled { 
+            opacity: 0.6; 
+            cursor: not-allowed; 
+        }
+
+        #pdfContent {
+            background: white; 
+            box-shadow: 0 8px 30px rgba(0,0,0,0.12);
+            padding: 40px;
+            max-width: 210mm; 
+            margin: 0 auto; 
+            position: relative;
+            border-radius: 8px;
+        }
+
+        .watermark {
+            position: absolute; 
+            top: 0; 
+            left: 0; 
+            width: 100%; 
+            height: 100%; 
+            z-index: 0;
+            pointer-events: none;
+        }
+        
+        .watermark img {
+            width: 65%; 
+            height: auto; 
+            position: absolute; 
+            top: 50%; 
+            left: 50%;
+            transform: translate(-50%, -50%);
+            opacity: 0.04;
+        }
+        
+        .content-layer { 
+            position: relative; 
+            z-index: 1; 
         }
 
         .header {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
-            padding: 20px 25px;
-            margin: -15mm -15mm 15px -15mm;
-            position: relative;
+            background: linear-gradient(135deg, #003366 0%, #00509e 100%);
+            color: white; 
+            padding: 20px;
+            text-align: center;
+            display: flex; 
+            justify-content: space-between; 
+            align-items: center; 
+            gap: 25px;
+            border-bottom: 3px solid #FFD700;
+            box-shadow: 0 4px 15px rgba(0,51,102,0.2);
+        }
+        
+        .logo-left, .logo-right {
+            height: 85px;
+            width: auto;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        
+        .header-center {
+            flex: 1;
+            padding: 0 15px;
+        }
+        
+        .header-center h1 {
+            font-size: 15pt;
+            font-weight: bold;
+            margin: 5px 0;
+            letter-spacing: 0.8px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
+        }
+        
+        .header-center p {
+            font-size: 10.5pt;
+            margin: 3px 0;
+            line-height: 1.5;
+            opacity: 0.95;
         }
 
-        .header-flex {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
+        .slogan-section {
+            text-align: center;
+            margin: 25px 0;
+        }
+        
+        .slogan-image {
+            max-width: 600px;
+            width: 100%;
+            height: auto;
+            display: block;
+            margin: 0 auto;
         }
 
-        .company-info h1 {
-            font-size: 26px;
-            margin-bottom: 5px;
+        .doc-type {
+            font-weight: bold;
+            font-size: 17pt;
+            margin: 30px 0 20px;
+            text-align: center;
+            text-decoration: underline;
+            color: #003366;
             letter-spacing: 1px;
         }
 
-        .company-info p {
-            font-size: 11px;
-            opacity: 0.9;
-            margin: 2px 0;
+        .doc-meta p,
+        .recipient p,
+        .greeting p,
+        .section p {
+            margin: 6px 0;
+            font-size: 12pt;
+        }
+        
+        .greeting p, 
+        .section p {
+            text-align: justify;
+            line-height: 1.8;
         }
 
-        .invoice-meta {
-            text-align: right;
-            background: rgba(255,255,255,0.15);
-            padding: 12px 15px;
-            border-radius: 6px;
-            border: 2px solid rgba(255,255,255,0.3);
-        }
-
-        .invoice-meta h2 {
-            font-size: 18px;
-            margin-bottom: 5px;
-        }
-
-        .invoice-meta p {
-            font-size: 12px;
-            margin: 3px 0;
-        }
-
-        .urgent-bar {
-            background: #ff4444;
-            color: white;
-            padding: 8px;
-            text-align: center;
+        .section-title {
             font-weight: bold;
-            font-size: 13px;
-            margin: -15px -15mm 15px -15mm;
-            letter-spacing: 0.5px;
+            margin: 20px 0 12px 0;
+            text-decoration: underline;
+            color: #003366;
+            font-size: 13pt;
         }
 
-        .info-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 15px;
-            margin-bottom: 15px;
-        }
-
-        .info-box {
-            background: #f8f9fa;
-            padding: 12px 15px;
-            border-radius: 6px;
-            border-left: 3px solid #2a5298;
-        }
-
-        .info-box h3 {
-            font-size: 12px;
-            color: #1e3c72;
-            margin-bottom: 8px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .info-box p {
-            font-size: 11px;
-            line-height: 1.5;
-            margin: 3px 0;
-        }
-
-        .info-box strong {
-            color: #333;
-            font-weight: 600;
-        }
-
-        table {
+        .info-table, 
+        .calculation-table {
             width: 100%;
             border-collapse: collapse;
-            margin: 15px 0;
-            font-size: 12px;
+            margin: 18px 0;
+            font-size: 12pt;
         }
-
-        thead {
-            background: linear-gradient(135deg, #1e3c72 0%, #2a5298 100%);
-            color: white;
+        
+        .info-table td, 
+        .info-table th,
+        .calculation-table td, 
+        .calculation-table th {
+            padding: 10px 12px;
+            vertical-align: top;
+            border: 1.5px solid #000;
         }
-
-        th {
-            padding: 10px 8px;
+        
+        .info-table th {
+            font-weight: bold;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #e9ecef 100%);
+            width: 35%;
+        }
+        
+        .calculation-table .label {
             text-align: left;
-            font-weight: 600;
-            font-size: 11px;
-            text-transform: uppercase;
+            font-weight: bold;
+            background: #f8f9fa;
+        }
+        
+        .total-row {
+            background: linear-gradient(to bottom, #fff9e6 0%, #fff3cc 100%);
+            font-weight: bold;
         }
 
-        td {
-            padding: 10px 8px;
-            border-bottom: 1px solid #eee;
-        }
-
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
-
-        .summary-box {
-            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
-            padding: 15px;
-            border-radius: 6px;
-            margin: 15px 0;
-            border: 2px solid #dee2e6;
-        }
-
-        .summary-row {
+        .content-with-badge {
             display: flex;
             justify-content: space-between;
-            padding: 6px 0;
-            font-size: 13px;
+            align-items: flex-start;
+            gap: 30px;
+            margin: 25px 0;
+        }
+        
+        .content-main {
+            flex: 1;
+        }
+        
+        .legalization-badge {
+            height: 90px;
+            width: auto;
+            margin-top: 5px;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
         }
 
-        .summary-row.total {
-            border-top: 2px solid #2a5298;
-            margin-top: 8px;
-            padding-top: 10px;
-            font-size: 16px;
-            font-weight: bold;
-            color: #1e3c72;
-        }
-
-        .summary-row.paid {
-            color: #28a745;
-            font-weight: 600;
-        }
-
-        .summary-row.outstanding {
-            background: #fff3cd;
-            padding: 10px;
-            margin: 8px -15px;
-            border-left: 4px solid #ffc107;
-            font-size: 15px;
-            font-weight: bold;
-            color: #856404;
-        }
-
-        .payment-box {
-            background: linear-gradient(135deg, #28a745 0%, #20c997 100%);
-            color: white;
-            padding: 15px;
-            border-radius: 6px;
-            margin: 15px 0;
-        }
-
-        .payment-box h3 {
-            font-size: 14px;
-            margin-bottom: 10px;
-        }
-
-        .payment-box p {
-            font-size: 12px;
-            margin: 5px 0;
-            line-height: 1.6;
-        }
-
-        .payment-box strong {
-            font-weight: 700;
-        }
-
-        .warning-compact {
-            background: #fff3cd;
-            border-left: 4px solid #ffc107;
-            padding: 12px 15px;
-            margin: 15px 0;
-            border-radius: 4px;
-        }
-
-        .warning-compact p {
-            color: #856404;
-            font-size: 11px;
-            line-height: 1.5;
-            margin: 0;
-        }
-
-        .signature-area {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 20px;
-            margin: 20px 0 15px 0;
+        .barcode-section {
+            margin: 40px auto;
             text-align: center;
+            max-width: 250px;
+            padding: 20px;
+            background: linear-gradient(to bottom, #f8f9fa 0%, #ffffff 100%);
+            border: 2px solid #003366;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,51,102,0.1);
+        }
+        
+        .scan-instruction {
+            font-weight: bold;
+            font-size: 15pt;
+            margin-bottom: 15px;
+            color: #003366;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            letter-spacing: 0.5px;
+        }
+        
+        .new-barcode {
+            width: 200px;
+            height: 200px;
+            display: block;
+            margin: 0 auto;
+            background: white;
+            border: 3px solid #e0e0e0;
+            border-radius: 8px;
+            padding: 5px;
         }
 
-        .signature-box p {
-            font-size: 11px;
-            font-weight: 600;
-            margin-bottom: 5px;
-        }
-
-        .signature-line {
-            margin-top: 50px;
-            padding-top: 8px;
-            border-top: 2px solid #333;
-            font-weight: 600;
-            font-size: 11px;
-        }
-
-        .footer {
-            text-align: center;
-            padding: 12px;
-            background: #f8f9fa;
-            border-top: 2px solid #2a5298;
-            margin: 15px -15mm -15mm -15mm;
-            font-size: 10px;
-            color: #666;
-            line-height: 1.4;
-        }
-
-        .footer strong {
-            color: #1e3c72;
-            font-size: 11px;
-        }
-
-        .loading-overlay {
-            display: none;
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0,0,0,0.7);
-            z-index: 9999;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .loading-overlay.active {
+        .footer-signature {
+            margin-top: 60px;
             display: flex;
+            justify-content: space-between;
+            gap: 60px;
+        }
+        
+        .signature-box {
+            width: 48%;
+            text-align: center;
+            position: relative;
+        }
+        
+        .signature-box p {
+            margin: 5px 0;
+            font-size: 12pt;
+        }
+        
+        .signature-content {
+            position: relative;
+            min-height: 180px;
+            margin: 15px 0;
+        }
+        
+        .ttd-image {
+            height: 100px;
+            width: auto;
+            display: block;
+            margin: 10px auto;
+            object-fit: contain;
+        }
+        
+        .materai-elektronik {
+            position: absolute;
+            top: -10px;
+            right: 10px;
+            height: 90px;
+            width: auto;
+            object-fit: contain;
+            z-index: 10;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.2));
+        }
+        
+        .stampel-image {
+            height: 140px;
+            width: auto;
+            display: block;
+            margin: 15px auto;
+            object-fit: contain;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
         }
 
-        .spinner {
-            border: 5px solid #f3f3f3;
-            border-top: 5px solid #2a5298;
-            border-radius: 50%;
-            width: 60px;
-            height: 60px;
-            animation: spin 1s linear infinite;
+        .polri-section {
+            text-align: center;
+            margin: 30px 0;
+            padding: 20px;
+            background: linear-gradient(to right, #f8f9fa 0%, #ffffff 50%, #f8f9fa 100%);
+            border-top: 2px solid #003366;
+            border-bottom: 2px solid #003366;
         }
-
-        .loading-text {
-            color: white;
-            margin-top: 15px;
-            font-size: 16px;
+        
+        .polri-logo {
+            height: 80px;
+            width: auto;
+            margin: 10px auto;
+            display: block;
+            filter: drop-shadow(0 2px 6px rgba(0,0,0,0.15));
+        }
+        
+        .polri-text {
+            font-size: 11pt;
+            color: #003366;
             font-weight: bold;
+            margin-top: 10px;
         }
 
-        @keyframes spin {
-            0% { transform: rotate(0deg); }
-            100% { transform: rotate(360deg); }
+        .copyright {
+            font-size: 10.5pt;
+            margin-top: 35px;
+            text-align: center;
+            color: #333;
+            padding-top: 20px;
+            border-top: 2px solid #003366;
+            background: linear-gradient(to bottom, #ffffff 0%, #f8f9fa 100%);
+            padding-bottom: 20px;
+        }
+        
+        .copyright p {
+            margin: 5px 0;
         }
 
         @media print {
-            body {
-                background: white;
-                padding: 0;
+            body { 
+                background: white; 
+                padding: 0; 
             }
-            .container {
+            .ui-controls, 
+            .scroll-indicator { 
+                display: none; 
+            }
+            #pdfContent {
+                padding: 20mm 15mm;
                 box-shadow: none;
-                max-width: 100%;
-                margin: 0;
+                max-width: none;
+                width: 210mm;
+                border-radius: 0;
             }
-            .download-button {
-                display: none;
+            .header, 
+            .footer-signature, 
+            .content-with-badge {
+                flex-direction: row !important;
             }
-            #invoice-content {
-                padding: 0;
+            .signature-box {
+                width: 48% !important;
+            }
+            .watermark img {
+                opacity: 0.04 !important;
+            }
+            .new-barcode {
+                width: 180px !important;
+                height: 180px !important;
             }
         }
 
-        @page {
-            size: A4;
-            margin: 0;
+        @media (max-width: 768px) {
+            #pdfContent {
+                padding: 25px;
+            }
+            .header {
+                flex-direction: column !important;
+                gap: 15px;
+            }
+            .logo-left, .logo-right {
+                height: 70px;
+            }
+            .header-center h1 {
+                font-size: 13pt;
+            }
+            .footer-signature, 
+            .content-with-badge {
+                flex-direction: column !important;
+            }
+            .signature-box, 
+            .content-main {
+                width: 100% !important;
+            }
+            .barcode-section {
+                max-width: 100%;
+            }
+            .new-barcode {
+                width: 160px;
+                height: 160px;
+            }
         }
     </style>
 </head>
 <body>
-    <!-- Loading Overlay -->
-    <div class="loading-overlay" id="loadingOverlay">
-        <div style="text-align: center;">
-            <div class="spinner"></div>
-            <div class="loading-text">Membuat PDF...</div>
-        </div>
+    <div class="scroll-indicator" id="ScrollIndicator"></div>
+
+    <div class="ui-controls">
+        <button id="downloadPdfBtn" class="download-btn">📥 Download PDF Resmi (Watermark Aktif)</button>
     </div>
 
-    <!-- Download Button -->
-    <button class="download-button" onclick="downloadPDF()">
-        📥 Download PDF
-    </button>
+    <div id="pdfContent">
+        <div class="watermark">
+            <img src="https://i.ibb.co/Xx0CHnr5/pm-1748860520447-cmp.jpg" alt="Watermark Bea Cukai" />
+        </div>
 
-    <div class="container">
-        <div id="invoice-content">
-            <!-- Header -->
+        <div class="content-layer">
             <div class="header">
-                <div class="header-flex">
-                    <div class="company-info">
-                        <h1>R2 NUSANTARA</h1>
-                        <p>Distributor Terpercaya Se-Nusantara</p>
-                        <p>📞 (+62) 857-1590-5079 | 📍 Malang, Jawa Timur</p>
-                    </div>
-                    <div class="invoice-meta">
-                        <h2>FAKTUR TAGIHAN</h2>
-                        <p><strong>No:</strong> INV/R2N/2026/02/001</p>
-                        <p><strong>Tanggal:</strong> 11 Feb 2026</p>
-                    </div>
+                <img src="https://i.ibb.co/xq9Qf08z/IMG-20260129-202430.jpg" alt="Logo Kementerian Keuangan" class="logo-left" />
+                <div class="header-center">
+                    <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
+                    <h1>DIREKTORAT JENDERAL BEA DAN CUKAI</h1>
+                    <p>KANTOR PENGAWASAN DAN PELAYANAN BEA DAN CUKAI</p>
+                    <p>TIPE MADYA PABEAN B MAKASSAR</p>
+                    <p>Jl. Andi Pangeran Pettarani No. 30, Makassar, Sulawesi Selatan 90231</p>
+                    <p>Telepon: (0411) 865111 / 865222 | Email: bcmakassar@customs.go.id</p>
                 </div>
+                <img src="https://i.ibb.co/SwqZVzhL/IMG-20260129-202143.jpg" alt="Logo Direktorat Jenderal Bea dan Cukai" class="logo-right" />
             </div>
 
-            <!-- Urgent Notice -->
-            <div class="urgent-bar">
-                ⚠️ WAJIB LUNAS SEBELUM PENGIRIMAN BARANG ⚠️
+            <div class="slogan-section">
+                <img src="https://i.ibb.co/y3cb9dJ/IMG-20251209-084035.jpg" alt="Slogan Bea Cukai" class="slogan-image" />
             </div>
 
-            <!-- Info Penerima & Sales -->
-            <div class="info-grid">
-                <div class="info-box">
-                    <h3>📦 Data Penerima</h3>
-                    <p><strong>Nama:</strong> Warsih</p>
-                    <p><strong>Telepon:</strong> (+62) 823-3650-5290</p>
-                    <p><strong>Alamat:</strong> Rato Sila RT.04/RW.03, Kec. Bolo, Kab. Bima, Nusa Tenggara Barat 84161</p>
-                </div>
-                <div class="info-box">
-                    <h3>👤 Informasi Sales</h3>
-                    <p><strong>Sales:</strong> (+62) 831-6938-6894</p>
-                    <p><strong>Lokasi:</strong> Desa Karangduren, Kec. Pakisaji, Kab. Malang, Jawa Timur 65162</p>
-                </div>
+            <div class="doc-type">BERITA ACARA<br>JAMINAN PENGIRIMAN SEMENTARA</div>
+
+            <div class="doc-meta">
+                <p><strong>Nomor</strong> : BC.MKS/BA-029/2026</p>
+                <p><strong>Tanggal</strong> : 26 Januari 2026</p>
             </div>
 
-            <!-- Tabel Pesanan -->
-            <table>
-                <thead>
+            <div class="recipient">
+                <p>Kepada Yth.,</p>
+                <p><strong>Nama : NURIKA</strong></p>
+            </div>
+
+            <div class="greeting">
+                <p>Dengan hormat,</p>
+                <p>Berdasarkan hasil pemeriksaan fisik dan administrasi barang kiriman pada fasilitas pemeriksaan Pelabuhan Soekarno-Hatta, Makassar, serta sesuai dengan Standar Operasional Prosedur (SOP) Pemeriksaan Internal, bersama ini kami sampaikan informasi sebagai berikut:</p>
+            </div>
+
+            <div class="section">
+                <div class="section-title">I. DATA BARANG KIRIMAN</div>
+                <table class="info-table">
                     <tr>
-                        <th class="text-center" style="width: 8%;">No</th>
-                        <th style="width: 40%;">Deskripsi Barang</th>
-                        <th class="text-center" style="width: 15%;">Jumlah</th>
-                        <th class="text-right" style="width: 18%;">Harga/Unit</th>
-                        <th class="text-right" style="width: 19%;">Subtotal</th>
+                        <th>Jenis Barang</th>
+                        <td>Rokok (40 slop / 8.000 batang), Non Pita Cukai Resmi</td>
                     </tr>
-                </thead>
-                <tbody>
                     <tr>
-                        <td class="text-center">1</td>
-                        <td><strong>SLOP</strong></td>
-                        <td class="text-center">50 Slop</td>
-                        <td class="text-right">Rp 68.000</td>
-                        <td class="text-right"><strong>Rp 3.400.000</strong></td>
+                        <th>Jumlah Kemasan</th>
+                        <td>40 (empat puluh) slop</td>
                     </tr>
-                </tbody>
-            </table>
+                    <tr>
+                        <th>Jumlah Batang</th>
+                        <td>8.000 (delapan ribu) batang</td>
+                    </tr>
+                    <tr>
+                        <th>Berat</th>
+                        <td>12 kg</td>
+                    </tr>
+                    <tr>
+                        <th>Status Kepabeanan</th>
+                        <td>Barang akan dilengkapi pita cukai jaminan pengiriman sementara sesuai ketentuan internal.</td>
+                    </tr>
+                </table>
+            </div>
 
-            <!-- Ringkasan Pembayaran -->
-            <div class="summary-box">
-                <div class="summary-row total">
-                    <span>TOTAL TAGIHAN</span>
-                    <span>Rp 3.400.000</span>
+            <div class="section">
+                <div class="section-title">II. TINDAKAN INTERNAL</div>
+                <p>Adapun tindakan yang dilakukan untuk memastikan kejelasan legalitas barang adalah:</p>
+                <ol style="margin: 12px 0 12px 30px; line-height: 1.8;">
+                    <li>Menahan sementara paket untuk proses klarifikasi kepada pemilik barang.</li>
+                    <li>Mengeluarkan Berita Acara Jaminan Pengiriman Sementara dengan perhitungan sebagai berikut:</li>
+                </ol>
+            </div>
+
+            <div class="section">
+                <div class="section-title">III. PERHITUNGAN JAMINAN PENGIRIMAN SEMENTARA</div>
+                <p>Dasar perhitungan mengacu pada tarif internal berdasarkan 25% dari 2× nilai pita cukai standar per batang (bukan denda cukai, melainkan jaminan administratif untuk proses legalisasi dan kelanjutan pengiriman):</p>
+                <table class="calculation-table">
+                    <tr>
+                        <td class="label">Nilai Pita Cukai Standar per batang</td>
+                        <td>Rp 1.000,00</td>
+                    </tr>
+                    <tr>
+                        <td class="label">2× Nilai Pita Cukai per batang</td>
+                        <td>Rp 2.000,00</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Jaminan Legalisasi (25% dari 2× nilai pita cukai)</td>
+                        <td>Rp 500,00</td>
+                    </tr>
+                    <tr>
+                        <td class="label">Total Dasar Penilaian (8.000 × Rp 500,00)</td>
+                        <td><strong>Rp 4.000.000,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Jaminan Pengiriman Sementara</td>
+                        <td><strong>Rp 4.000.000,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="label">Biaya Lanjutan Pengiriman</td>
+                        <td>Rp 0,00</td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="label"><strong>TOTAL JAMINAN PENGIRIMAN SEMENTARA</strong></td>
+                        <td><strong>Rp 4.000.000,00</strong></td>
+                    </tr>
+                </table>
+            </div>
+
+            <div class="section">
+                <div class="section-title">IV. OPSI REFUND</div>
+                <p>Setelah proses verifikasi internal selesai dan dokumen pendukung telah dilengkapi secara sah, pemilik barang diberikan opsi restitusi sebagai berikut:</p>
+                <table class="calculation-table">
+                    <tr>
+                        <td class="label">1. Pengembalian (Refund) 90% dari total jaminan</td>
+                        <td><strong>Rp 3.600.000,00</strong></td>
+                    </tr>
+                    <tr>
+                        <td class="label">2. Biaya Administrasi Pengajuan/Legalisasi 10%</td>
+                        <td><strong>Rp 400.000,00</strong></td>
+                    </tr>
+                    <tr class="total-row">
+                        <td class="label"><strong>Total Jaminan yang Dibayarkan</strong></td>
+                        <td><strong>Rp 4.000.000,00</strong></td>
+                    </tr>
+                </table>
+                <p style="margin-top: 15px;"><em><strong>Keterangan:</strong> Biaya administrasi pengajuan/legalisasi bukan merupakan denda atau sanksi pemerintah, melainkan biaya operasional internal yang diperlukan dalam proses penanganan, verifikasi, dan dokumentasi barang temuan legalitas sesuai SOP Bea Cukai.</em></p>
+            </div>
+
+            <div class="content-with-badge">
+                <div class="content-main">
+                    <div class="section-title">IDENTITAS PENERIMA BARANG</div>
+                    <table class="info-table">
+                        <tr>
+                            <th>Ekspedisi</th>
+                            <td>
+                                <img src="https://i.ibb.co/PZ5n40x8/IMG-0244.jpg" 
+                                     alt="SiCepat Express" 
+                                     style="height: 35px; vertical-align: middle;" />
+                            </td>
+                        </tr>
+                        <tr>
+                            <th>Nomor Resi</th>
+                            <td>26ASD0000002923</td>
+                        </tr>
+                        <tr>
+                            <th>Nama Penerima</th>
+                            <td>NURIKA</td>
+                        </tr>
+                        <tr>
+                            <th>Nomor Telepon</th>
+                            <td>(+62) 877-5041-3672</td>
+                        </tr>
+                        <tr>
+                            <th>Alamat</th>
+                            <td>Perumahan JinggaLand Parangbanoa, Blok E57,<br>Kec. Parangbanoa, Kab. Gowa, Sulawesi Selatan 92161</td>
+                        </tr>
+                    </table>
                 </div>
-                <div class="summary-row paid">
-                    <span>✓ Pembayaran Terbayar</span>
-                    <span>Rp 1.650.000</span>
-                </div>
-                <div class="summary-row outstanding">
-                    <span>💰 SISA YANG HARUS DIBAYAR</span>
-                    <span>Rp 1.750.000</span>
+                <div style="display: flex; flex-direction: column; justify-content: flex-start; align-items: flex-end;">
+                    <img src="https://i.ibb.co/SD9Lgbng/1000010580-11zon.jpg" 
+                         alt="Wajib Legalisasi" 
+                         class="legalization-badge" />
                 </div>
             </div>
 
-            <!-- Info Pembayaran -->
-            <div class="payment-box">
-                <h3>💳 Rekening Pembayaran</h3>
-                <p><strong>Bank:</strong> BRI (Bank Rakyat Indonesia) | <strong>No. Rek:</strong> 766401002223504 | <strong>A/N:</strong> Muhammad Aryandi</p>
-                <p style="margin-top: 8px; font-size: 11px; opacity: 0.95;">✓ Pembayaran pertama Rp 1.650.000 telah diterima dengan baik</p>
+            <div class="barcode-section">
+                <div class="scan-instruction">🔍 SCAN TO PAY</div>
+                <img src="https://i.ibb.co/XxwTDy4Q/Screenshot-2026-01-30-00-47-09-275-com-miui-gallery-edit.jpg" 
+                     alt="QRIS Pembayaran Jaminan" 
+                     class="new-barcode" />
+                <p style="font-size: 10pt; margin-top: 12px; color: #666;">Pembayaran Resmi Melalui QRIS</p>
             </div>
 
-            <!-- Peringatan -->
-            <div class="warning-compact">
-                <p><strong>⚠️ PERHATIAN:</strong> Pelunasan Rp 1.750.000 wajib diselesaikan sebelum pengiriman. Barang akan dikirim setelah konfirmasi pembayaran diterima. Kirim bukti transfer ke sales/distributor.</p>
+            <div class="section">
+                <div class="section-title">V. KONSEKUENSI</div>
+                <p>Jika tidak diurus dalam <strong>1 (satu) hari kerja</strong>, barang dapat disita dan diproses hukum sesuai ketentuan Peraturan Perundang-undangan yang berlaku, termasuk UU Cukai No. 39 Tahun 2007.</p>
             </div>
 
-            <!-- Tanda Tangan -->
-            <div class="signature-area">
+            <div class="section">
+                <div class="section-title">VI. PENJELASAN RESMI TENTANG JAMINAN PENGIRIMAN SEMENTARA</div>
+                <p><strong>Jaminan Pengiriman Sementara</strong> adalah instrumen administratif yang menjamin kepatuhan terhadap ketentuan kepabeanan atas barang impor/noncukai sementara di wilayah pabean. Instrumen ini:</p>
+                <ul style="margin: 12px 0 12px 30px; list-style-type: disc; line-height: 1.8;">
+                    <li><strong>Bukan untuk perlindungan fisik barang</strong>, melainkan untuk menjamin pemenuhan kewajiban kepabeanan (misalnya: pengembalian atau penyelesaian status barang).</li>
+                    <li><strong>Wajib diselesaikan</strong> dalam tenggat waktu yang ditentukan oleh otoritas kepabeanan.</li>
+                    <li>Jika tidak dipenuhi, dikenakan:
+                        <ul style="margin-top: 10px; list-style-type: circle;">
+                            <li><strong>Sanksi administratif</strong>: penagihan jaminan, denda, pencabutan fasilitas.</li>
+                            <li><strong>Sanksi pidana</strong>:
+                                <ul style="margin-top: 8px; list-style-type: square;">
+                                    <li>Pidana penjara <strong>maksimal 5 tahun</strong> + denda <strong>maksimal Rp500 juta</strong> (Pasal 75 UU Kepabeanan).</li>
+                                    <li>Jika merugikan negara: penjara <strong>maksimal 8 tahun</strong> + denda <strong>maksimal Rp8 miliar</strong> (Pasal 76).</li>
+                                    <li>Untuk pelanggaran cukai: denda hingga <strong>10 kali nilai cukai</strong> (Pasal 77).</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+                <p style="margin-top: 15px;"><strong>Dasar Hukum:</strong> Pasal 33 ayat (4) Undang-Undang Dasar Negara Republik Indonesia Tahun 1945 dan Undang-Undang Nomor 17 Tahun 2006 sebagaimana telah diubah dengan Undang-Undang Nomor 7 Tahun 2021 tentang Kepabeanan.</p>
+            </div>
+
+            <div class="polri-section">
+                <img src="https://i.ibb.co/Q71JZDWm/baf16a411338234b3c4f056675e35029.jpg" alt="Logo Polri" class="polri-logo" />
+                <p class="polri-text">Bekerja Sama Dengan Kepolisian Negara Republik Indonesia</p>
+                <p style="font-size: 10pt; color: #666; margin-top: 5px;">Dalam Rangka Penegakan Hukum Kepabeanan dan Cukai</p>
+            </div>
+
+            <div class="section">
+                <p style="margin: 25px 0 15px 0;"><strong>Demikian Berita Acara ini dibuat untuk digunakan sebagaimana mestinya dalam proses administrasi internal dan sebagai dasar tindak lanjut proses pengiriman barang.</strong></p>
+                <p><strong>Hormat kami,</strong></p>
+            </div>
+
+            <div class="footer-signature">
                 <div class="signature-box">
-                    <p>Hormat Kami,</p>
-                    <p style="font-weight: 700;">R2 Nusantara</p>
-                    <div class="signature-line">Distributor</div>
+                    <p>Makassar, 26 Januari 2026</p>
+                    <p><strong>Pejabat Pemeriksa</strong></p>
+                    <p>Kantor Pengawasan dan Pelayanan</p>
+                    <p>Bea dan Cukai Makassar</p>
+                    
+                    <div class="signature-content">
+                        <img src="https://i.ibb.co/39k0MRDM/IMG-20260211-183600.jpg" 
+                             alt="Materai Elektronik" 
+                             class="materai-elektronik" />
+                        <img src="https://i.ibb.co/HpRTTpzZ/IMG-20260211-185240.jpg" 
+                             alt="Tanda Tangan" 
+                             class="ttd-image" />
+                    </div>
+                    
+                    <p style="margin-top: 10px;"><strong><u>SITI RAHAYU</u></strong></p>
+                    <p>NIP. 19860908 201001 2 005</p>
                 </div>
+                
                 <div class="signature-box">
-                    <p>Disetujui Oleh,</p>
-                    <p style="font-weight: 700;">Penerima</p>
-                    <div class="signature-line">Warsih</div>
+                    <p style="margin-bottom: 15px;">&nbsp;</p>
+                    <p><strong>Kepala Kantor</strong></p>
+                    <p>KPPBC TMP B Makassar</p>
+                    
+                    <img src="https://i.ibb.co/6Rt28Yjh/pm-1766605891575-cmp.jpg" 
+                         alt="Stempel Resmi" 
+                         class="stampel-image" />
+                    
+                    <p style="margin-top: 15px;"><strong><u>Dr. Andi Rizal</u></strong></p>
+                    <p>NIP. 19780415 200604 1 002</p>
                 </div>
             </div>
 
-            <!-- Footer -->
-            <div class="footer">
-                <strong>R2 Nusantara - Distributor Terpercaya</strong><br>
-                Dokumen resmi dan sah secara hukum | Info: (+62) 857-1590-5079<br>
-                <em>Terima kasih atas kepercayaan Anda</em>
+            <div class="copyright">
+                <p><strong>© 2026 Direktorat Jenderal Bea dan Cukai</strong></p>
+                <p>Hak Cipta Dilindungi Undang-Undang</p>
+                <p style="margin-top: 10px;">Kode Naskah Dinas: <strong>BC.MKS/BA-029/2026</strong> | Kode Arsip: <strong>BA-2026-MKS-029</strong></p>
+                <p style="margin-top: 5px; font-size: 9pt; color: #666;">Dokumen ini sah secara elektronik dan tidak memerlukan tanda tangan basah</p>
             </div>
         </div>
     </div>
 
     <script>
-        function downloadPDF() {
-            document.getElementById('loadingOverlay').classList.add('active');
+        // Scroll Indicator
+        window.addEventListener('scroll', function() {
+            const indicator = document.getElementById('ScrollIndicator');
+            const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
+            const scrollHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrollPercentage = (scrollTop / scrollHeight) * 100;
+            
+            if (scrollPercentage > 10 && scrollPercentage < 90) {
+                indicator.classList.add('show');
+            } else {
+                indicator.classList.remove('show');
+            }
+        });
 
-            const element = document.getElementById('invoice-content');
+        // Download PDF Function
+        document.getElementById('downloadPdfBtn').addEventListener('click', function() {
+            const button = this;
+            button.disabled = true;
+            button.textContent = '⏳ Generating PDF...';
+            
+            const element = document.getElementById('pdfContent');
             const opt = {
-                margin: 0,
-                filename: 'Faktur_Tagihan_R2_Nusantara_INV_2026_02_001.pdf',
+                margin: [10, 10, 10, 10],
+                filename: 'Berita_Acara_Jaminan_Pengiriman_Sementara_BC_MKS_029_2026.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
                     scale: 2,
                     useCORS: true,
-                    letterRendering: true,
                     logging: false,
-                    width: 794,
-                    height: 1123,
-                    windowWidth: 794
+                    letterRendering: true
                 },
                 jsPDF: { 
                     unit: 'mm', 
@@ -501,23 +741,24 @@
                     orientation: 'portrait',
                     compress: true
                 },
-                pagebreak: { mode: 'avoid-all' }
+                pagebreak: { mode: ['avoid-all', 'css', 'legacy'] }
             };
-
+            
             html2pdf().set(opt).from(element).save().then(function() {
+                button.disabled = false;
+                button.textContent = '✅ Download Berhasil!';
                 setTimeout(function() {
-                    document.getElementById('loadingOverlay').classList.remove('active');
-                }, 500);
+                    button.textContent = '📥 Download PDF Resmi (Watermark Aktif)';
+                }, 3000);
             }).catch(function(error) {
-                console.error('Error:', error);
-                document.getElementById('loadingOverlay').classList.remove('active');
-                alert('Terjadi kesalahan saat membuat PDF. Silakan coba lagi.');
+                console.error('Error generating PDF:', error);
+                button.disabled = false;
+                button.textContent = '❌ Gagal - Coba Lagi';
+                setTimeout(function() {
+                    button.textContent = '📥 Download PDF Resmi (Watermark Aktif)';
+                }, 3000);
             });
-        }
-
-        window.onload = function() {
-            window.scrollTo(0, 0);
-        };
+        });
     </script>
 </body>
 </html>
