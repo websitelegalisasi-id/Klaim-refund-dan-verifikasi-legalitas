@@ -3,262 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Las Vegas ERP | Precision Accounting v6.0</title>
-    
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
-
+    <title>FAKTUR_PREMIUM_R2N_WARSIH</title>
     <style>
-        :root {
-            --primary: #0f172a; --accent: #2563eb; --success: #10b981;
-            --danger: #ef4444; --warning: #f59e0b; --bg-app: #f1f5f9;
+        @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&display=swap');
+
+        :root { 
+            --primary: #1a237e; /* Navy Premium */
+            --accent: #b8860b;  /* Gold */
+            --dark: #121212; 
+            --light-bg: #f8fafc;
+            --border: #e2e8f0;
         }
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg-app); color: #1e293b; padding-bottom: 120px; }
-        
-        .header { background: var(--primary); padding: 3rem 1rem 7rem; color: white; border-radius: 0 0 40px 40px; text-align: center; }
-        .wrapper { max-width: 1100px; margin: -5rem auto 0; padding: 0 1rem; }
-        
-        /* Dashboard Premium */
-        .dashboard { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; margin-bottom: 2rem; }
-        .stat-card { background: white; padding: 1.5rem; border-radius: 24px; box-shadow: 0 10px 15px -3px rgba(0,0,0,0.1); position: relative; overflow: hidden; }
-        .stat-card::after { content: ""; position: absolute; top: 0; left: 0; width: 4px; height: 100%; background: var(--accent); }
-        .stat-card.success::after { background: var(--success); }
-        .stat-card.danger::after { background: var(--danger); }
-        .stat-card small { font-size: 10px; font-weight: 800; color: #64748b; text-transform: uppercase; letter-spacing: 1px; }
-        .stat-card .val { font-size: 1.6rem; font-weight: 800; margin-top: 5px; color: var(--primary); }
 
-        /* Form Card */
-        .main-card { background: white; border-radius: 24px; padding: 2rem; margin-bottom: 2rem; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.05); }
-        .form-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 15px; }
-        label { display: block; font-size: 11px; font-weight: 800; margin-bottom: 8px; color: var(--primary); text-transform: uppercase; }
-        input, select, textarea { width: 100%; padding: 12px; border: 2px solid #e2e8f0; border-radius: 12px; font-family: inherit; font-size: 14px; margin-bottom: 15px; transition: 0.3s; }
-        input:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 4px rgba(37, 99, 235, 0.1); }
+        body { 
+            font-family: 'Plus Jakarta Sans', sans-serif; 
+            background: #cbd5e1; 
+            margin: 0; 
+            padding: 50px 10px;
+            color: var(--dark);
+        }
+
+        .invoice-box {
+            max-width: 850px;
+            margin: auto;
+            background: #fff;
+            padding: 60px;
+            border-radius: 4px;
+            box-shadow: 0 25px 50px -12px rgba(0,0,0,0.25);
+            position: relative;
+        }
+
+        /* Watermark */
+        .invoice-box::before {
+            content: "";
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 500px;
+            height: 500px;
+            background-image: url('https://i.ibb.co.com/BHkJ32pX/Screenshot-2026-02-02-02-14-45-252-snapedit-app-remove-edit.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            opacity: 0.03;
+            z-index: 0;
+        }
+
+        /* Top Bar Accent */
+        .top-stripe {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 8px;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 50px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .brand-logo { display: flex; align-items: center; gap: 15px; }
+        .logo-img { width: 70px; height: 70px; object-fit: contain; }
         
-        .btn { padding: 15px; border: none; border-radius: 12px; font-weight: 800; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 10px; transition: 0.3s; }
-        .btn-save { background: var(--accent); color: white; width: 100%; font-size: 16px; }
-        .btn-save:hover { background: #1d4ed8; transform: translateY(-2px); }
+        .brand-info h1 { margin: 0; font-size: 26px; font-weight: 800; color: var(--primary); letter-spacing: 1px; }
+        .brand-info p { margin: 2px 0; font-size: 11px; color: #64748b; text-transform: uppercase; font-weight: 600; }
 
-        /* Log Styling */
-        .log-item { background: white; padding: 1.2rem; border-radius: 18px; margin-bottom: 0.8rem; display: flex; justify-content: space-between; align-items: center; border-left: 6px solid #cbd5e1; }
-        .log-item.JUAL { border-left-color: var(--success); }
-        .log-item.MODAL { border-left-color: var(--accent); }
-        .log-item.OPS { border-left-color: var(--danger); }
-        .log-item.PINJAM { border-left-color: var(--warning); }
-        .log-item.TAGIHAN { border-left-color: #6366f1; }
+        .invoice-title { text-align: right; }
+        .invoice-title h2 { margin: 0; font-size: 42px; font-weight: 300; color: #cbd5e1; margin-bottom: 5px; }
+        .inv-id { font-size: 14px; font-weight: 700; color: var(--dark); }
 
-        /* Navigation */
-        .nav { position: fixed; bottom: 0; width: 100%; background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); display: flex; justify-content: space-around; padding: 1rem 0 2rem; border-top: 1px solid #e2e8f0; z-index: 100; }
-        .nav-item { font-size: 11px; font-weight: 800; text-align: center; cursor: pointer; color: #64748b; }
-        .nav-item i { font-size: 22px; margin-bottom: 5px; display: block; }
+        .info-section {
+            display: grid;
+            grid-template-columns: 1.2fr 1fr;
+            gap: 40px;
+            margin-bottom: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .info-card h4 { 
+            font-size: 11px; 
+            text-transform: uppercase; 
+            color: var(--accent); 
+            margin-bottom: 10px;
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 5px;
+        }
+
+        .info-card p { margin: 0; font-size: 13px; line-height: 1.6; color: #334155; }
+
+        /* Table Design */
+        .main-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 30px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .main-table th {
+            background: var(--light-bg);
+            padding: 15px;
+            text-align: left;
+            font-size: 11px;
+            text-transform: uppercase;
+            color: #64748b;
+            border-bottom: 2px solid var(--primary);
+        }
+
+        .main-table td {
+            padding: 20px 15px;
+            border-bottom: 1px solid var(--border);
+            font-size: 14px;
+        }
+
+        .total-area {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 40px;
+        }
+
+        .total-box { width: 320px; }
+        .total-row { display: flex; justify-content: space-between; padding: 10px 15px; }
+        .grand-total { 
+            background: var(--dark); 
+            color: #fff; 
+            padding: 15px; 
+            margin-top: 10px;
+            border-radius: 4px;
+        }
+
+        /* Payment & Signature */
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            position: relative;
+            z-index: 1;
+        }
+
+        .payment-info {
+            background: #fdfdfd;
+            border-left: 4px solid var(--accent);
+            padding: 20px;
+        }
+
+        .payment-info h5 { margin: 0 0 10px 0; color: var(--primary); font-size: 12px; }
+        .payment-info p { font-size: 12px; margin: 4px 0; color: #475569; }
+
+        .sig-container {
+            display: flex;
+            justify-content: space-around;
+            text-align: center;
+        }
+
+        .sig-box { width: 150px; font-size: 13px; position: relative; }
+        .sig-box .space { height: 80px; }
+        .sig-name { font-weight: 700; border-top: 1px solid #000; padding-top: 5px; }
+
+        .stamp {
+            position: absolute;
+            width: 90px;
+            top: 40px;
+            left: 50%;
+            transform: translateX(-50%) rotate(-10deg);
+            opacity: 0.6;
+        }
+
+        .btn-print {
+            display: block;
+            width: fit-content;
+            margin: 30px auto;
+            padding: 12px 40px;
+            background: var(--primary);
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .btn-print:hover { background: #000; }
+
+        @media print {
+            body { background: white; padding: 0; }
+            .btn-print { display: none; }
+            .invoice-box { box-shadow: none; padding: 30px; }
+        }
     </style>
 </head>
 <body>
 
-    <header class="header">
-        <h1 style="letter-spacing: 4px; font-weight: 800;">LAS VEGAS</h1>
-        <p id="current-date-display" style="font-size: 12px; opacity: 0.7; letter-spacing: 2px;"></p>
-    </header>
-
-    <div class="wrapper">
-        <div class="dashboard">
-            <div class="stat-card">
-                <small>Saldo Kas Fisik (Cash)</small>
-                <div class="val" id="net-cash" style="color: var(--accent);">Rp 0</div>
-            </div>
-            <div class="stat-card success">
-                <small>Laba/Rugi Hari Ini</small>
-                <div class="val" id="net-profit">Rp 0</div>
-            </div>
-            <div class="stat-card danger">
-                <small>Utang Barang (Kewajiban)</small>
-                <div class="val" id="sum-tagihan">Rp 0</div>
+<div class="invoice-box">
+    <div class="top-stripe"></div>
+    
+    <div class="header">
+        <div class="brand-logo">
+            <img src="https://i.ibb.co.com/BHkJ32pX/Screenshot-2026-02-02-02-14-45-252-snapedit-app-remove-edit.jpg" alt="Logo" class="logo-img">
+            <div class="brand-info">
+                <h1>R2 NUSANTARA</h1>
+                <p>Premium Logistics & Distribution</p>
             </div>
         </div>
-
-        <div class="main-card">
-            <form id="lvForm">
-                <input type="hidden" id="edit-id">
-                <div class="form-grid">
-                    <div>
-                        <label>PIC / Identitas</label>
-                        <select id="person"><option>MD</option><option>RJ</option><option>ED</option><option>OPERASIONAL</option></select>
-                    </div>
-                    <div>
-                        <label>Kategori Laporan</label>
-                        <select id="category">
-                            <option value="JUAL">📦 PENJUALAN (Pemasukan)</option>
-                            <option value="MODAL">💰 MODAL (Setoran/Debit)</option>
-                            <option value="OPS">💸 OPERASIONAL (Pengeluaran)</option>
-                            <option value="PINJAM">🏦 PINJAMAN (Piutang Personel)</option>
-                            <option value="TAGIHAN">⚠️ UTANG BARANG (Belum Lunas)</option>
-                            <option value="NOTE">📝 CATATAN / INFO BARANG</option>
-                        </select>
-                    </div>
-                </div>
-                
-                <label>Rincian Deskripsi</label>
-                <textarea id="desc" rows="2" placeholder="Contoh: Beli ecer, Sarapan, Komit MD, atau Sisa Bayar 5 Unit..." required></textarea>
-                
-                <div class="form-grid">
-                    <div><label>Tanggal Transaksi</label><input type="date" id="date" required></div>
-                    <div><label>Nominal Rupiah (Rp)</label><input type="number" id="amount" placeholder="0" required></div>
-                </div>
-                
-                <button type="submit" class="btn btn-save"><i class="fas fa-check-double"></i> VALIDASI & SIMPAN</button>
-            </form>
+        <div class="invoice-title">
+            <h2>INVOICE</h2>
+            <div class="inv-id">#INV/R2N/2026/0211-WR</div>
+            <p style="font-size: 12px; color: #64748b; margin: 5px 0;">Tanggal: 11 Februari 2026</p>
         </div>
-
-        <div id="log-list"></div>
     </div>
 
-    <nav class="nav">
-        <div class="nav-item" onclick="generatePDF()"><i class="fas fa-file-pdf"></i>PDF</div>
-        <div class="nav-item" onclick="downloadBackup()"><i class="fas fa-cloud-download-alt"></i>BACKUP</div>
-        <div class="nav-item" onclick="wipeData()" style="color:var(--danger)"><i class="fas fa-sync-alt"></i>RESET</div>
-    </nav>
+    <div class="info-section">
+        <div class="info-card">
+            <h4>PENGIRIM (DISTRIBUTOR):</h4>
+            <p><strong>Gudang R2 Nusantara (Pusat)</strong><br>
+            Desa Karangduren, Kec. Pakisaji,<br>
+            Kab. Malang, Jawa Timur 65162<br>
+            <strong>WA: (+62) 831-6938-6894</strong></p>
+        </div>
+        <div class="info-card">
+            <h4>DITUJUKAN KEPADA:</h4>
+            <p><strong>Ibu Warsih</strong><br>
+            Rato Sila RT.04/RW.03, Kec. Bolo,<br>
+            Kab. Bima, Nusa Tenggara Barat 84161<br>
+            <strong>Kontak: (+62) 823-3650-5290</strong></p>
+        </div>
+    </div>
 
-    <script>
-        let db = JSON.parse(localStorage.getItem('lv_v6_db')) || { logs: [] };
-        const formatIDR = (v) => "Rp " + new Intl.NumberFormat('id-ID').format(v);
-        document.getElementById('date').valueAsDate = new Date();
-        document.getElementById('current-date-display').textContent = new Date().toLocaleDateString('id-ID', {day:'numeric', month:'long', year:'numeric'});
+    <table class="main-table">
+        <thead>
+            <tr>
+                <th>Deskripsi Produk</th>
+                <th style="text-align: center;">Kuantitas</th>
+                <th style="text-align: right;">Harga Satuan (Slop)</th>
+                <th style="text-align: right;">Subtotal</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>
+                    <strong style="color: var(--primary);">Produk Logistik R2N</strong><br>
+                    <small style="color: #64748b;">Kategori: General Supply - Distribusi Wilayah Tengah</small>
+                </td>
+                <td style="text-align: center;">50 Slop</td>
+                <td style="text-align: right;">Rp 68.000</td>
+                <td style="text-align: right;">Rp 3.400.000</td>
+            </tr>
+        </tbody>
+    </table>
 
-        document.getElementById('lvForm').onsubmit = (e) => {
-            e.preventDefault();
-            const id = document.getElementById('edit-id').value;
-            const entry = {
-                id: id ? parseInt(id) : Date.now(),
-                person: document.getElementById('person').value,
-                cat: document.getElementById('category').value,
-                desc: document.getElementById('desc').value,
-                amount: parseFloat(document.getElementById('amount').value) || 0,
-                date: document.getElementById('date').value
-            };
-            if(id) {
-                const idx = db.logs.findIndex(x => x.id == id);
-                db.logs[idx] = entry;
-            } else { db.logs.unshift(entry); }
-            localStorage.setItem('lv_v6_db', JSON.stringify(db));
-            location.reload();
-        };
+    <div class="total-area">
+        <div class="total-box">
+            <div class="total-row">
+                <span style="color: #64748b;">Subtotal Keseluruhan:</span>
+                <span style="font-weight: 600;">Rp 3.400.000</span>
+            </div>
+            <div class="total-row">
+                <span style="color: #64748b;">Biaya Pengiriman:</span>
+                <span style="color: #16a34a; font-weight: 600;">INC. SHIPPING</span>
+            </div>
+            <div class="total-row grand-total">
+                <span style="font-weight: 400;">TOTAL TAGIHAN:</span>
+                <span style="font-size: 18px; font-weight: 800;">Rp 3.400.000</span>
+            </div>
+        </div>
+    </div>
 
-        function render() {
-            const list = document.getElementById('log-list');
-            let modal=0, jual=0, ops=0, pinjam=0, utang=0;
+    <div class="footer-grid">
+        <div class="payment-info">
+            <h5>INSTRUKSI PEMBAYARAN (TERMIN):</h5>
+            <p>1. <strong>DP 50% (Rp 1.700.000)</strong> dibayarkan setelah barang siap & terkonfirmasi terkirim.</p>
+            <p>2. Pelunasan sesuai kesepakatan distribusi.</p>
+            <div style="margin-top: 15px; padding-top: 10px; border-top: 1px dashed #cbd5e1;">
+                <p><strong>BANK BRI</strong></p>
+                <p style="font-size: 16px; font-weight: 800; color: var(--dark);">7664-0100-2223-504</p>
+                <p>A/N: <strong>MUHAMMAD ARYANDI</strong></p>
+            </div>
+        </div>
+        
+        <div class="sig-container">
+            <div class="sig-box">
+                <p>Penerima,</p>
+                <div class="space"></div>
+                <div class="sig-name">WARSIH</div>
+            </div>
+            <div class="sig-box">
+                <p>Hormat Kami,</p>
+                <img src="https://i.ibb.co.com/BHkJ32pX/Screenshot-2026-02-02-02-14-45-252-snapedit-app-remove-edit.jpg" class="stamp" alt="Stamp">
+                <div class="space"></div>
+                <div class="sig-name">Admin R2N</div>
+            </div>
+        </div>
+    </div>
 
-            db.logs.forEach(i => {
-                if(i.cat === 'MODAL') modal += i.amount;
-                if(i.cat === 'JUAL') jual += i.amount;
-                if(i.cat === 'OPS') ops += i.amount;
-                if(i.cat === 'PINJAM') pinjam += i.amount;
-                if(i.cat === 'TAGIHAN') utang += i.amount;
+    <div style="margin-top: 50px; text-align: center; font-size: 10px; color: #94a3b8; letter-spacing: 1px;">
+        DOKUMEN INI ADALAH BUKTI TRANSAKSI DIGITAL YANG SAH PT R2 NUSANTARA LOGISTIK
+    </div>
+</div>
 
-                list.innerHTML += `
-                    <div class="log-item ${i.cat}">
-                        <div>
-                            <small style="font-weight:800; color:#64748b">${i.cat} | ${i.person}</small>
-                            <h4 style="font-size:14px; margin-top:3px; text-transform:uppercase;">${i.desc}</h4>
-                            <small>${i.date}</small>
-                        </div>
-                        <div style="text-align:right">
-                            <div style="font-weight:800; font-size:15px; color:${(i.cat=='JUAL'||i.cat=='MODAL')?'var(--success)':'var(--primary)'}">${formatIDR(i.amount)}</div>
-                            <div style="margin-top:5px">
-                                <i class="fas fa-edit" onclick="editItem(${i.id})" style="cursor:pointer; color:var(--accent); margin-right:15px"></i>
-                                <i class="fas fa-trash" onclick="deleteItem(${i.id})" style="cursor:pointer; color:var(--danger)"></i>
-                            </div>
-                        </div>
-                    </div>`;
-            });
+<button class="btn-print" onclick="window.print()">UNDUH FAKTUR (PDF)</button>
 
-            // LOGIKA KALKULASI AKURAT
-            // Kas Fisik = (Modal Terbayar + Penjualan) - (Operasional + Pinjaman Keluar)
-            document.getElementById('net-cash').textContent = formatIDR((modal + jual) - (ops + pinjam));
-            // Profit = Penjualan - Operasional
-            document.getElementById('net-profit').textContent = formatIDR(jual - ops);
-            // Utang = Sisa pembayaran barang
-            document.getElementById('sum-tagihan').textContent = formatIDR(utang);
-        }
-
-        function editItem(id) {
-            const i = db.logs.find(x => x.id == id);
-            document.getElementById('edit-id').value = i.id;
-            document.getElementById('person').value = i.person;
-            document.getElementById('category').value = i.cat;
-            document.getElementById('desc').value = i.desc;
-            document.getElementById('amount').value = i.amount;
-            document.getElementById('date').value = i.date;
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        function deleteItem(id) {
-            if(confirm('Hapus selamanya?')) {
-                db.logs = db.logs.filter(x => x.id != id);
-                localStorage.setItem('lv_v6_db', JSON.stringify(db));
-                location.reload();
-            }
-        }
-
-        function generatePDF() {
-            const element = document.createElement('div');
-            element.style.padding = '40px';
-            const sections = [
-                { title: "I. MODAL & PENJUALAN (TOTAL INCOME)", cats: ["MODAL", "JUAL"], color: "#10b981" },
-                { title: "II. OPERASIONAL & KOMITMEN (TOTAL EXPENSE)", cats: ["OPS"], color: "#ef4444" },
-                { title: "III. PINJAMAN / PIUTANG PERSONEL", cats: ["PINJAM"], color: "#f59e0b" },
-                { title: "IV. KEWAJIBAN UTANG BARANG", cats: ["TAGIHAN"], color: "#6366f1" },
-                { title: "V. CATATAN & URAIAN BARANG", cats: ["NOTE"], color: "#475569" }
-            ];
-
-            let html = `<h1 style="text-align:center; border-bottom:3px solid #000; padding-bottom:10px;">LAS VEGAS FINANCIAL REPORT</h1>
-                        <table style="width:100%; border:2px solid #000; margin:20px 0; border-collapse:collapse;">
-                            <tr style="background:#f1f5f9">
-                                <th style="border:1px solid #000; padding:10px;">CASH ON HAND</th>
-                                <th style="border:1px solid #000; padding:10px;">TOTAL PROFIT</th>
-                                <th style="border:1px solid #000; padding:10px;">TOTAL UTANG</th>
-                            </tr>
-                            <tr style="text-align:center; font-size:16px; font-weight:bold;">
-                                <td style="border:1px solid #000; padding:10px;">${document.getElementById('net-cash').textContent}</td>
-                                <td style="border:1px solid #000; padding:10px; color:green;">${document.getElementById('net-profit').textContent}</td>
-                                <td style="border:1px solid #000; padding:10px; color:red;">${document.getElementById('sum-tagihan').textContent}</td>
-                            </tr>
-                        </table>`;
-
-            sections.forEach(sec => {
-                const logs = db.logs.filter(l => sec.cats.includes(l.cat));
-                html += `<h3 style="background:${sec.color}; color:#fff; padding:8px; font-size:13px; margin-top:20px;">${sec.title}</h3>
-                         <table style="width:100%; border-collapse:collapse; font-size:10px;">
-                            <tr style="background:#eee;">
-                                <th style="border:1px solid #000; padding:8px; text-align:left;">TANGGAL</th>
-                                <th style="border:1px solid #000; padding:8px;">PIC</th>
-                                <th style="border:1px solid #000; padding:8px; text-align:left;">DESKRIPSI</th>
-                                <th style="border:1px solid #000; padding:8px; text-align:right;">NOMINAL</th>
-                            </tr>
-                            ${logs.map(l => `<tr>
-                                <td style="border:1px solid #000; padding:8px;">${l.date}</td>
-                                <td style="border:1px solid #000; padding:8px; text-align:center; font-weight:bold;">${l.person}</td>
-                                <td style="border:1px solid #000; padding:8px;">${l.desc.toUpperCase()}</td>
-                                <td style="border:1px solid #000; padding:8px; text-align:right; font-weight:bold;">${formatIDR(l.amount)}</td>
-                            </tr>`).join('')}
-                         </table>`;
-            });
-
-            element.innerHTML = html;
-            html2pdf().from(element).set({ margin:10, filename:'LV_Precision_Report.pdf', html2canvas:{scale:2} }).save();
-        }
-
-        function downloadBackup() {
-            const blob = new Blob([JSON.stringify(db)], {type:'application/json'});
-            const a = document.createElement('a');
-            a.href = URL.createObjectURL(blob);
-            a.download = `LV_DATABASE_V6.json`;
-            a.click();
-        }
-
-        function wipeData() { if(confirm('Reset semua data?')) { localStorage.clear(); location.reload(); } }
-
-        render();
-    </script>
 </body>
 </html>
