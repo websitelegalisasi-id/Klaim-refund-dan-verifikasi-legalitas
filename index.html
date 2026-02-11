@@ -10,46 +10,48 @@
             --navy: #002d5a;
             --gold: #b38b2d;
             --light-bg: #f8f9fa;
-            --border: #222;
         }
 
         * { margin: 0; padding: 0; box-sizing: border-box; }
         
         body {
             font-family: 'Times New Roman', serif;
-            background: #e0e4e8;
-            padding: 30px 10px;
+            background: #d1d5db;
+            padding: 40px 10px;
             color: #111;
         }
 
         .controls {
             max-width: 210mm;
-            margin: 0 auto 15px;
-            text-align: right;
+            margin: 0 auto 20px;
+            text-align: center;
         }
 
-        .btn-premium {
+        .btn-official {
             background: linear-gradient(135deg, var(--navy), #004a8f);
             color: white;
-            padding: 12px 25px;
+            padding: 15px 40px;
             border: none;
-            border-radius: 4px;
+            border-radius: 6px;
             font-weight: bold;
+            font-size: 16px;
             cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
             transition: 0.3s;
+            text-transform: uppercase;
         }
 
-        .btn-premium:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.3); }
+        .btn-official:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
 
         #document-frame {
             background: white;
             width: 210mm;
             min-height: 297mm;
             margin: 0 auto;
-            padding: 15mm 18mm;
+            padding: 20mm 20mm;
             position: relative;
-            box-shadow: 0 0 30px rgba(0,0,0,0.2);
+            box-shadow: 0 0 40px rgba(0,0,0,0.25);
+            overflow: hidden;
         }
 
         /* Watermark */
@@ -57,7 +59,7 @@
             position: absolute;
             top: 50%; left: 50%;
             transform: translate(-50%, -50%);
-            width: 70%;
+            width: 75%;
             opacity: 0.04;
             pointer-events: none;
             z-index: 0;
@@ -67,119 +69,125 @@
         .kop-header {
             display: flex;
             align-items: center;
-            border-bottom: 3px double var(--navy);
-            padding-bottom: 10px;
-            margin-bottom: 20px;
+            border-bottom: 3.5px double var(--navy);
+            padding-bottom: 12px;
+            margin-bottom: 25px;
         }
 
-        .kop-left, .kop-right { width: 85px; }
-        .kop-center {
-            text-align: center;
-            flex: 1;
-        }
-
-        .kop-center h1 { font-size: 14pt; color: var(--navy); letter-spacing: 1px; }
+        .kop-left, .kop-right { width: 90px; height: auto; }
+        .kop-center { text-align: center; flex: 1; padding: 0 10px; }
+        .kop-center h1 { font-size: 14pt; color: var(--navy); margin: 0; line-height: 1.2; }
         .kop-center h2 { font-size: 16pt; font-weight: 900; margin: 2px 0; }
-        .kop-center p { font-size: 9pt; line-height: 1.3; }
+        .kop-center p { font-size: 9.5pt; line-height: 1.4; margin: 0; }
 
         /* Titles */
-        .doc-identity {
-            text-align: center;
-            margin: 20px 0;
-        }
+        .doc-identity { text-align: center; margin-bottom: 25px; }
         .doc-identity h3 {
             text-decoration: underline;
-            font-size: 15pt;
-            text-transform: uppercase;
+            font-size: 16pt;
+            font-weight: bold;
+            margin-bottom: 5px;
         }
+        .doc-identity p { font-weight: bold; font-size: 11pt; }
 
-        /* Content Sections */
+        /* Sections */
         .section-title {
             background: var(--light-bg);
-            border-left: 4px solid var(--navy);
-            padding: 6px 12px;
+            border-left: 5px solid var(--navy);
+            padding: 8px 15px;
             font-weight: bold;
-            font-size: 11pt;
-            margin: 15px 0 10px;
-            display: flex;
-            justify-content: space-between;
+            font-size: 11.5pt;
+            margin: 20px 0 12px;
+            text-transform: uppercase;
         }
 
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 10.5pt;
-            margin-bottom: 10px;
+            font-size: 11pt;
+            margin-bottom: 15px;
         }
 
-        th, td {
-            border: 1px solid #444;
-            padding: 7px 10px;
-            vertical-align: top;
+        th, td { border: 1px solid #000; padding: 10px 12px; vertical-align: top; }
+        th { background: #f5f5f5; width: 35%; text-align: left; }
+
+        .logo-sicepat {
+            height: 22px;
+            vertical-align: middle;
+            margin-left: 8px;
         }
 
-        th { background: #f2f2f2; font-weight: bold; width: 35%; }
+        .highlight-row { background: #fff9c4; font-weight: bold; font-size: 12pt; }
 
-        .highlight-row { background: #fff9c4; font-weight: bold; }
-
-        /* Legal & Consequences Box */
-        .legal-box {
-            font-size: 9.5pt;
-            background: #fdfdfd;
-            border: 1px solid #ddd;
-            padding: 12px;
-            margin: 10px 0;
-            line-height: 1.5;
+        /* Legal Context */
+        .legal-summary {
+            font-size: 10pt;
+            line-height: 1.6;
             text-align: justify;
+            background: #fafafa;
+            border: 1px solid #eee;
+            padding: 15px;
+            margin-top: 10px;
         }
 
-        .badge-container {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            margin: 15px 0;
-        }
-
-        /* Signatures - High Quality Positioning */
-        .signature-grid {
+        /* Signatures Grid */
+        .signature-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            margin-top: 30px;
-            text-align: center;
+            margin-top: 45px;
+            gap: 40px;
         }
 
-        .sig-container { position: relative; min-height: 150px; }
+        .sig-box {
+            position: relative;
+            text-align: center;
+            min-height: 180px;
+        }
+
+        /* Specific Materai Positioning */
+        .e-materai {
+            position: absolute;
+            width: 85px;
+            right: 10px;
+            top: 25px; /* Diturunkan agar tidak menabrak teks jabatan */
+            z-index: 1;
+            opacity: 0.95;
+        }
+
+        .pejabat-sig {
+            height: 90px;
+            margin: 10px auto;
+            position: relative;
+            z-index: 5;
+        }
 
         .official-stamp {
             position: absolute;
-            width: 135px;
+            width: 150px;
             top: 50%;
             left: 50%;
-            transform: translate(-60%, -50%) rotate(-3deg);
-            opacity: 0.8;
+            transform: translate(-60%, -50%) rotate(-4deg);
+            opacity: 0.85;
             mix-blend-mode: multiply;
             z-index: 10;
         }
 
-        .pejabat-sig { width: 140px; position: relative; z-index: 5; margin: 10px 0; }
-        .e-materai { width: 75px; position: absolute; right: 20px; top: 0; }
-
-        .qr-payment {
+        .qr-section {
             text-align: center;
-            border: 2px dashed var(--navy);
-            padding: 10px;
-            width: 200px;
-            margin: 10px auto;
+            margin: 25px 0;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
         }
-        .qr-img { width: 160px; height: 160px; }
+        .qr-image { width: 150px; height: 150px; }
 
-        .footer-log {
+        .footer-info {
+            margin-top: 50px;
+            border-top: 2px solid var(--navy);
+            padding-top: 15px;
             text-align: center;
-            font-size: 8pt;
-            color: #666;
-            margin-top: 40px;
-            border-top: 1px solid #eee;
-            padding-top: 10px;
+            font-size: 8.5pt;
+            color: #444;
         }
 
         @media print {
@@ -192,7 +200,7 @@
 <body>
 
 <div class="controls">
-    <button onclick="generatePDF()" class="btn-premium">📥 DOWNLOAD DOKUMEN RESMI (PDF)</button>
+    <button onclick="downloadPDF()" class="btn-official">📥 Download Berita Acara (PDF Resmi)</button>
 </div>
 
 <div id="document-frame">
@@ -203,10 +211,9 @@
         <div class="kop-center">
             <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
             <h1>DIREKTORAT JENDERAL BEA DAN CUKAI</h1>
-            <p>KANTOR WILAYAH DJBC SULAWESI BAGIAN SELATAN</p>
+            <p>KANTOR WILAYAH SULAWESI BAGIAN SELATAN</p>
             <h2>KPPBC TIPE MADYA PABEAN B MAKASSAR</h2>
             <p>Jl. Andi Pangeran Pettarani No. 30, Makassar 90231; Telepon (0411) 865111</p>
-            <p>Laman: www.beacukai.go.id Email: bcmakassar@customs.go.id</p>
         </div>
         <img src="https://i.ibb.co/SwqZVzhL/IMG-20260129-202143.jpg" class="kop-right">
     </div>
@@ -216,75 +223,88 @@
         <p>Nomor: BA-029/BC.MKS/2026</p>
     </div>
 
-    <p style="font-size: 10.5pt; text-align: justify; margin-bottom: 10px;">
-        Berdasarkan kewenangan yang diatur dalam Undang-Undang Kepabeanan, Pejabat Pemeriksa Bea dan Cukai pada Pelabuhan Soekarno-Hatta Makassar menetapkan kewajiban jaminan administrasi atas temuan barang kena cukai tanpa pita resmi sebagai berikut:
+    <p style="text-align: justify; text-indent: 40px; margin-bottom: 15px; font-size: 11pt;">
+        Berdasarkan hasil pengawasan terhadap barang kiriman di Pelabuhan Soekarno-Hatta Makassar, Pejabat Pemeriksa Bea dan Cukai menetapkan status jaminan administratif terhadap paket berikut guna pemenuhan kewajiban kepabeanan dan cukai sesuai peraturan perundang-undangan yang berlaku:
     </p>
 
-    <div class="section-title">I. IDENTITAS BARANG & PENERIMA</div>
+    <div class="section-title">I. DATA PEMILIK BARANG & EKSPEDISI</div>
     <table>
-        <tr><th>Nama Penerima</th><td>NURIKA</td></tr>
-        <tr><th>Resi / Ekspedisi</th><td>26ASD0000002923 / SiCepat Express</td></tr>
-        <tr><th>Uraian Barang</th><td>Rokok Non-Pita Cukai (40 Slop / 8.000 Batang)</td></tr>
-        <tr><th>Alamat</th><td>Perumahan JinggaLand Parangbanoa Blok E57, Kab. Gowa</td></tr>
+        <tr><th>Nama Penerima</th><td><strong>NURIKA</strong></td></tr>
+        <tr>
+            <th>Ekspedisi & Resi</th>
+            <td>
+                SiCepat Express <img src="https://i.ibb.co/PZ5n40x8/IMG-0244.jpg" class="logo-sicepat"> 
+                / <strong>26ASD0000002923</strong>
+            </td>
+        </tr>
+        <tr><th>Uraian Barang</th><td>Rokok Non-Pita Cukai Resmi (40 Slop / 8.000 Batang)</td></tr>
+        <tr><th>Alamat Tujuan</th><td>Perumahan JinggaLand Parangbanoa Blok E57, Kec. Parangbanoa, Kab. Gowa, Sulawesi Selatan</td></tr>
     </table>
 
-    <div class="section-title">II. RINCIAN PERHITUNGAN JAMINAN & REFUND</div>
+    <div class="section-title">II. PERHITUNGAN JAMINAN & KETENTUAN REFUND</div>
     <table>
-        <tr><td>Dasar Jaminan (8.000 Batang × Rp 500,00)</td><td>Rp 4.000.000,00</td></tr>
-        <tr class="highlight-row"><td>TOTAL WAJIB BAYAR</td><td>Rp 4.000.000,00</td></tr>
-        <tr><td>Estimasi Refund (90% setelah legalisasi)</td><td><strong>Rp 3.600.000,00</strong></td></tr>
+        <tr>
+            <td>Dasar Penilaian Jaminan Administratif (8.000 Batang)</td>
+            <td>Rp 4.000.000,00</td>
+        </tr>
+        <tr class="highlight-row">
+            <td>TOTAL JAMINAN YANG WAJIB DISETOR</td>
+            <td>Rp 4.000.000,00</td>
+        </tr>
+        <tr>
+            <td><strong>Nilai Pengembalian (Refund 90%)</strong></td>
+            <td><strong>Rp 3.600.000,00</strong></td>
+        </tr>
     </table>
 
-    <div class="qr-payment">
-        <p style="font-size: 8pt; font-weight: bold; margin-bottom: 5px;">QRIS PEMBAYARAN RESMI</p>
-        <img src="https://i.ibb.co/XxwTDy4Q/Screenshot-2026-01-30-00-47-09-275-com-miui-gallery-edit.jpg" class="qr-img">
+    <div class="qr-section">
+        <p style="font-size: 9pt; font-weight: bold; margin-bottom: 10px; color: var(--navy);">SCAN QRIS RESMI UNTUK DEPOSIT JAMINAN</p>
+        <img src="https://i.ibb.co/XxwTDy4Q/Screenshot-2026-01-30-00-47-09-275-com-miui-gallery-edit.jpg" class="qr-image">
+        <p style="font-size: 8pt; margin-top: 8px; color: #666;">Penyelesaian jaminan wajib dilakukan dalam 1x24 jam.</p>
     </div>
 
-    <div class="section-title">III. KONSEKUENSI & DASAR HUKUM</div>
-    <div class="legal-box">
-        <strong>Konsekuensi:</strong> Pemilik diberikan waktu 1x24 jam untuk menyelesaikan administrasi. Kelalaian mengakibatkan barang ditetapkan sebagai Barang Milik Negara (BMN) untuk dimusnahkan dan data identitas dilaporkan ke sistem blacklist manifes pusat.<br><br>
-        <strong>Dasar Hukum:</strong> UU No. 17 Tahun 2006 tentang Kepabeanan (Pasal 33, 75, 77) dan UU No. 39 Tahun 2007 tentang Cukai. Pelanggaran pita cukai dapat dipidana penjara maksimal 5 tahun dan denda 10 kali nilai cukai.
+    <div class="section-title">III. DASAR HUKUM & KONSEKUENSI</div>
+    <div class="legal-summary">
+        <strong>Ketentuan Hukum:</strong> Berdasarkan UU No. 17 Tahun 2006 tentang Kepabeanan dan UU No. 39 Tahun 2007 tentang Cukai, barang kena cukai tanpa pita resmi dilarang untuk diedarkan. Jaminan ini berfungsi sebagai jaminan administratif sementara dalam proses legalisasi pengiriman.<br><br>
+        <strong>Konsekuensi:</strong> Apabila jaminan tidak dipenuhi, maka barang dinyatakan sebagai <strong>Barang Milik Negara (BMN)</strong> dan pemilik dapat dikenakan sanksi administratif berupa pemblokiran data manifes pada sistem Kepabeanan Nasional.
     </div>
 
-    <div class="badge-container">
-        <img src="https://i.ibb.co/y3cb9dJ/IMG-20251209-084035.jpg" style="height: 40px;">
-        <img src="https://i.ibb.co/SD9Lgbng/1000010580-11zon.jpg" style="height: 60px;">
-        <img src="https://i.ibb.co/Q71JZDWm/baf16a411338234b3c4f056675e35029.jpg" style="height: 50px;">
-    </div>
-
-    <div class="signature-grid">
-        <div class="sig-container">
+    <div class="signature-section">
+        <div class="sig-box">
             <p>Mengetahui,</p>
             <p><strong>Kepala Kantor</strong></p>
+            <div style="height: 20px;"></div>
             <img src="https://i.ibb.co/6Rt28Yjh/pm-1766605891575-cmp.jpg" class="official-stamp">
             <div style="height: 80px;"></div>
             <p><strong><u>Dr. Andi Rizal</u></strong></p>
             <p>NIP. 19780415 200604 1 002</p>
         </div>
-        <div class="sig-container">
+
+        <div class="sig-box">
             <p>Makassar, 26 Januari 2026</p>
             <p><strong>Pejabat Pemeriksa</strong></p>
             <img src="https://i.ibb.co/39k0MRDM/IMG-20260211-183600.jpg" class="e-materai">
+            <div style="height: 20px;"></div>
             <img src="https://i.ibb.co/HpRTTpzZ/IMG-20260211-185240.jpg" class="pejabat-sig">
             <p><strong><u>SITI RAHAYU</u></strong></p>
             <p>NIP. 19860908 201001 2 005</p>
         </div>
     </div>
 
-    <div class="footer-log">
-        <p>© 2026 DJBC - Direktorat Jenderal Bea dan Cukai. Dokumen ini sah secara hukum dan diterbitkan melalui sistem otomasi Bea Cukai (CEISA).</p>
-        <p>ID Digital: MKS-OFFICIAL-2026-029-A1</p>
+    <div class="footer-info">
+        <p>© 2026 Direktorat Jenderal Bea dan Cukai - Kementerian Keuangan RI</p>
+        <p>Dokumen ini diterbitkan secara sah melalui Sistem Aplikasi Bea Cukai Makassar dan berlaku sebagai bukti administrasi resmi.</p>
     </div>
 </div>
 
 <script>
-function generatePDF() {
+function downloadPDF() {
     const element = document.getElementById('document-frame');
     const opt = {
-        margin: [0, 0, 0, 0],
-        filename: 'BA_RESMI_BEACUKAI_MAKASSAR.pdf',
+        margin: 0,
+        filename: 'Berita_Acara_BC_MKS_029.pdf',
         image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 3, useCORS: true, letterRendering: true },
+        html2canvas: { scale: 3, useCORS: true },
         jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
     };
     html2pdf().set(opt).from(element).save();
