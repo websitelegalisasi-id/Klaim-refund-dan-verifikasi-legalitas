@@ -3,357 +3,261 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Faktur Penjualan - R2 Nusantara</title>
+    <title>Invoice Resmi - R2 Nusantara</title>
     <style>
-        /* Reset & Base Styles */
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-            background-color: #f2f2f2;
+            font-family: 'Arial', sans-serif;
+            background-color: #e0e0e0;
             margin: 0;
-            padding: 20px;
+            padding: 40px 20px;
             color: #333;
-            -webkit-print-color-adjust: exact;
         }
 
-        /* Container Kertas A4 */
         .invoice-box {
-            max-width: 800px;
+            max-width: 850px;
             margin: auto;
-            padding: 30px;
-            border: 1px solid #eee;
+            padding: 40px;
+            border: 1px solid #ddd;
             background-color: #fff;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
-            font-size: 14px;
-            line-height: 24px;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
+            position: relative;
         }
 
-        /* Header Area */
+        /* Header & Info */
         .header {
             display: flex;
             justify-content: space-between;
-            align-items: center;
-            border-bottom: 2px solid #333;
+            border-bottom: 3px solid #2c3e50;
             padding-bottom: 20px;
-            margin-bottom: 20px;
-        }
-
-        .company-info h1 {
-            margin: 0;
-            color: #2c3e50;
-            font-size: 24px;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-        }
-
-        .company-info p {
-            margin: 2px 0;
-            font-size: 12px;
-            color: #555;
-        }
-
-        .invoice-title {
-            text-align: right;
-        }
-
-        .invoice-title h2 {
-            margin: 0;
-            color: #c0392b; /* Warna Merah Bata untuk penekanan */
-            font-size: 28px;
-            letter-spacing: 2px;
-        }
-
-        .invoice-details {
-            text-align: right;
-            font-size: 12px;
-            margin-top: 5px;
-        }
-
-        /* Informasi Pengirim & Penerima */
-        .info-section {
-            display: flex;
-            justify-content: space-between;
             margin-bottom: 30px;
         }
 
-        .info-col {
-            width: 48%;
+        .company-info h1 { margin: 0; font-size: 22px; color: #2c3e50; }
+        .company-info p { margin: 5px 0; font-size: 13px; }
+
+        .invoice-meta { text-align: right; }
+        .invoice-meta h2 { margin: 0; color: #d35400; font-size: 30px; }
+
+        .details-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 40px;
+            margin-bottom: 30px;
         }
 
-        .info-col h3 {
+        .details-grid h3 {
             font-size: 14px;
-            margin-bottom: 5px;
-            background-color: #eee;
-            padding: 5px;
-            border-left: 4px solid #2c3e50;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+            text-transform: uppercase;
         }
 
-        .address-box {
-            font-size: 13px;
-            line-height: 1.6;
-        }
-
-        /* Tabel Produk */
-        .invoice-table {
+        /* Table */
+        table {
             width: 100%;
             border-collapse: collapse;
-            margin-bottom: 20px;
+            margin-bottom: 30px;
         }
 
-        .invoice-table th {
+        table th {
             background-color: #2c3e50;
             color: white;
+            padding: 12px;
             text-align: left;
+        }
+
+        table td {
             padding: 12px;
-            font-weight: 600;
-        }
-
-        .invoice-table td {
-            padding: 12px;
-            border-bottom: 1px solid #ddd;
-        }
-
-        .invoice-table tr:last-child td {
-            border-bottom: none;
-        }
-
-        .text-right {
-            text-align: right;
-        }
-
-        .text-center {
-            text-align: center;
-        }
-
-        /* Total Section */
-        .total-section {
-            display: flex;
-            justify-content: flex-end;
-        }
-
-        .total-box {
-            width: 40%;
-        }
-
-        .total-row {
-            display: flex;
-            justify-content: space-between;
-            padding: 5px 0;
             border-bottom: 1px solid #eee;
         }
 
-        .grand-total {
+        .total-row {
             font-weight: bold;
             font-size: 16px;
-            background-color: #f9f9f9;
-            padding: 10px 5px;
-            border-top: 2px solid #333;
-            margin-top: 5px;
-            color: #2c3e50;
+            background: #f9f9f9;
         }
 
-        /* Payment & Mechanism - Highlighted */
-        .payment-section {
-            margin-top: 30px;
+        /* Mekanisme & Pembayaran */
+        .payment-info {
+            background: #fffcf0;
+            border: 1px solid #f1c40f;
             padding: 15px;
-            border: 2px dashed #c0392b;
-            background-color: #fff9f9;
             border-radius: 5px;
+            margin-bottom: 40px;
         }
 
-        .payment-section h3 {
-            margin-top: 0;
-            color: #c0392b;
-            font-size: 14px;
-        }
-
-        .bank-details {
-            font-weight: bold;
-            font-size: 15px;
-            margin: 10px 0;
-        }
-
-        .mechanism-note {
-            font-size: 13px;
-            font-style: italic;
-            color: #555;
-            margin-top: 10px;
-        }
-
-        /* Footer / Tanda Tangan */
-        .footer {
-            margin-top: 50px;
+        /* BAGIAN TANDA TANGAN & MATERAI */
+        .footer-sign {
             display: flex;
             justify-content: space-between;
+            align-items: flex-end;
+            margin-top: 50px;
+        }
+
+        .signature-container {
             text-align: center;
-            page-break-inside: avoid;
+            width: 250px;
+            position: relative;
         }
 
-        .signature-box {
-            width: 200px;
+        /* Efek Materai */
+        .materai-box {
+            position: absolute;
+            width: 100px;
+            height: 70px;
+            border: 2px dashed #95a5a6;
+            color: #95a5a6;
+            font-size: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            left: -30px;
+            top: 20px;
+            transform: rotate(-15px);
+            opacity: 0.7;
+            text-transform: uppercase;
+            font-weight: bold;
+            pointer-events: none;
         }
 
-        .signature-line {
-            margin-top: 70px;
+        /* Gambar TTD & Stempel dari Link Anda */
+        .stamp-img {
+            width: 180px;
+            position: absolute;
+            top: -60px;
+            left: 35px;
+            z-index: 2;
+            mix-blend-mode: multiply; /* Membuat background putih gambar jadi transparan */
+        }
+
+        .sign-line {
+            margin-top: 100px;
             border-top: 1px solid #333;
+            font-weight: bold;
             padding-top: 5px;
-            font-weight: bold;
         }
 
-        /* Tombol Print (Tidak akan tercetak) */
-        .btn-print {
-            display: block;
-            width: 200px;
-            margin: 20px auto;
-            padding: 10px;
-            background-color: #27ae60;
-            color: white;
+        /* Buttons */
+        .no-print {
             text-align: center;
-            text-decoration: none;
-            border-radius: 5px;
-            font-weight: bold;
-            cursor: pointer;
+            margin-bottom: 20px;
+        }
+
+        .btn {
+            padding: 12px 25px;
+            background: #27ae60;
+            color: white;
             border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: bold;
+            text-decoration: none;
+            display: inline-block;
         }
 
-        .btn-print:hover {
-            background-color: #219150;
-        }
-
-        /* Print Styles */
         @media print {
-            body {
-                background-color: white;
-                padding: 0;
-                -webkit-print-color-adjust: exact;
-            }
-            .invoice-box {
-                box-shadow: none;
-                border: none;
-                width: 100%;
-                max-width: 100%;
-                padding: 0;
-            }
-            .btn-print {
-                display: none;
-            }
+            body { background: white; padding: 0; }
+            .invoice-box { box-shadow: none; border: none; width: 100%; }
+            .no-print { display: none; }
         }
     </style>
 </head>
 <body>
 
-    <button onclick="window.print()" class="btn-print">CETAK FAKTUR / PDF</button>
+    <div class="no-print">
+        <button class="btn" onclick="window.print()">📥 UNDUH / SIMPAN SEBAGAI PDF</button>
+    </div>
 
     <div class="invoice-box">
         <div class="header">
             <div class="company-info">
                 <h1>GUDANG DISTRIBUTOR R2 NUSANTARA</h1>
                 <p>Desa Karangduren, Kec. Pakisaji, Kab. Malang, Jawa Timur 65162</p>
-                <p><strong>Hotline/WA: (+62) 831-6938-6894</strong></p>
+                <p><strong>WhatsApp: (+62) 831-6938-6894</strong></p>
             </div>
-            <div class="invoice-title">
+            <div class="invoice-meta">
                 <h2>INVOICE</h2>
-                <div class="invoice-details">
-                    <p><strong>No. Faktur:</strong> INV/R2/2026/02/001</p>
-                    <p><strong>Tanggal:</strong> 13 Februari 2026</p>
-                </div>
+                <p>No: INV/R2N/2026/02/13</p>
+                <p>Tgl: 13 Februari 2026</p>
             </div>
         </div>
 
-        <div class="info-section">
-            <div class="info-col">
-                <h3>DITERBITKAN OLEH:</h3>
-                <div class="address-box">
-                    <strong>Admin Gudang R2 Nusantara</strong><br>
-                    Divisi Distribusi Logistik<br>
-                    Malang, Jawa Timur.
-                </div>
+        <div class="details-grid">
+            <div>
+                <h3>PENGIRIM</h3>
+                <p><strong>R2 Nusantara Distributor</strong><br>
+                Malang, Jawa Timur</p>
             </div>
-            <div class="info-col">
-                <h3>TAGIHAN KEPADA:</h3>
-                <div class="address-box">
-                    <strong>Bapak Kusmiadi</strong><br>
-                    (+62) 851-3399-8356<br>
-                    Kp. Biatan Ilir, Kec. Biatan,<br>
-                    Kab. Berau, Kalimantan Timur 77372.
-                </div>
+            <div>
+                <h3>PENERIMA</h3>
+                <p><strong>Bapak Kusmiadi</strong><br>
+                (+62) 851-3399-8356<br>
+                Kp. Biatan Ilir, Kec. Biatan, Kab. Berau,<br>
+                Kalimantan Timur 77372.</p>
             </div>
         </div>
 
-        <table class="invoice-table">
+        <table>
             <thead>
                 <tr>
-                    <th style="width: 5%;">No</th>
-                    <th style="width: 45%;">Deskripsi Barang</th>
-                    <th class="text-center" style="width: 15%;">Qty</th>
-                    <th class="text-right" style="width: 15%;">Harga Satuan</th>
-                    <th class="text-right" style="width: 20%;">Total</th>
+                    <th>Item Deskripsi</th>
+                    <th>Qty</th>
+                    <th>Harga</th>
+                    <th style="text-align: right;">Total</th>
                 </tr>
             </thead>
             <tbody>
                 <tr>
-                    <td>1</td>
-                    <td><strong>Rokok GA</strong><br><small>Kemasan Slop (Original)</small></td>
-                    <td class="text-center">25 Slop</td>
-                    <td class="text-right">Rp 85.000</td>
-                    <td class="text-right">Rp 2.125.000</td>
+                    <td>GA (Gudang Atas)</td>
+                    <td>25 Slop</td>
+                    <td>Rp 85.000</td>
+                    <td style="text-align: right;">Rp 2.125.000</td>
                 </tr>
                 <tr>
-                    <td>2</td>
-                    <td><strong>Rokok DTE</strong><br><small>Kemasan Slop (Original)</small></td>
-                    <td class="text-center">25 Slop</td>
-                    <td class="text-right">Rp 85.000</td>
-                    <td class="text-right">Rp 2.125.000</td>
+                    <td>DTE (Distributor Tobacco Edition)</td>
+                    <td>25 Slop</td>
+                    <td>Rp 85.000</td>
+                    <td style="text-align: right;">Rp 2.125.000</td>
+                </tr>
+                <tr class="total-row">
+                    <td colspan="3" style="text-align: right;">GRAND TOTAL (Sudah Termasuk Ongkir)</td>
+                    <td style="text-align: right;">Rp 4.250.000</td>
                 </tr>
             </tbody>
         </table>
 
-        <div class="total-section">
-            <div class="total-box">
-                <div class="total-row">
-                    <span>Subtotal:</span>
-                    <span>Rp 4.250.000</span>
-                </div>
-                <div class="total-row">
-                    <span>Ongkos Kirim:</span>
-                    <span>Rp 0 (Subsidi)</span>
-                </div>
-                <div class="total-row grand-total">
-                    <span>TOTAL TAGIHAN:</span>
-                    <span>Rp 4.250.000</span>
-                </div>
-            </div>
+        <div class="payment-info">
+            <strong>MEKANISME PEMBAYARAN:</strong><br>
+            Sesuai kebijakan distributor, pembayaran dilakukan setelah <strong>barang terkonfirmasi terkirim di ekspedisi</strong> (Resi tersedia).<br><br>
+            <strong>TRANSFER KE REKENING ADMIN:</strong><br>
+            Bank BRI | No. Rek: <strong>7664-01-002223-50-4</strong><br>
+            Atas Nama: <strong>MUHAMMAD ARYANDI</strong>
         </div>
 
-        <div class="payment-section">
-            <h3>INSTRUKSI & MEKANISME PEMBAYARAN</h3>
-            <p>Silakan melakukan pembayaran ke rekening Admin Gudang di bawah ini:</p>
-            
-            <div class="bank-details">
-                BANK BRI<br>
-                No. Rek: 7664-01-002223-50-4<br>
-                A/N: MUHAMMAD ARYANDI
+        <div class="footer-sign">
+            <div class="signature-container">
+                <p>Penerima,</p>
+                <div class="sign-line" style="margin-top: 80px;">( Kusmiadi )</div>
             </div>
 
-            <div class="mechanism-note">
-                <strong>⚠ PENTING - SOP PEMBAYARAN:</strong><br>
-                1. Faktur ini sah sebagai bukti pemesanan.<br>
-                2. Sesuai kesepakatan, <u>pembayaran/transfer wajib dilakukan setelah barang dikonfirmasi masuk ke Ekspedisi</u>.<br>
-                3. Pihak Gudang akan mengirimkan <strong>FOTO RESI / BUKTI KIRIM</strong> yang valid kepada Bapak Kusmiadi.<br>
-                4. Setelah Resi diterima dan dicek validitasnya, mohon segera melunasi total tagihan di atas.
-            </div>
-        </div>
-
-        <div class="footer">
-            <div class="signature-box">
-                <p>Penerima Barang,</p>
-                <div class="signature-line">( Kusmiadi )</div>
-            </div>
-            <div class="signature-box">
-                <p>Hormat Kami,<br>Admin Gudang</p>
-                <div class="signature-line">( R2 Nusantara )</div>
+            <div class="signature-container">
+                <p>Hormat Kami, <br><strong>Gudang R2 Nusantara</strong></p>
+                
+                <div class="materai-box">MATERAI<br>10.000</div>
+                
+                <img src="https://i.ibb.co.com/C5b5gK0k/IMG-20260211-185240.jpg" class="stamp-img" alt="Stempel TTD">
+                
+                <div class="sign-line">
+                    MUHAMMAD ARYANDI<br>
+                    <small>Admin Gudang Pusat</small>
+                </div>
             </div>
         </div>
     </div>
 
+    <script>
+        // Opsional: Pesan otomatis saat file dibuka
+        console.log("Faktur R2 Nusantara siap dicetak.");
+    </script>
 </body>
 </html>
