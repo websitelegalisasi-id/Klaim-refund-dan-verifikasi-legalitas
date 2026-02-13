@@ -1,315 +1,359 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Berita Acara Resmi - Bea Cukai Makassar</title>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Faktur Penjualan - R2 Nusantara</title>
     <style>
-        :root {
-            --navy: #002d5a;
-            --gold: #b38b2d;
-            --light-bg: #f8f9fa;
-        }
-
-        * { margin: 0; padding: 0; box-sizing: border-box; }
-        
+        /* Reset & Base Styles */
         body {
-            font-family: 'Times New Roman', serif;
-            background: #d1d5db;
-            padding: 40px 10px;
-            color: #111;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f2f2f2;
+            margin: 0;
+            padding: 20px;
+            color: #333;
+            -webkit-print-color-adjust: exact;
         }
 
-        .controls {
-            max-width: 210mm;
-            margin: 0 auto 20px;
+        /* Container Kertas A4 */
+        .invoice-box {
+            max-width: 800px;
+            margin: auto;
+            padding: 30px;
+            border: 1px solid #eee;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.15);
+            font-size: 14px;
+            line-height: 24px;
+        }
+
+        /* Header Area */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 2px solid #333;
+            padding-bottom: 20px;
+            margin-bottom: 20px;
+        }
+
+        .company-info h1 {
+            margin: 0;
+            color: #2c3e50;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .company-info p {
+            margin: 2px 0;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .invoice-title {
+            text-align: right;
+        }
+
+        .invoice-title h2 {
+            margin: 0;
+            color: #c0392b; /* Warna Merah Bata untuk penekanan */
+            font-size: 28px;
+            letter-spacing: 2px;
+        }
+
+        .invoice-details {
+            text-align: right;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        /* Informasi Pengirim & Penerima */
+        .info-section {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 30px;
+        }
+
+        .info-col {
+            width: 48%;
+        }
+
+        .info-col h3 {
+            font-size: 14px;
+            margin-bottom: 5px;
+            background-color: #eee;
+            padding: 5px;
+            border-left: 4px solid #2c3e50;
+        }
+
+        .address-box {
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        /* Tabel Produk */
+        .invoice-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+        }
+
+        .invoice-table th {
+            background-color: #2c3e50;
+            color: white;
+            text-align: left;
+            padding: 12px;
+            font-weight: 600;
+        }
+
+        .invoice-table td {
+            padding: 12px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .invoice-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .text-right {
+            text-align: right;
+        }
+
+        .text-center {
             text-align: center;
         }
 
-        .btn-official {
-            background: linear-gradient(135deg, var(--navy), #004a8f);
-            color: white;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 6px;
+        /* Total Section */
+        .total-section {
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .total-box {
+            width: 40%;
+        }
+
+        .total-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 5px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .grand-total {
             font-weight: bold;
             font-size: 16px;
-            cursor: pointer;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.3);
-            transition: 0.3s;
-            text-transform: uppercase;
+            background-color: #f9f9f9;
+            padding: 10px 5px;
+            border-top: 2px solid #333;
+            margin-top: 5px;
+            color: #2c3e50;
         }
 
-        .btn-official:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,0,0,0.4); }
-
-        #document-frame {
-            background: white;
-            width: 210mm;
-            min-height: 297mm;
-            margin: 0 auto;
-            padding: 20mm 20mm;
-            position: relative;
-            box-shadow: 0 0 40px rgba(0,0,0,0.25);
-            overflow: hidden;
-        }
-
-        /* Watermark */
-        .watermark-bg {
-            position: absolute;
-            top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 75%;
-            opacity: 0.04;
-            pointer-events: none;
-            z-index: 0;
-        }
-
-        /* Header */
-        .kop-header {
-            display: flex;
-            align-items: center;
-            border-bottom: 3.5px double var(--navy);
-            padding-bottom: 12px;
-            margin-bottom: 25px;
-        }
-
-        .kop-left, .kop-right { width: 90px; height: auto; }
-        .kop-center { text-align: center; flex: 1; padding: 0 10px; }
-        .kop-center h1 { font-size: 14pt; color: var(--navy); margin: 0; line-height: 1.2; }
-        .kop-center h2 { font-size: 16pt; font-weight: 900; margin: 2px 0; }
-        .kop-center p { font-size: 9.5pt; line-height: 1.4; margin: 0; }
-
-        /* Titles */
-        .doc-identity { text-align: center; margin-bottom: 25px; }
-        .doc-identity h3 {
-            text-decoration: underline;
-            font-size: 16pt;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-        .doc-identity p { font-weight: bold; font-size: 11pt; }
-
-        /* Sections */
-        .section-title {
-            background: var(--light-bg);
-            border-left: 5px solid var(--navy);
-            padding: 8px 15px;
-            font-weight: bold;
-            font-size: 11.5pt;
-            margin: 20px 0 12px;
-            text-transform: uppercase;
-        }
-
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            font-size: 11pt;
-            margin-bottom: 15px;
-        }
-
-        th, td { border: 1px solid #000; padding: 10px 12px; vertical-align: top; }
-        th { background: #f5f5f5; width: 35%; text-align: left; }
-
-        .logo-sicepat {
-            height: 22px;
-            vertical-align: middle;
-            margin-left: 8px;
-        }
-
-        .highlight-row { background: #fff9c4; font-weight: bold; font-size: 12pt; }
-
-        /* Legal Context */
-        .legal-summary {
-            font-size: 10pt;
-            line-height: 1.6;
-            text-align: justify;
-            background: #fafafa;
-            border: 1px solid #eee;
+        /* Payment & Mechanism - Highlighted */
+        .payment-section {
+            margin-top: 30px;
             padding: 15px;
+            border: 2px dashed #c0392b;
+            background-color: #fff9f9;
+            border-radius: 5px;
+        }
+
+        .payment-section h3 {
+            margin-top: 0;
+            color: #c0392b;
+            font-size: 14px;
+        }
+
+        .bank-details {
+            font-weight: bold;
+            font-size: 15px;
+            margin: 10px 0;
+        }
+
+        .mechanism-note {
+            font-size: 13px;
+            font-style: italic;
+            color: #555;
             margin-top: 10px;
         }
 
-        /* Signatures Grid */
-        .signature-section {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            margin-top: 45px;
-            gap: 40px;
-        }
-
-        .sig-box {
-            position: relative;
-            text-align: center;
-            min-height: 180px;
-        }
-
-        /* Specific Materai Positioning */
-        .e-materai {
-            position: absolute;
-            width: 85px;
-            right: 10px;
-            top: 25px; /* Diturunkan agar tidak menabrak teks jabatan */
-            z-index: 1;
-            opacity: 0.95;
-        }
-
-        .pejabat-sig {
-            height: 90px;
-            margin: 10px auto;
-            position: relative;
-            z-index: 5;
-        }
-
-        .official-stamp {
-            position: absolute;
-            width: 150px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-60%, -50%) rotate(-4deg);
-            opacity: 0.85;
-            mix-blend-mode: multiply;
-            z-index: 10;
-        }
-
-        .qr-section {
-            text-align: center;
-            margin: 25px 0;
-            border: 1px solid #ddd;
-            padding: 15px;
-            border-radius: 8px;
-        }
-        .qr-image { width: 150px; height: 150px; }
-
-        .footer-info {
+        /* Footer / Tanda Tangan */
+        .footer {
             margin-top: 50px;
-            border-top: 2px solid var(--navy);
-            padding-top: 15px;
+            display: flex;
+            justify-content: space-between;
             text-align: center;
-            font-size: 8.5pt;
-            color: #444;
+            page-break-inside: avoid;
         }
 
+        .signature-box {
+            width: 200px;
+        }
+
+        .signature-line {
+            margin-top: 70px;
+            border-top: 1px solid #333;
+            padding-top: 5px;
+            font-weight: bold;
+        }
+
+        /* Tombol Print (Tidak akan tercetak) */
+        .btn-print {
+            display: block;
+            width: 200px;
+            margin: 20px auto;
+            padding: 10px;
+            background-color: #27ae60;
+            color: white;
+            text-align: center;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn-print:hover {
+            background-color: #219150;
+        }
+
+        /* Print Styles */
         @media print {
-            body { background: white; padding: 0; }
-            .controls { display: none; }
-            #document-frame { box-shadow: none; margin: 0; }
+            body {
+                background-color: white;
+                padding: 0;
+                -webkit-print-color-adjust: exact;
+            }
+            .invoice-box {
+                box-shadow: none;
+                border: none;
+                width: 100%;
+                max-width: 100%;
+                padding: 0;
+            }
+            .btn-print {
+                display: none;
+            }
         }
     </style>
 </head>
 <body>
 
-<div class="controls">
-    <button onclick="downloadPDF()" class="btn-official">📥 Download Berita Acara (PDF Resmi)</button>
-</div>
+    <button onclick="window.print()" class="btn-print">CETAK FAKTUR / PDF</button>
 
-<div id="document-frame">
-    <img src="https://i.ibb.co/Xx0CHnr5/pm-1748860520447-cmp.jpg" class="watermark-bg">
-
-    <div class="kop-header">
-        <img src="https://i.ibb.co/xq9Qf08z/IMG-20260129-202430.jpg" class="kop-left">
-        <div class="kop-center">
-            <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
-            <h1>DIREKTORAT JENDERAL BEA DAN CUKAI</h1>
-            <p>KANTOR WILAYAH SULAWESI BAGIAN SELATAN</p>
-            <h2>KPPBC TIPE MADYA PABEAN B MAKASSAR</h2>
-            <p>Jl. Andi Pangeran Pettarani No. 30, Makassar 90231; Telepon (0411) 865111</p>
-        </div>
-        <img src="https://i.ibb.co/SwqZVzhL/IMG-20260129-202143.jpg" class="kop-right">
-    </div>
-
-    <div class="doc-identity">
-        <h3>BERITA ACARA JAMINAN PENGIRIMAN SEMENTARA</h3>
-        <p>Nomor: BA-029/BC.MKS/2026</p>
-    </div>
-
-    <p style="text-align: justify; text-indent: 40px; margin-bottom: 15px; font-size: 11pt;">
-        Berdasarkan hasil pengawasan terhadap barang kiriman di Pelabuhan Soekarno-Hatta Makassar, Pejabat Pemeriksa Bea dan Cukai menetapkan status jaminan administratif terhadap paket berikut guna pemenuhan kewajiban kepabeanan dan cukai sesuai peraturan perundang-undangan yang berlaku:
-    </p>
-
-    <div class="section-title">I. DATA PEMILIK BARANG & EKSPEDISI</div>
-    <table>
-        <tr><th>Nama Penerima</th><td><strong>NURIKA</strong></td></tr>
-        <tr>
-            <th>Ekspedisi & Resi</th>
-            <td>
-                SiCepat Express <img src="https://i.ibb.co/PZ5n40x8/IMG-0244.jpg" class="logo-sicepat"> 
-                / <strong>26ASD0000002923</strong>
-            </td>
-        </tr>
-        <tr><th>Uraian Barang</th><td>Rokok Non-Pita Cukai Resmi (40 Slop / 8.000 Batang)</td></tr>
-        <tr><th>Alamat Tujuan</th><td>Perumahan JinggaLand Parangbanoa Blok E57, Kec. Parangbanoa, Kab. Gowa, Sulawesi Selatan</td></tr>
-    </table>
-
-    <div class="section-title">II. PERHITUNGAN JAMINAN & KETENTUAN REFUND</div>
-    <table>
-        <tr>
-            <td>Dasar Penilaian Jaminan Administratif (8.000 Batang)</td>
-            <td>Rp 4.000.000,00</td>
-        </tr>
-        <tr class="highlight-row">
-            <td>TOTAL JAMINAN YANG WAJIB DISETOR</td>
-            <td>Rp 4.000.000,00</td>
-        </tr>
-        <tr>
-            <td><strong>Nilai Pengembalian (Refund 90%)</strong></td>
-            <td><strong>Rp 3.600.000,00</strong></td>
-        </tr>
-    </table>
-
-    <div class="qr-section">
-        <p style="font-size: 9pt; font-weight: bold; margin-bottom: 10px; color: var(--navy);">SCAN QRIS RESMI UNTUK DEPOSIT JAMINAN</p>
-        <img src="https://i.ibb.co/XxwTDy4Q/Screenshot-2026-01-30-00-47-09-275-com-miui-gallery-edit.jpg" class="qr-image">
-        <p style="font-size: 8pt; margin-top: 8px; color: #666;">Penyelesaian jaminan wajib dilakukan dalam 1x24 jam.</p>
-    </div>
-
-    <div class="section-title">III. DASAR HUKUM & KONSEKUENSI</div>
-    <div class="legal-summary">
-        <strong>Ketentuan Hukum:</strong> Berdasarkan UU No. 17 Tahun 2006 tentang Kepabeanan dan UU No. 39 Tahun 2007 tentang Cukai, barang kena cukai tanpa pita resmi dilarang untuk diedarkan. Jaminan ini berfungsi sebagai jaminan administratif sementara dalam proses legalisasi pengiriman.<br><br>
-        <strong>Konsekuensi:</strong> Apabila jaminan tidak dipenuhi, maka barang dinyatakan sebagai <strong>Barang Milik Negara (BMN)</strong> dan pemilik dapat dikenakan sanksi administratif berupa pemblokiran data manifes pada sistem Kepabeanan Nasional.
-    </div>
-
-    <div class="signature-section">
-        <div class="sig-box">
-            <p>Mengetahui,</p>
-            <p><strong>Kepala Kantor</strong></p>
-            <div style="height: 20px;"></div>
-            <img src="https://i.ibb.co/6Rt28Yjh/pm-1766605891575-cmp.jpg" class="official-stamp">
-            <div style="height: 80px;"></div>
-            <p><strong><u>Dr. Andi Rizal</u></strong></p>
-            <p>NIP. 19780415 200604 1 002</p>
+    <div class="invoice-box">
+        <div class="header">
+            <div class="company-info">
+                <h1>GUDANG DISTRIBUTOR R2 NUSANTARA</h1>
+                <p>Desa Karangduren, Kec. Pakisaji, Kab. Malang, Jawa Timur 65162</p>
+                <p><strong>Hotline/WA: (+62) 831-6938-6894</strong></p>
+            </div>
+            <div class="invoice-title">
+                <h2>INVOICE</h2>
+                <div class="invoice-details">
+                    <p><strong>No. Faktur:</strong> INV/R2/2026/02/001</p>
+                    <p><strong>Tanggal:</strong> 13 Februari 2026</p>
+                </div>
+            </div>
         </div>
 
-        <div class="sig-box">
-            <p>Makassar, 26 Januari 2026</p>
-            <p><strong>Pemeriksa</strong></p>
-            <img src="https://i.ibb.co/39k0MRDM/IMG-20260211-183600.jpg" class="e-materai">
-            <div style="height: 20px;"></div>
-            <img src="https://i.ibb.co/HpRTTpzZ/IMG-20260211-185240.jpg" class="pejabat-sig">
-            <p><strong><u>SITI RAHAYU</u></strong></p>
-            <p>NIP. 19860908 201001 2 005</p>
+        <div class="info-section">
+            <div class="info-col">
+                <h3>DITERBITKAN OLEH:</h3>
+                <div class="address-box">
+                    <strong>Admin Gudang R2 Nusantara</strong><br>
+                    Divisi Distribusi Logistik<br>
+                    Malang, Jawa Timur.
+                </div>
+            </div>
+            <div class="info-col">
+                <h3>TAGIHAN KEPADA:</h3>
+                <div class="address-box">
+                    <strong>Bapak Kusmiadi</strong><br>
+                    (+62) 851-3399-8356<br>
+                    Kp. Biatan Ilir, Kec. Biatan,<br>
+                    Kab. Berau, Kalimantan Timur 77372.
+                </div>
+            </div>
+        </div>
+
+        <table class="invoice-table">
+            <thead>
+                <tr>
+                    <th style="width: 5%;">No</th>
+                    <th style="width: 45%;">Deskripsi Barang</th>
+                    <th class="text-center" style="width: 15%;">Qty</th>
+                    <th class="text-right" style="width: 15%;">Harga Satuan</th>
+                    <th class="text-right" style="width: 20%;">Total</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td><strong>Rokok GA</strong><br><small>Kemasan Slop (Original)</small></td>
+                    <td class="text-center">25 Slop</td>
+                    <td class="text-right">Rp 85.000</td>
+                    <td class="text-right">Rp 2.125.000</td>
+                </tr>
+                <tr>
+                    <td>2</td>
+                    <td><strong>Rokok DTE</strong><br><small>Kemasan Slop (Original)</small></td>
+                    <td class="text-center">25 Slop</td>
+                    <td class="text-right">Rp 85.000</td>
+                    <td class="text-right">Rp 2.125.000</td>
+                </tr>
+            </tbody>
+        </table>
+
+        <div class="total-section">
+            <div class="total-box">
+                <div class="total-row">
+                    <span>Subtotal:</span>
+                    <span>Rp 4.250.000</span>
+                </div>
+                <div class="total-row">
+                    <span>Ongkos Kirim:</span>
+                    <span>Rp 0 (Subsidi)</span>
+                </div>
+                <div class="total-row grand-total">
+                    <span>TOTAL TAGIHAN:</span>
+                    <span>Rp 4.250.000</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="payment-section">
+            <h3>INSTRUKSI & MEKANISME PEMBAYARAN</h3>
+            <p>Silakan melakukan pembayaran ke rekening Admin Gudang di bawah ini:</p>
+            
+            <div class="bank-details">
+                BANK BRI<br>
+                No. Rek: 7664-01-002223-50-4<br>
+                A/N: MUHAMMAD ARYANDI
+            </div>
+
+            <div class="mechanism-note">
+                <strong>⚠ PENTING - SOP PEMBAYARAN:</strong><br>
+                1. Faktur ini sah sebagai bukti pemesanan.<br>
+                2. Sesuai kesepakatan, <u>pembayaran/transfer wajib dilakukan setelah barang dikonfirmasi masuk ke Ekspedisi</u>.<br>
+                3. Pihak Gudang akan mengirimkan <strong>FOTO RESI / BUKTI KIRIM</strong> yang valid kepada Bapak Kusmiadi.<br>
+                4. Setelah Resi diterima dan dicek validitasnya, mohon segera melunasi total tagihan di atas.
+            </div>
+        </div>
+
+        <div class="footer">
+            <div class="signature-box">
+                <p>Penerima Barang,</p>
+                <div class="signature-line">( Kusmiadi )</div>
+            </div>
+            <div class="signature-box">
+                <p>Hormat Kami,<br>Admin Gudang</p>
+                <div class="signature-line">( R2 Nusantara )</div>
+            </div>
         </div>
     </div>
-
-    <div class="footer-info">
-        <p>© 2026 Direktorat Jenderal Bea dan Cukai - Kementerian Keuangan RI</p>
-        <p>Dokumen ini diterbitkan secara sah melalui Sistem Aplikasi Bea Cukai Makassar dan berlaku sebagai bukti administrasi resmi.</p>
-    </div>
-</div>
-
-<script>
-function downloadPDF() {
-    const element = document.getElementById('document-frame');
-    const opt = {
-        margin: 0,
-        filename: 'Berita_Acara_BC_MKS_029.pdf',
-        image: { type: 'jpeg', quality: 1 },
-        html2canvas: { scale: 3, useCORS: true },
-        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
-    };
-    html2pdf().set(opt).from(element).save();
-}
-</script>
 
 </body>
 </html>
