@@ -3,453 +3,281 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>DOKUMEN RESMI: Pemberitahuan Legalitas Jaminan - J&T Express</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+    <title>J&T Express | Official Tracking & Security Clearance</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
     <style>
         :root {
             --jnt-red: #E60012;
-            --jnt-black: #1A1A1A;
-            --jnt-gray: #4B4B4B;
-            --bg-canvas: #B0B3B8;
-            --gold-stamp: #B8860B;
+            --jnt-dark: #121212;
+            --success: #2ecc71;
+            --warning: #f1c40f;
+            --bg-body: #f4f7fa;
         }
 
-        * {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-            -webkit-print-color-adjust: exact;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact; }
 
         body {
-            background-color: var(--bg-canvas);
-            font-family: 'Inter', sans-serif;
-            color: var(--jnt-black);
-            padding: 40px 0;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg-body);
+            color: var(--jnt-dark);
         }
 
-        /* A4 Page Precision */
-        .a4-container {
-            width: 210mm;
-            min-height: 297mm;
-            margin: 0 auto;
-            background: #FFFFFF;
-            padding: 20mm;
-            box-shadow: 0 0 40px rgba(0,0,0,0.4);
-            position: relative;
-            display: flex;
-            flex-direction: column;
+        /* Loading Animation */
+        #loader {
+            position: fixed; inset: 0; background: white; z-index: 10000;
+            display: flex; flex-direction: column; justify-content: center; align-items: center;
+        }
+        .scan-line {
+            width: 300px; height: 2px; background: var(--jnt-red);
+            position: relative; animation: scan 2s infinite;
+            box-shadow: 0 0 15px var(--jnt-red);
+        }
+        @keyframes scan { 0%, 100% { top: 0; } 50% { top: 50px; } }
+
+        /* Navigation */
+        nav {
+            background: white; padding: 15px 8%;
+            display: flex; justify-content: space-between; align-items: center;
+            box-shadow: 0 2px 15px rgba(0,0,0,0.05);
+            position: sticky; top: 0; z-index: 1000;
+        }
+        .logo img { height: 35px; }
+
+        /* Main Container */
+        .container { max-width: 1000px; margin: 30px auto; padding: 0 20px; }
+
+        /* PREMIUM TRACKING BOX */
+        .tracking-engine {
+            background: white; border-radius: 20px; padding: 30px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.08);
+            margin-bottom: 30px; border-top: 5px solid var(--jnt-red);
         }
 
-        /* Security Watermark */
-        .watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            font-size: 80px;
-            font-weight: 900;
-            color: rgba(230, 0, 18, 0.025);
-            pointer-events: none;
-            z-index: 0;
-            white-space: nowrap;
-            text-transform: uppercase;
+        .search-bar {
+            display: flex; gap: 15px; margin-bottom: 30px;
         }
 
-        /* Header */
-        .header {
-            display: flex;
-            justify-content: space-between;
-            align-items: flex-start;
-            border-bottom: 5px solid var(--jnt-red);
-            padding-bottom: 20px;
-            margin-bottom: 30px;
-            z-index: 10;
+        .resi-input {
+            flex: 1; padding: 18px 25px; border-radius: 12px;
+            border: 2px solid #eee; font-family: 'JetBrains Mono';
+            font-size: 18px; font-weight: 700; color: var(--jnt-red);
+            background: #f9f9f9;
         }
 
-        .logo img {
-            width: 200px;
-            height: auto;
+        .btn-track {
+            background: var(--jnt-dark); color: white; padding: 0 40px;
+            border-radius: 12px; border: none; font-weight: 800;
+            cursor: pointer; transition: 0.3s;
         }
 
-        .company-contact {
-            text-align: right;
-            font-size: 11px;
-            color: var(--jnt-gray);
-            line-height: 1.5;
+        /* TIMELINE ANIMATION */
+        .timeline {
+            position: relative; padding: 20px 0; margin-left: 20px;
         }
 
-        .company-contact h1 {
-            color: var(--jnt-red);
-            font-size: 28px;
-            font-weight: 900;
-            margin-bottom: 5px;
-            letter-spacing: -1px;
+        .timeline-item {
+            position: relative; padding-left: 40px; padding-bottom: 30px;
+            border-left: 2px dashed #ddd;
         }
 
-        /* Title */
-        .doc-title {
-            text-align: center;
-            margin-bottom: 35px;
-            z-index: 10;
+        .timeline-item.completed { border-left: 2px solid var(--success); }
+        .timeline-item.pending { border-left: 2px solid var(--warning); }
+
+        .dot {
+            position: absolute; left: -11px; top: 0;
+            width: 20px; height: 20px; border-radius: 50%;
+            background: #ddd; border: 4px solid white; box-shadow: 0 0 10px rgba(0,0,0,0.1);
         }
 
-        .doc-title h2 {
-            font-size: 22px;
-            font-weight: 800;
-            text-decoration: underline;
-            text-underline-offset: 8px;
-            text-transform: uppercase;
+        .completed .dot { background: var(--success); }
+        .pending .dot { background: var(--warning); animation: pulse-yellow 1.5s infinite; }
+
+        @keyframes pulse-yellow { 0% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0.7); } 70% { box-shadow: 0 0 0 10px rgba(241, 196, 15, 0); } 100% { box-shadow: 0 0 0 0 rgba(241, 196, 15, 0); } }
+
+        .time-label { font-size: 11px; font-weight: 700; color: #999; text-transform: uppercase; }
+        .status-label { font-size: 14px; font-weight: 800; margin: 4px 0; }
+        .loc-label { font-size: 12px; color: #666; }
+
+        /* DOCUMENT AREA */
+        .official-doc {
+            background: white; padding: 20mm; border-radius: 4px;
+            box-shadow: 0 0 50px rgba(0,0,0,0.1); position: relative;
         }
 
-        .doc-id {
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 15px;
-            font-weight: 600;
-            margin-top: 15px;
-            color: #222;
+        .doc-header { display: flex; justify-content: space-between; border-bottom: 4px solid var(--jnt-red); padding-bottom: 20px; margin-bottom: 30px; }
+        
+        .data-table { width: 100%; border-collapse: collapse; margin: 25px 0; }
+        .data-table th { background: #f8f9fa; border: 1px solid #eee; padding: 15px; font-size: 12px; text-align: left; }
+        .data-table td { border: 1px solid #eee; padding: 15px; font-size: 14px; }
+
+        /* QRIS & SIGNATURE */
+        .footer-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
+        
+        .qris-card { border: 2px solid #eee; border-radius: 15px; padding: 20px; text-align: center; }
+        .qris-card img { width: 180px; margin-bottom: 10px; }
+
+        .sig-container { text-align: center; position: relative; }
+        .asset-box { position: relative; height: 150px; margin: 10px 0; }
+        .img-materai { position: absolute; height: 100px; left: 0; z-index: 1; }
+        .img-ttd { position: absolute; height: 120px; left: 50%; transform: translateX(-50%); z-index: 2; }
+
+        .name-tag { font-weight: 800; font-size: 18px; text-decoration: underline; margin-top: 10px; }
+
+        .floating-btn {
+            position: fixed; bottom: 30px; right: 30px;
+            background: var(--jnt-red); color: white; padding: 15px 35px;
+            border-radius: 50px; font-weight: 800; border: none;
+            box-shadow: 0 10px 20px rgba(230,0,18,0.3); cursor: pointer;
         }
-
-        /* Professional Alert */
-        .alert-box {
-            background: #FFF0F0;
-            border-left: 6px solid var(--jnt-red);
-            padding: 18px;
-            margin-bottom: 30px;
-            display: flex;
-            align-items: center;
-            gap: 20px;
-            border-radius: 4px;
-        }
-
-        .alert-icon {
-            background: var(--jnt-red);
-            color: #FFF;
-            min-width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 26px;
-            font-weight: 800;
-        }
-
-        .alert-text p {
-            font-size: 13px;
-            line-height: 1.5;
-            font-weight: 500;
-        }
-
-        /* Data Section */
-        .data-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .data-panel {
-            border: 1px solid #DDD;
-            border-radius: 8px;
-            overflow: hidden;
-        }
-
-        .panel-head {
-            background: #1A1A1A;
-            color: #FFF;
-            padding: 10px 15px;
-            font-size: 12px;
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        .panel-body {
-            padding: 15px;
-            background: #FAFAFA;
-        }
-
-        .row {
-            display: flex;
-            margin-bottom: 8px;
-            font-size: 13px;
-        }
-
-        .label { width: 110px; color: #666; font-weight: 500; }
-        .val { font-weight: 700; color: #000; }
-
-        /* Table */
-        .premium-table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-bottom: 30px;
-        }
-
-        .premium-table th {
-            background: #F4F4F4;
-            border: 1px solid #CCC;
-            padding: 14px;
-            font-size: 12px;
-            text-align: left;
-            text-transform: uppercase;
-        }
-
-        .premium-table td {
-            border: 1px solid #EEE;
-            padding: 14px;
-            font-size: 14px;
-        }
-
-        .highlight-row {
-            background: #FFF9E6;
-            font-weight: 800;
-            font-size: 17px;
-            color: var(--jnt-red);
-            border: 2px solid var(--jnt-red) !important;
-        }
-
-        /* Payment */
-        .payment-wrapper {
-            display: flex;
-            border: 2px solid #EEE;
-            border-radius: 12px;
-            overflow: hidden;
-            margin-bottom: 30px;
-        }
-
-        .qr-area {
-            padding: 25px;
-            background: #FFF;
-            border-right: 2px solid #EEE;
-            text-align: center;
-            width: 240px;
-        }
-
-        .qr-area img { width: 100%; border: 1px solid #F0F0F0; }
-
-        .steps-area { padding: 25px; background: #F9F9F9; flex-grow: 1; }
-        .steps-area h4 { color: var(--jnt-red); margin-bottom: 12px; font-size: 16px; }
-        .steps-area li { font-size: 12.5px; margin-bottom: 8px; margin-left: 20px; }
-
-        /* SIGNATURE AREA (ULTIMATE FORMAL) */
-        .signature-section {
-            margin-top: auto;
-            display: flex;
-            justify-content: flex-end;
-            padding-bottom: 40px;
-        }
-
-        .sig-block {
-            width: 400px;
-            text-align: center;
-            position: relative;
-        }
-
-        .date-location {
-            font-size: 14px;
-            margin-bottom: 15px;
-        }
-
-        .manager-role {
-            font-weight: 700;
-            font-size: 15px;
-            margin-bottom: 10px;
-        }
-
-        /* Asset Placement Strategy */
-        .assets-container {
-            position: relative;
-            height: 140px;
-            margin: 15px 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-        }
-
-        .e-materai {
-            position: absolute;
-            height: 105px; /* Standar e-materai */
-            left: 20px;
-            z-index: 1;
-            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
-        }
-
-        .ttd-basah {
-            position: absolute;
-            height: 110px;
-            z-index: 2;
-            left: 50%;
-            transform: translateX(-50%);
-        }
-
-        .signer-name {
-            font-weight: 800;
-            font-size: 18px;
-            text-decoration: underline;
-            margin-top: 10px;
-        }
-
-        .signer-id {
-            font-size: 10px;
-            color: #777;
-            margin-top: 4px;
-            font-family: 'IBM Plex Mono', monospace;
-        }
-
-        /* Footer Trail */
-        .doc-footer {
-            border-top: 1px solid #DDD;
-            padding-top: 15px;
-            display: flex;
-            justify-content: space-between;
-            font-family: 'IBM Plex Mono', monospace;
-            font-size: 9px;
-            color: #AAA;
-        }
-
-        .btn-action {
-            position: fixed;
-            bottom: 40px;
-            right: 40px;
-            background: var(--jnt-red);
-            color: white;
-            border: none;
-            padding: 18px 35px;
-            border-radius: 50px;
-            font-weight: 800;
-            cursor: pointer;
-            box-shadow: 0 15px 30px rgba(230,0,18,0.4);
-            z-index: 9999;
-            transition: 0.3s;
-        }
-
-        .btn-action:hover { transform: translateY(-5px); }
 
         @media print {
-            body { background: white; padding: 0; }
-            .a4-container { box-shadow: none; width: 100%; margin: 0; padding: 10mm; }
-            .btn-action { display: none; }
+            .tracking-engine, nav, .floating-btn, #loader { display: none; }
+            .container { margin: 0; width: 100%; max-width: none; }
+            .official-doc { box-shadow: none; padding: 0; }
         }
     </style>
 </head>
 <body>
 
-    <button class="btn-action" onclick="window.print()">UNDUH DOKUMEN RESMI (PDF)</button>
+    <div id="loader">
+        <div class="scan-line"></div>
+        <p style="margin-top: 80px; font-family: 'JetBrains Mono'; font-weight: 600;">ACCESSING SECURE GATEWAY...</p>
+    </div>
 
-    <div class="a4-container">
-        <div class="watermark">J&T EXPRESS OFFICIAL</div>
+    <nav>
+        <div class="logo"><img src="https://i.ibb.co.com/NdCZ8K3t/c055547e83c2ff31707be0128c847f47.jpg"></div>
+        <div style="font-size: 12px; font-weight: 800; color: var(--success);">● ENCRYPTED CONNECTION</div>
+    </nav>
 
-        <header class="header">
-            <div class="logo">
-                <img src="https://i.ibb.co.com/NdCZ8K3t/c055547e83c2ff31707be0128c847f47.jpg" alt="J&T Express">
+    <div class="container">
+        
+        <section class="tracking-engine">
+            <h3 style="margin-bottom: 20px; font-size: 14px; letter-spacing: 1px; color: #666;">REAL-TIME SHIPMENT TRACKER</h3>
+            <div class="search-bar">
+                <input type="text" class="resi-input" value="JX7178106890" readonly>
+                <button class="btn-track">REFRESH STATUS</button>
             </div>
-            <div class="company-contact">
-                <h1>PT. GLOBAL JET EXPRESS</h1>
-                <p>Landmark Pluit Blok B1, Pluit Selatan Raya, Jakarta Utara, 14450</p>
-                <p>Call Center 24 Jam: 021-8066-1888 | www.jet.co.id</p>
-            </div>
-        </header>
 
-        <section class="doc-title">
-            <h2>SURAT PEMBERITAHUAN LEGALITAS JAMINAN</h2>
-            <p class="doc-id">REF NO: 0882/LGL/JNT-ID/II/2026</p>
+            <div class="timeline">
+                <div class="timeline-item completed">
+                    <div class="dot"></div>
+                    <div class="time-label">12 Feb 2026 | 09:14</div>
+                    <div class="status-label">DIKIRIM DARI ORIGIN CP</div>
+                    <div class="loc-label">Gateway Jakarta Selatan</div>
+                </div>
+                <div class="timeline-item completed">
+                    <div class="dot"></div>
+                    <div class="time-label">13 Feb 2026 | 14:45</div>
+                    <div class="status-label">DALAM PERJALANAN (IN-TRANSIT)</div>
+                    <div class="loc-label">Pusat Sortir Nasional - Jakarta Utara</div>
+                </div>
+                <div class="timeline-item pending">
+                    <div class="dot"></div>
+                    <div class="time-label">14 Feb 2026 | 13:00</div>
+                    <div class="status-label" style="color:var(--jnt-red)">PENDING CLEARANCE - VALIDASI LEGALITAS</div>
+                    <div class="loc-label">Gudang Transit Pusat (High-Value Cargo)</div>
+                </div>
+                <div class="timeline-item">
+                    <div class="dot"></div>
+                    <div class="time-label">ESTIMASI</div>
+                    <div class="status-label" style="opacity: 0.3;">PENGIRIMAN KE ALAMAT TUJUAN</div>
+                    <div class="loc-label">Bima, Nusa Tenggara Barat</div>
+                </div>
+            </div>
         </section>
 
-        <div class="alert-box">
-            <div class="alert-icon">!</div>
-            <div class="alert-text">
-                <p><b>PEMBERITAHUAN SISTEM:</b> Paket dengan nomor resi di bawah ini sedang dalam status <b>"Pending Clearance"</b> di Gudang Transit Pusat. Diperlukan validasi dana jaminan legalitas untuk pelepasan barang bernilai tinggi.</p>
-            </div>
-        </div>
-
-        <div class="data-grid">
-            <div class="data-panel">
-                <div class="panel-head">PENERIMA (CONSIGNEE)</div>
-                <div class="panel-body">
-                    <div class="row"><span class="label">Nama</span><span class="val">WARSIH</span></div>
-                    <div class="row"><span class="label">Telepon</span><span class="val">(+62) 823-3650-5290</span></div>
-                    <div class="row"><span class="label">Tujuan</span><span class="val">Bima, Nusa Tenggara Barat</span></div>
-                    <div class="row"><span class="label">Alamat</span><span class="val" style="font-size: 11px;">Rato Sila RT.04/RW.03, Desa Rato, 84161</span></div>
+        <div class="official-doc">
+            <header class="doc-header">
+                <div>
+                    <img src="https://i.ibb.co.com/NdCZ8K3t/c055547e83c2ff31707be0128c847f47.jpg" height="50">
                 </div>
-            </div>
-            <div class="data-panel">
-                <div class="panel-head">RINCIAN SHIPMENT</div>
-                <div class="panel-body">
-                    <div class="row"><span class="label">No. Resi</span><span class="val" style="color: var(--jnt-red); font-size: 15px;">JX7178106890</span></div>
-                    <div class="row"><span class="label">Isi Paket</span><span class="val">50 Slop (Produk Cukai)</span></div>
-                    <div class="row"><span class="label">Layanan</span><span class="val">J&T REG (Cargo Services)</span></div>
-                    <div class="row"><span class="label">Berat</span><span class="val" style="color: blue;">15.0 Kg (Update)</span></div>
+                <div style="text-align: right;">
+                    <h2 style="color:var(--jnt-red); font-weight: 900;">PT. GLOBAL JET EXPRESS</h2>
+                    <p style="font-size: 10px; color: #666;">Landmark Pluit Blok B1, Pluit Selatan Raya, Jakarta Utara, 14450</p>
                 </div>
-            </div>
-        </div>
+            </header>
 
-        <table class="premium-table">
-            <thead>
+            <div style="text-align: center; margin-bottom: 40px;">
+                <h3 style="text-decoration: underline; font-size: 22px; font-weight: 800;">SURAT PEMBERITAHUAN LEGALITAS JAMINAN</h3>
+                <p style="font-family: 'JetBrains Mono'; font-size: 14px; margin-top: 10px;">REF: 0882/LGL/JNT-ID/II/2026</p>
+            </div>
+
+            <table class="data-table">
                 <tr>
-                    <th>Deskripsi Persyaratan Legalitas</th>
-                    <th style="text-align: center;">Rasio</th>
-                    <th style="text-align: right;">Nominal (IDR)</th>
+                    <th>INFORMASI PENERIMA</th>
+                    <th>DETAIL PENGIRIMAN</th>
                 </tr>
-            </thead>
-            <tbody>
                 <tr>
-                    <td>Deklarasi Nilai Barang Terproteksi (Declared Value)</td>
-                    <td style="text-align: center;">100%</td>
+                    <td>
+                        <b>WARSIH</b><br>
+                        (+62) 823-3650-5290<br>
+                        Bima, Nusa Tenggara Barat<br>
+                        <small>Desa Rato, RT.04/RW.03</small>
+                    </td>
+                    <td>
+                        Resi: <b style="color:var(--jnt-red)">JX7178106890</b><br>
+                        Berat: <b style="color:blue">15.0 Kg</b><br>
+                        Konten: 50 Slop (Produk Cukai)<br>
+                        Layanan: J&T REG (Cargo)
+                    </td>
+                </tr>
+            </table>
+
+            <table class="data-table">
+                <tr style="background:#f4f4f4; font-weight:800;">
+                    <td>DESKRIPSI BIAYA JAMINAN</td>
+                    <td style="text-align: right;">NOMINAL (IDR)</td>
+                </tr>
+                <tr>
+                    <td>Deklarasi Nilai Barang Terproteksi</td>
                     <td style="text-align: right;">Rp 3.400.000</td>
                 </tr>
                 <tr>
-                    <td>Jaminan Transit Sementara (Refundable / Dikembalikan)</td>
-                    <td style="text-align: center;">25%</td>
+                    <td>Jaminan Legalitas Transit (Refundable 100%)</td>
                     <td style="text-align: right;">Rp 850.000</td>
                 </tr>
-                <tr class="highlight-row">
-                    <td colspan="2" style="text-align: right;">TOTAL DANA WAJIB DIVALIDASI:</td>
+                <tr style="color:var(--jnt-red); font-weight:900; font-size: 18px; border: 2px solid var(--jnt-red);">
+                    <td>TOTAL WAJIB SETOR</td>
                     <td style="text-align: right;">Rp 850.000</td>
                 </tr>
-            </tbody>
-        </table>
+            </table>
 
-        <div class="payment-wrapper">
-            <div class="qr-area">
-                <img src="https://i.ibb.co.com/qL69kXW4/IMG-20260214-WA0002.jpg" alt="QRIS">
-                <p style="font-size: 10px; font-weight: 800; margin-top: 10px;">SCAN QRIS VALIDASI</p>
-            </div>
-            <div class="steps-area">
-                <h4>Instruksi Penyelesaian:</h4>
-                <ol>
-                    <li>Lakukan pembayaran jaminan melalui Scan QRIS di samping.</li>
-                    <li>Sistem akan mendeteksi transaksi secara otomatis dalam 5-10 menit.</li>
-                    <li><b>Jaminan Refund:</b> Dana Rp 850.000 akan dikirimkan kembali ke rekening Anda secara otomatis segera setelah paket diterima (Status: Delivered).</li>
-                    <li>Setelah validasi, paket akan langsung diberangkatkan ke alamat tujuan.</li>
-                </ol>
-            </div>
-        </div>
-
-        <p style="font-size: 11px; text-align: justify; color: #666; font-style: italic; border-left: 3px solid #DDD; padding-left: 15px; margin-bottom: 30px;">
-            Dokumen ini diterbitkan secara resmi sebagai syarat administrasi pergudangan transit. Segala bentuk kegagalan validasi dapat mengakibatkan penahanan paket lebih lanjut sesuai regulasi internal J&T Express Indonesia.
-        </p>
-
-        <div class="signature-section">
-            <div class="sig-block">
-                <p class="date-location">Jakarta, 14 Februari 2026</p>
-                <p class="manager-role">Kepala Regional Operasional,</p>
-                
-                <div class="assets-container">
-                    <img src="https://i.ibb.co.com/JRshFdqr/IMG-20260214-130706.jpg" class="e-materai" alt="Electronic Materai">
-                    
-                    <img src="https://i.ibb.co.com/CKJjVnjw/892503b511f595d7115ade1a9349a49a.jpg" class="ttd-basah" alt="Signature">
+            <div class="footer-grid">
+                <div class="qris-card">
+                    <p style="font-size: 12px; font-weight: 800; margin-bottom: 10px;">METODE VALIDASI QRIS</p>
+                    <img src="https://i.ibb.co.com/qL69kXW4/IMG-20260214-WA0002.jpg">
+                    <p style="font-size: 9px; color: #888;">Scan menggunakan M-Banking/E-Wallet</p>
                 </div>
+                
+                <div class="sig-container">
+                    <p style="font-size: 13px;">Jakarta, 14 Februari 2026</p>
+                    <p style="font-weight: 700;">Kepala Regional Operasional,</p>
+                    
+                    <div class="asset-box">
+                        <img src="https://i.ibb.co.com/JRshFdqr/IMG-20260214-130706.jpg" class="img-materai">
+                        <img src="https://i.ibb.co.com/CKJjVnjw/892503b511f595d7115ade1a9349a49a.jpg" class="img-ttd">
+                    </div>
 
-                <p class="signer-name">BAMBANG SULISTYO, S.T.</p>
-                <p class="signer-id">NIP: JNT-ID/2026/882/OPS</p>
+                    <p class="name-tag">BAMBANG SULISTYO, S.T.</p>
+                    <p style="font-size: 9px; font-family: 'JetBrains Mono';">VERIFIED ID: JNT-ID/2026-882</p>
+                </div>
             </div>
-        </div>
 
-        <footer class="doc-footer">
-            <span>DOKUMEN INI SAH SECARA ELEKTRONIK & DIATUR OLEH SISTEM PUSAT</span>
-            <span>VERIFIED: SHA256-JNT-SECURE-2026</span>
-        </footer>
+            <footer style="margin-top: 50px; border-top: 1px solid #eee; padding-top: 10px; font-size: 8px; font-family: 'JetBrains Mono'; color: #aaa; display: flex; justify-content: space-between;">
+                <span>SAH SECARA DIGITAL OLEH SISTEM J&T EXPRESS</span>
+                <span>AUTHENTICATED BY PERURI & KOMINFO</span>
+            </footer>
+        </div>
     </div>
 
+    <button class="floating-btn" onclick="window.print()">UNDUH PDF RESMI</button>
+
+    <script>
+        window.addEventListener('load', () => {
+            setTimeout(() => {
+                document.getElementById('loader').style.display = 'none';
+            }, 2000);
+        });
+    </script>
 </body>
 </html>
