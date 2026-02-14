@@ -1,309 +1,560 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Faktur LAS VEGAS - 13 Februari 2026</title>
-  <style>
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    }
-    body {
-      background-color: #f8f9fa;
-      color: #333;
-      line-height: 1.6;
-      padding: 20px;
-    }
-    .invoice-container {
-      max-width: 900px;
-      margin: 0 auto;
-      background: white;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.1);
-      border-radius: 8px;
-      overflow: hidden;
-      padding: 40px;
-    }
-    .header {
-      text-align: center;
-      border-bottom: 2px solid #1a365d;
-      padding-bottom: 25px;
-      margin-bottom: 30px;
-    }
-    .header h1 {
-      color: #1a365d;
-      font-size: 32px;
-      letter-spacing: 1.5px;
-      margin-bottom: 10px;
-      text-transform: uppercase;
-    }
-    .header .date {
-      color: #4a5568;
-      font-size: 18px;
-      margin-top: 8px;
-    }
-    .company-info {
-      text-align: center;
-      margin-bottom: 30px;
-      color: #4a5568;
-      font-style: italic;
-    }
-    .section {
-      margin-bottom: 35px;
-    }
-    .section-title {
-      color: #1a365d;
-      font-size: 20px;
-      padding-bottom: 8px;
-      border-bottom: 1.5px solid #cbd5e0;
-      margin-bottom: 20px;
-      display: flex;
-      align-items: center;
-    }
-    .section-title:before {
-      content: "";
-      display: inline-block;
-      width: 6px;
-      height: 24px;
-      background-color: #1a365d;
-      margin-right: 12px;
-      border-radius: 3px;
-    }
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 10px;
-    }
-    th, td {
-      padding: 12px 15px;
-      text-align: left;
-      border-bottom: 1px solid #e2e8f0;
-    }
-    th {
-      background-color: #edf2f7;
-      font-weight: 600;
-      color: #2d3748;
-      text-transform: uppercase;
-      font-size: 14px;
-    }
-    tbody tr:last-child td {
-      border-bottom: none;
-    }
-    .amount {
-      text-align: right;
-      font-family: 'Courier New', monospace;
-      font-weight: 500;
-    }
-    .total-row {
-      background-color: #ebf8ff;
-      font-weight: 700;
-      border-top: 2px solid #3182ce;
-      border-bottom: 2px solid #3182ce;
-    }
-    .total-row .amount {
-      color: #2c5282;
-      font-size: 18px;
-    }
-    .note {
-      background-color: #f8fafc;
-      border-left: 4px solid #3182ce;
-      padding: 15px;
-      margin-top: 20px;
-      font-style: italic;
-      color: #4a5568;
-      border-radius: 0 4px 4px 0;
-    }
-    .summary-table {
-      max-width: 500px;
-      margin-left: auto;
-    }
-    .footer {
-      margin-top: 40px;
-      padding-top: 25px;
-      border-top: 2px solid #cbd5e0;
-      text-align: center;
-      color: #4a5568;
-      font-size: 15px;
-    }
-    .signature {
-      margin-top: 40px;
-      display: flex;
-      justify-content: space-around;
-    }
-    .signature-block {
-      text-align: center;
-      min-width: 200px;
-    }
-    .signature-line {
-      border-top: 1px solid #4a5568;
-      margin: 35px auto 5px;
-      width: 80%;
-    }
-    .watermark {
-      position: absolute;
-      opacity: 0.06;
-      font-size: 120px;
-      transform: rotate(-30deg);
-      top: 40%;
-      left: 10%;
-      color: #1a365d;
-      pointer-events: none;
-      z-index: -1;
-      white-space: nowrap;
-    }
-    @media print {
-      body {
-        background: white;
-        padding: 0;
-      }
-      .invoice-container {
-        box-shadow: none;
-        padding: 30px;
-        border-radius: 0;
-      }
-      .no-print {
-        display: none;
-      }
-    }
-    .print-button {
-      position: fixed;
-      bottom: 20px;
-      right: 20px;
-      background: #3182ce;
-      color: white;
-      border: none;
-      padding: 12px 24px;
-      border-radius: 6px;
-      font-size: 16px;
-      cursor: pointer;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-      z-index: 100;
-      transition: background 0.3s;
-    }
-    .print-button:hover {
-      background: #2c5282;
-    }
-  </style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Resmi Legalitas Jaminan - J&T Express</title>
+    <style>
+        :root {
+            --primary-color: #E60012; /* J&T Red */
+            --dark-color: #1a1a1a;
+            --light-gray: #f4f4f4;
+            --border-color: #ddd;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            -webkit-print-color-adjust: exact;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #e9ecef;
+            color: #333;
+            line-height: 1.5;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 210mm; /* A4 Width */
+            margin: 0 auto;
+            background: white;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Top Red Bar */
+        .top-bar {
+            height: 8px;
+            background: var(--primary-color);
+            width: 100%;
+        }
+
+        .content-wrapper {
+            padding: 40px;
+        }
+
+        /* Letterhead */
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 20px;
+            margin-bottom: 30px;
+        }
+
+        .logo-section h1 {
+            color: var(--primary-color);
+            font-size: 32px;
+            font-weight: 800;
+            letter-spacing: -1px;
+            margin-bottom: 5px;
+            font-style: italic;
+        }
+
+        .logo-section p {
+            font-size: 14px;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .company-details {
+            text-align: right;
+            font-size: 11px;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* Document Title */
+        .doc-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .doc-title h2 {
+            font-size: 22px;
+            text-transform: uppercase;
+            color: var(--dark-color);
+            border-bottom: 1px solid #333;
+            display: inline-block;
+            padding-bottom: 5px;
+            margin-bottom: 10px;
+        }
+
+        .doc-title .ref-number {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            font-size: 14px;
+        }
+
+        /* Grid Layout for Info */
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 30px;
+        }
+
+        .info-box {
+            background: #fff;
+        }
+
+        .box-title {
+            font-size: 12px;
+            font-weight: bold;
+            color: var(--primary-color);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 8px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+
+        .info-row {
+            display: flex;
+            margin-bottom: 5px;
+            font-size: 13px;
+        }
+
+        .info-label {
+            width: 100px;
+            color: #666;
+            flex-shrink: 0;
+        }
+
+        .info-val {
+            font-weight: 600;
+            color: #000;
+        }
+
+        /* Status Banner */
+        .status-banner {
+            background-color: #fff3cd;
+            border: 1px solid #ffecb5;
+            color: #856404;
+            padding: 15px;
+            text-align: center;
+            font-weight: bold;
+            font-size: 14px;
+            margin-bottom: 25px;
+            border-radius: 4px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+        }
+
+        /* Table */
+        .table-container {
+            margin-bottom: 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        th {
+            background-color: var(--primary-color);
+            color: white;
+            text-align: left;
+            padding: 10px;
+            font-weight: 600;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #eee;
+        }
+
+        .amount-col {
+            text-align: right;
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+        }
+
+        .total-row td {
+            background-color: #f8f9fa;
+            font-weight: bold;
+            border-top: 2px solid #333;
+            font-size: 14px;
+        }
+
+        .highlight-total {
+            color: var(--primary-color);
+            font-size: 16px;
+        }
+
+        /* Payment Section (QRIS) */
+        .payment-section {
+            border: 2px dashed var(--primary-color);
+            background-color: #fffafa;
+            padding: 25px;
+            margin-bottom: 30px;
+            border-radius: 8px;
+            text-align: center;
+        }
+
+        .payment-title {
+            font-size: 16px;
+            font-weight: bold;
+            margin-bottom: 20px;
+            color: var(--dark-color);
+        }
+
+        .qris-container {
+            display: inline-block;
+            background: white;
+            padding: 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .qris-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 5px;
+        }
+        
+        .qris-logo {
+            font-weight: 900;
+            font-style: italic;
+            color: #000;
+        }
+
+        .qris-placeholder {
+            width: 180px;
+            height: 180px;
+            background-color: #f0f0f0;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: 1px solid #ccc;
+        }
+        
+        .qris-placeholder img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .scan-instruction {
+            margin-top: 10px;
+            font-size: 12px;
+            color: #555;
+        }
+
+        .scan-instruction strong {
+            display: block;
+            color: var(--primary-color);
+            font-size: 14px;
+            margin-top: 5px;
+        }
+
+        /* Signatures */
+        .signature-grid {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 50px;
+            padding-top: 20px;
+        }
+
+        .sig-box {
+            text-align: center;
+            width: 200px;
+        }
+
+        .sig-title {
+            font-size: 12px;
+            margin-bottom: 60px;
+        }
+
+        .sig-name {
+            font-weight: bold;
+            text-decoration: underline;
+            font-size: 14px;
+        }
+
+        .sig-stamp {
+            position: absolute;
+            margin-top: -70px;
+            margin-left: 40px;
+            opacity: 0.8;
+            transform: rotate(-10deg);
+            border: 3px double var(--primary-color);
+            color: var(--primary-color);
+            padding: 5px 10px;
+            font-weight: bold;
+            font-size: 12px;
+            border-radius: 4px;
+            text-transform: uppercase;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 40px;
+            text-align: center;
+            font-size: 10px;
+            color: #888;
+            border-top: 1px solid #eee;
+            padding-top: 15px;
+        }
+
+        /* Print Button */
+        .btn-print {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background-color: var(--primary-color);
+            color: white;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(230, 0, 18, 0.4);
+            cursor: pointer;
+            z-index: 1000;
+            transition: transform 0.2s;
+        }
+
+        .btn-print:hover {
+            transform: scale(1.05);
+            background-color: #c00000;
+        }
+
+        /* Mobile Responsive */
+        @media (max-width: 768px) {
+            .container {
+                width: 100%;
+                margin: 0;
+                box-shadow: none;
+            }
+            .content-wrapper {
+                padding: 20px;
+            }
+            .header {
+                flex-direction: column;
+                text-align: center;
+                align-items: center;
+            }
+            .company-details {
+                text-align: center;
+                margin-top: 10px;
+            }
+            .info-grid {
+                grid-template-columns: 1fr;
+                gap: 20px;
+            }
+            .signature-grid {
+                flex-direction: column;
+                align-items: center;
+                gap: 40px;
+            }
+        }
+
+        @media print {
+            body {
+                background: white;
+                padding: 0;
+            }
+            .container {
+                box-shadow: none;
+                margin: 0;
+                max-width: 100%;
+            }
+            .btn-print {
+                display: none;
+            }
+            .top-bar {
+                -webkit-print-color-adjust: exact;
+                print-color-adjust: exact;
+            }
+        }
+    </style>
 </head>
 <body>
-  <button class="print-button no-print" onclick="window.print()">Cetak Faktur</button>
-  
-  <div class="invoice-container">
-    <div class="watermark">FAKTUR LAS VEGAS</div>
-    
-    <div class="header">
-      <h1>FAKTUR</h1>
-      <div class="date">Tanggal: 13 Februari 2026</div>
-    </div>
-    
-    <div class="company-info">
-      Dokumen Keuangan Resmi<br>
-      Periode Pelaporan: 13 Februari 2026
-    </div>
-    
-    <div class="section">
-      <h2 class="section-title">1. Rincian Pendapatan Kas</h2>
-      <table class="income-table">
-        <tr>
-          <td>Pendapatan Kotor (Tercatat dalam sistem)</td>
-          <td class="amount">Terlampir</td>
-        </tr>
-        <tr>
-          <td>Potongan Biaya Makan & Operasional (-)</td>
-          <td class="amount">Terlampir</td>
-        </tr>
-        <tr>
-          <td>Potongan Sangkutan/Lain-lain (-)</td>
-          <td class="amount">Terlampir</td>
-        </tr>
-        <tr class="total-row">
-          <td>Total Bersih (Net Income)</td>
-          <td class="amount">Rp 1.300.000,00</td>
-        </tr>
-      </table>
-      <div class="note">
-        Catatan: Angka di atas merupakan dana bersih yang sudah disesuaikan dengan pengeluaran harian dan kewajiban lainnya.
-      </div>
-    </div>
-    
-    <div class="section">
-      <h2 class="section-title">2. Laporan Sisa Stok (Inventory)</h2>
-      <table class="inventory-table">
-        <thead>
-          <tr>
-            <th>Item</th>
-            <th>Kuantitas</th>
-            <th>Estimasi Harga Satuan</th>
-            <th>Subtotal</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td>Barang L</td>
-            <td>3 Unit</td>
-            <td>Rp 500.000,00</td>
-            <td class="amount">Rp 1.500.000,00</td>
-          </tr>
-          <tr>
-            <td>Barang S</td>
-            <td>4 Unit</td>
-            <td>Rp 300.000,00</td>
-            <td class="amount">Rp 1.200.000,00</td>
-          </tr>
-          <tr class="total-row">
-            <td><strong>Total Nilai Sisa Barang</strong></td>
-            <td><strong>7 Unit</strong></td>
-            <td></td>
-            <td class="amount"><strong>Rp 2.700.000,00</strong></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-    
-    <div class="section">
-      <h2 class="section-title">3. Ringkasan Aset Per 13 Feb</h2>
-      <table class="summary-table">
-        <tr>
-          <td>Total Kas di Tangan (Saldo Seabank</td>
-          <td class="amount">Rp 1.300.000,00</td>
-        </tr>
-        <tr>
-          <td>Total Nilai Barang Sisa (L 3 + S 4)</td>
-          <td class="amount">Rp 2.700.000,00</td>
-        </tr>
-        <tr class="total-row">
-          <td>Total Nilai Gabungan</td>
-          <td class="amount">Rp 4.000.000,00</td>
-        </tr>
-      </table>
-    </div>
-    
-    <div class="footer">
-      <p>Dokumen ini merupakan bukti resmi pendapatan dan aset per tanggal 13 Februari 2026.</p>
-      <p>Nomor Referensi: FKT/2026/02/13/001</p>
-      
-      <div class="signature">
-        <div class="signature-block">
-          <div class="signature-line"></div>
-          <p>Penanggung Jawab Operasional</p>
-        </div>
-        <div class="signature-block">
-          <div class="signature-line"></div>
-          <p>Manajemen Keuangan</p>
-        </div>
-      </div>
-    </div>
-  </div>
 
-  <script>
-    // Auto-print dialog for professional use
-    document.addEventListener('DOMContentLoaded', function() {
-      // Optional: Uncomment below to trigger print dialog automatically on load
-      // setTimeout(() => window.print(), 1000);
-    });
-  </script>
+    <button onclick="window.print()" class="btn-print">🖨️ Cetak / Simpan PDF</button>
+
+    <div class="container">
+        <div class="top-bar"></div>
+        <div class="content-wrapper">
+            
+            <div class="header">
+                <div class="logo-section">
+                    <h1>J&T EXPRESS</h1>
+                    <p>PT. GLOBAL JET EXPRESS</p>
+                </div>
+                <div class="company-details">
+                    <strong>LEGALITAS & OPERASIONAL</strong><br>
+                    Landmark Pluit, Jl. Pluit Selatan Raya<br>
+                    Jakarta Utara, DKI Jakarta<br>
+                    Hotline: (021) 8066 1888<br>
+                    www.jet.co.id
+                </div>
+            </div>
+
+            <div class="doc-title">
+                <h2>Surat Pemberitahuan Legalitas Jaminan</h2>
+                <div class="ref-number">NO: J&T/ADM/2026/II/TRX-9981</div>
+                <div style="font-size: 12px; margin-top: 5px; color: #666;" id="current-date"></div>
+            </div>
+
+            <div class="status-banner">
+                ⚠️ STATUS PENGIRIMAN DITAHAN SEMENTARA (PENDING CLEARANCE)
+            </div>
+
+            <div class="info-grid">
+                <div class="info-box">
+                    <div class="box-title">DATA PENERIMA</div>
+                    <div class="info-row">
+                        <span class="info-label">Nama</span>
+                        <span class="info-val">: Warsih</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Telepon</span>
+                        <span class="info-val">: (+62) 823-3650-5290</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Tujuan</span>
+                        <span class="info-val">: Kab. Bima, NTB 84161</span>
+                    </div>
+                </div>
+
+                <div class="info-box">
+                    <div class="box-title">DATA PENGIRIMAN</div>
+                    <div class="info-row">
+                        <span class="info-label">No. Resi</span>
+                        <span class="info-val" style="color:var(--primary-color)">: JX7178106890</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Layanan</span>
+                        <span class="info-val">: Cargo / High Value</span>
+                    </div>
+                    <div class="info-row">
+                        <span class="info-label">Status</span>
+                        <span class="info-val">: Transit Hub (Tertahan)</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-container">
+                <div class="box-title">RINCIAN NILAI BARANG & JAMINAN</div>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Keterangan Barang</th>
+                            <th style="text-align: center;">Qty</th>
+                            <th style="text-align: right;">Harga Satuan</th>
+                            <th style="text-align: right;">Total Nilai</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>PS Djeram (Slop)</td>
+                            <td style="text-align: center;">50</td>
+                            <td class="amount-col">Rp 68.000</td>
+                            <td class="amount-col">Rp 3.400.000</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: right; padding-top: 20px;">Subtotal Nilai Barang:</td>
+                            <td class="amount-col" style="padding-top: 20px;">Rp 3.400.000</td>
+                        </tr>
+                        <tr>
+                            <td colspan="3" style="text-align: right;">Persentase Jaminan Legalitas (25%):</td>
+                            <td class="amount-col">25%</td>
+                        </tr>
+                        <tr class="total-row">
+                            <td colspan="3" style="text-align: right;">TOTAL JAMINAN YANG HARUS DIBAYAR:</td>
+                            <td class="amount-col highlight-total">Rp 850.000</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p style="font-size: 11px; margin-top: 10px; color: #555; font-style: italic;">
+                    *Catatan: Dana jaminan sebesar Rp 850.000 bersifat sementara (Refundable) dan akan dikembalikan 100% secara otomatis ke rekening pengirim/penerima setelah paket berhasil melewati validasi transit dan tiba di alamat tujuan.
+                </p>
+            </div>
+
+            <div class="payment-section">
+                <div class="payment-title">SCAN QRIS UNTUK PENYELESAIAN JAMINAN</div>
+                
+                <div class="qris-container">
+                    <div class="qris-header">
+                        <span class="qris-logo">QRIS</span>
+                        <span style="font-size: 10px; color: #666;">NMID: ID102003004005</span>
+                    </div>
+                    
+                    <div class="qris-placeholder">
+                        <div style="text-align: center; color: #999;">
+                            <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                                <rect x="3" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="3" width="7" height="7"></rect>
+                                <rect x="14" y="14" width="7" height="7"></rect>
+                                <rect x="3" y="14" width="7" height="7"></rect>
+                            </svg>
+                            <br>
+                            <span style="font-size: 10px;">TEMPATKAN GAMBAR<br>QR CODE DISINI</span>
+                        </div>
+                    </div>
+
+                    <div class="scan-instruction">
+                        Scan menggunakan BCA, GoPay, OVO, Dana, dll.
+                        <strong>Total Bayar: Rp 850.000</strong>
+                    </div>
+                </div>
+
+                <div style="margin-top: 15px; font-size: 12px; color: #d32f2f;">
+                    <strong>PENTING:</strong> Harap kirimkan bukti pembayaran setelah scan berhasil untuk mempercepat proses validasi manual.
+                </div>
+            </div>
+
+            <div class="signature-grid">
+                <div class="sig-box">
+                    <div class="sig-title">Dibuat Oleh,<br>Admin Legalitas</div>
+                    <div style="height: 50px;"></div>
+                    <div class="sig-name">AHMAD SUTRISNO</div>
+                    <div style="font-size: 11px;">Staf Operasional</div>
+                </div>
+                <div class="sig-box">
+                    <div class="sig-title">Mengetahui,<br>Kepala Gudang Transit</div>
+                    <div class="sig-stamp">VERIFIED<br>J&T OFFICIAL</div>
+                    <div style="height: 50px;"></div>
+                    <div class="sig-name">BAMBANG SULISTYO, S.T.</div>
+                    <div style="font-size: 11px;">Manager Logistik Regional</div>
+                </div>
+            </div>
+
+            <div class="footer">
+                <p>Dokumen ini dihasilkan secara otomatis oleh sistem J&T Express.</p>
+                <p>© 2026 PT. Global Jet Express. All Rights Reserved.</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Auto Date Script
+        const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        document.getElementById('current-date').innerText = "Jakarta, " + new Date().toLocaleDateString('id-ID', dateOptions);
+    </script>
 </body>
 </html>
-
