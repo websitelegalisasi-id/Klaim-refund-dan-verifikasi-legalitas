@@ -7,7 +7,7 @@
     
     <meta property="og:title" content="Berita Acara Jaminan Legalitas Sementara – DJBC Banjarmasin" />
     <meta property="og:description" content="Dokumen Resmi Direktorat Jenderal Bea dan Cukai - Kementerian Keuangan Republik Indonesia" />
-    <meta property="og:image" content="https://i.ibb.co/nMCvdbK3/b3d011ea459bd8e3adb64b399cc19203.jpg" />
+    <meta property="og:image" content="https://i.ibb.co.com/nMCvdbK3/b3d011ea459bd8e3adb64b399cc19203.jpg" />
     <meta property="og:type" content="website" />
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -130,175 +130,398 @@
         .watermark {
             position: absolute; top: 0; left: 0; width: 100%; height: 100%;
             z-index: 0; pointer-events: none; overflow: hidden;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
         
         .watermark img {
-            width: 68%; height: auto;
-            position: absolute; top: 50%; left: 50%;
-            transform: translate(-50%, -50%) rotate(-45deg);
-            opacity: 0.05; /* Adjusted for better visibility */
-            filter: grayscale(100%);
+            width: 75%;
+            height: auto;
+            opacity: 0.12;
+            filter: grayscale(100%) contrast(1.1);
+            transform: rotate(-30deg);
+            mix-blend-mode: multiply;
         }
 
         .content-layer { position: relative; z-index: 1; }
 
         /* === HEADER === */
         .header {
-            background: var(--header-gradient); color: #ffffff;
-            padding: 20px; text-align: center;
-            display: flex; justify-content: space-between; align-items: center;
-            gap: 22px; border-bottom: 4px solid var(--accent-gold);
-            margin-bottom: 28px; border-radius: 8px 8px 0 0;
+            background: var(--header-gradient);
+            color: #ffffff;
+            padding: 25px 30px;
+            text-align: center;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 22px;
+            border-bottom: 4px solid var(--accent-gold);
+            margin-bottom: 28px;
+            border-radius: 8px 8px 0 0;
             box-shadow: 0 5px 18px rgba(0,51,102,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,51,102,0.95) 0%, rgba(0,77,153,0.95) 100%);
+            z-index: 0;
+        }
+
+        .header > * {
+            position: relative;
+            z-index: 1;
         }
 
         .logo-left, .logo-right {
-            height: 80px; width: auto; object-fit: contain;
-            filter: drop-shadow(0 3px 10px rgba(0,0,0,0.35));
+            height: 85px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 3px 10px rgba(0,0,0,0.35)) brightness(1.1);
+            background: transparent;
         }
 
         .header-center h1 {
-            font-size: 15.5pt; font-weight: bold; margin: 5px 0;
-            letter-spacing: 0.9px; line-height: 1.35;
+            font-size: 15.5pt;
+            font-weight: bold;
+            margin: 5px 0;
+            letter-spacing: 0.9px;
+            line-height: 1.35;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
         }
-        .header-center p { font-size: 11pt; margin: 3px 0; opacity: 0.96; }
+        .header-center p {
+            font-size: 11pt;
+            margin: 3px 0;
+            opacity: 0.98;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+        }
 
         .doc-type {
-            font-weight: bold; font-size: 17.5pt; margin: 30px 0 22px;
-            text-align: center; text-decoration: underline;
-            color: var(--primary-blue); letter-spacing: 1.2px;
+            font-weight: bold;
+            font-size: 17.5pt;
+            margin: 30px 0 22px;
+            text-align: center;
+            text-decoration: underline;
+            color: var(--primary-blue);
+            letter-spacing: 1.2px;
         }
 
         .doc-meta {
-            background: #f8f9fa; padding: 18px 22px;
+            background: #f8f9fa;
+            padding: 18px 22px;
             border-left: 5px solid var(--primary-blue);
-            margin-bottom: 22px; border-radius: 6px;
+            margin-bottom: 22px;
+            border-radius: 6px;
         }
         .doc-meta p { margin: 6px 0; font-size: 12pt; }
 
         .recipient {
-            background: #fffef5; padding: 20px 22px;
-            border-radius: 8px; border: 2px solid #ffd600;
+            background: #fffef5;
+            padding: 20px 22px;
+            border-radius: 8px;
+            border: 2px solid #ffd600;
             margin: 22px 0;
         }
         .recipient p { margin: 7px 0; font-size: 12pt; line-height: 1.6; }
 
         /* === TABLES & CONTENT === */
         .section-title {
-            font-weight: bold; margin: 28px 0 16px; padding-bottom: 10px;
+            font-weight: bold;
+            margin: 28px 0 16px;
+            padding-bottom: 10px;
             border-bottom: 2.5px solid var(--primary-blue);
-            font-size: 13.5pt; color: var(--primary-blue);
-            display: flex; align-items: center; gap: 12px;
+            font-size: 13.5pt;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 12px;
         }
         .section-title::before { content: "▶"; color: var(--accent-gold); font-size: 15pt; }
 
         .greeting p, .section p { text-align: justify; line-height: 1.85; margin: 10px 0; }
 
         .info-table, .calculation-table {
-            width: 100%; border-collapse: collapse; margin: 20px 0;
-            font-size: 12pt; box-shadow: var(--shadow-card);
-            border-radius: 8px; overflow: hidden;
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 12pt;
+            box-shadow: var(--shadow-card);
+            border-radius: 8px;
+            overflow: hidden;
         }
         
         .info-table th, .info-table td, .calculation-table th, .calculation-table td {
-            padding: 14px 16px; vertical-align: top;
-            border: 1px solid #dee2e6; text-align: left;
+            padding: 14px 16px;
+            vertical-align: top;
+            border: 1px solid #dee2e6;
+            text-align: left;
         }
 
         .info-table th {
-            font-weight: bold; background: #e9ecef;
-            width: 36%; color: var(--primary-blue);
+            font-weight: bold;
+            background: #e9ecef;
+            width: 36%;
+            color: var(--primary-blue);
         }
 
         .calculation-table .label { font-weight: bold; width: 70%; background: #fafbfc; }
         .calculation-table td:last-child { text-align: right; font-weight: 600; }
         
         .total-row {
-            background: #fff3cc !important; font-weight: bold;
+            background: #fff3cc !important;
+            font-weight: bold;
             border-top: 3px solid var(--accent-gold) !important;
         }
 
         /* === E-BILLING === */
         .ebilling-section {
-            background: #e8f5e9; border: 3px solid var(--success-green);
-            padding: 28px; margin: 32px 0; border-radius: 12px;
-            position: relative; overflow: hidden;
+            background: #e8f5e9;
+            border: 3px solid var(--success-green);
+            padding: 28px;
+            margin: 32px 0;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
         }
         
         .ebilling-code {
-            font-family: "Courier New", monospace; font-size: 17pt;
-            letter-spacing: 2.5px; text-align: center; margin: 18px 0;
-            color: var(--danger-red); font-weight: bold;
-            background: #fff9c4; padding: 18px;
-            border-radius: 10px; border: 3px dashed var(--accent-gold);
+            font-family: "Courier New", monospace;
+            font-size: 17pt;
+            letter-spacing: 2.5px;
+            text-align: center;
+            margin: 18px 0;
+            color: var(--danger-red);
+            font-weight: bold;
+            background: #fff9c4;
+            padding: 18px;
+            border-radius: 10px;
+            border: 3px dashed var(--accent-gold);
         }
 
         .qr-billing { text-align: center; margin: 22px 0; }
         .qr-billing img {
-            width: 150px; height: 150px; border: 4px solid var(--success-green);
-            border-radius: 12px; padding: 10px; background: white;
+            width: 220px;
+            height: 220px;
+            border: 4px solid var(--success-green);
+            border-radius: 12px;
+            padding: 10px;
+            background: white;
+            object-fit: contain;
         }
+
+        .billing-note {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 18px;
+            font-size: 11pt;
+            color: #856404;
+        }
+
+        .billing-note i { margin-right: 8px; }
+
+        /* === REFUND INFO === */
+        .refund-info-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 3px solid #1976d2;
+            padding: 28px;
+            margin: 32px 0;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .refund-info-section h4 {
+            color: #1565c0;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13pt;
+        }
+
+        .refund-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 18px;
+        }
+
+        .refund-step {
+            background: white;
+            padding: 18px;
+            border-radius: 8px;
+            border-left: 4px solid #1976d2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .refund-step .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #1976d2;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .refund-step p {
+            font-size: 10.5pt;
+            color: #424242;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .refund-highlight {
+            background: #fff8e1;
+            border: 2px dashed #ffb300;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 18px;
+            font-size: 10.5pt;
+            color: #5d4037;
+        }
+
+        .refund-highlight i { margin-right: 8px; color: #ffb300; }
 
         /* === VERIFICATION & SIGNATURES === */
-        .content-with-badge { display: flex; justify-content: space-between; align-items: flex-start; gap: 32px; margin: 32px 0; }
-        .content-main { flex: 1; }
-        .legalization-badge { height: 105px; width: auto; animation: float 3.5s ease-in-out infinite; }
-        
-        @keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-12px); } }
-
-        .qr-verification {
-            background: #e3f2fd; border: 3px solid #1976d2;
-            padding: 28px; margin: 32px auto; text-align: center;
-            border-radius: 12px; max-width: 420px;
+        .content-with-badge {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 32px;
+            margin: 32px 0;
         }
-        .qr-verification img {
-            width: 160px; height: 160px; border: 4px solid #1976d2;
-            border-radius: 12px; padding: 12px; background: white;
+        .content-main { flex: 1; }
+        .legalization-badge {
+            height: 105px;
+            width: auto;
+            animation: float 3.5s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
         }
 
         .verification-checkmark {
-            display: inline-flex; align-items: center; justify-content: center;
-            width: 30px; height: 30px; background: var(--success-green);
-            color: white; border-radius: 50%; margin-left: 10px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: var(--success-green);
+            color: white;
+            border-radius: 50%;
+            margin-left: 10px;
         }
 
-        .footer-signature { margin-top: 65px; display: flex; justify-content: space-between; gap: 55px; }
+        .footer-signature {
+            margin-top: 65px;
+            display: flex;
+            justify-content: space-between;
+            gap: 55px;
+        }
         .signature-box { width: 48%; text-align: center; }
         
-        .signature-wrapper { position: relative; min-height: 170px; margin: 22px 0; }
-        .ttd-image { max-width: 190px; margin: 18px auto; display: block; }
-        .stamp-image { max-width: 170px; margin: 18px auto; display: block; }
-        .materai-digital { position: absolute; top: -12px; right: 12px; width: 90px; z-index: 10; }
+        .signature-wrapper {
+            position: relative;
+            min-height: 170px;
+            margin: 22px 0;
+        }
+        .ttd-image {
+            max-width: 190px;
+            margin: 18px auto;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        .stamp-image {
+            max-width: 170px;
+            margin: 18px auto;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        .materai-digital {
+            position: absolute;
+            top: -12px;
+            right: 12px;
+            width: 90px;
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
 
         .footer-branding {
-            margin: 38px 0 28px; text-align: center; padding: 28px;
-            background: #f8f9fa; border-radius: 10px;
-            border-top: 4px solid var(--primary-blue); border-bottom: 4px solid var(--primary-blue);
+            margin: 38px 0 28px;
+            text-align: center;
+            padding: 28px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border-top: 4px solid var(--primary-blue);
+            border-bottom: 4px solid var(--primary-blue);
         }
-        .footer-branding img { height: 65px; margin: 12px; }
+        .footer-branding img {
+            height: 70px;
+            margin: 12px;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+            background: transparent;
+        }
 
         .copyright {
-            font-size: 10.5pt; margin-top: 32px; text-align: center;
-            color: #333; padding: 22px; border-top: 3px solid var(--primary-blue);
-            background: #f8f9fa; border-radius: 8px;
+            font-size: 10.5pt;
+            margin-top: 32px;
+            text-align: center;
+            color: #333;
+            padding: 22px;
+            border-top: 3px solid var(--primary-blue);
+            background: #f8f9fa;
+            border-radius: 8px;
         }
 
         .fab-scroll-top {
-            position: fixed; bottom: 35px; right: 35px;
-            width: 55px; height: 55px; background: var(--header-gradient);
-            color: white; border: none; border-radius: 50%; cursor: pointer;
-            display: none; align-items: center; justify-content: center;
-            font-size: 22px; z-index: 999;
+            position: fixed;
+            bottom: 35px;
+            right: 35px;
+            width: 55px;
+            height: 55px;
+            background: var(--header-gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(0,51,102,0.4);
         }
         .fab-scroll-top.show { display: flex; animation: fadeInUp 0.4s ease; }
-        @keyframes fadeInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
 
         /* === MEDIA QUERIES === */
         @media print {
             body { background: white; padding: 0; }
             .enterprise-controls, .scroll-progress, .fab-scroll-top { display: none !important; }
             #document-container {
-                box-shadow: none; padding: 0; margin: 0; border: none; width: 100%;
+                box-shadow: none;
+                padding: 0;
+                margin: 0;
+                border: none;
+                width: 100%;
             }
             .section, .info-table, .calculation-table { page-break-inside: avoid; }
         }
@@ -313,6 +536,7 @@
             .footer-signature, .content-with-badge { flex-direction: column; }
             .signature-box, .content-main { width: 100%; }
             .legalization-badge { margin: 0 auto; display: block; }
+            .refund-steps { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -349,12 +573,12 @@
 
     <div id="document-container">
         <div class="watermark">
-            <img src="https://i.ibb.co/n851VNNd/pm-1748860520447-cmp.jpg" alt="Watermark Bea Cukai" />
+            <img src="https://i.ibb.co.com/n851VNNd/pm-1748860520447-cmp.jpg" alt="Watermark Bea Cukai" />
         </div>
 
         <div class="content-layer">
             <div class="header">
-                <img src="https://i.ibb.co/hx6vT4x5/IMG-20260126-134506.jpg" alt="Logo Kemenkeu" class="logo-left" />
+                <img src="https://i.ibb.co.com/hx6vT4x5/IMG-20260126-134506.jpg" alt="Logo Kemenkeu" class="logo-left" />
                 <div class="header-center">
                     <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
                     <h1>DIREKTORAT JENDERAL BEA DAN CUKAI</h1>
@@ -362,7 +586,7 @@
                     <p>TIPE MADYA PABEAN C BANJARMASIN</p>
                     <p>Jl. A. Yani KM 4,5 No. 123, Sungai Bilal, Banjarmasin Utara<br>Kota Banjarmasin, Kalimantan Selatan 70124</p>
                 </div>
-                <img src="https://i.ibb.co/N6Kj6fzx/IMG-20260126-134537.jpg" alt="Logo DJBC" class="logo-right" />
+                <img src="https://i.ibb.co.com/N6Kj6fzx/IMG-20260126-134537.jpg" alt="Logo DJBC" class="logo-right" />
             </div>
 
             <div class="doc-type">BERITA ACARA<br>JAMINAN LEGALITAS SEMENTARA</div>
@@ -405,10 +629,43 @@
 
             <div class="ebilling-section">
                 <h4><i class="fas fa-credit-card"></i> INSTRUKSI PEMBAYARAN E-BILLING</h4>
-                <p style="text-align:center;">Kode Billing Pembayaran:</p>
-                <div class="ebilling-code">EBL-BC3100-2026-0217-8810</div>
+                <p style="text-align:center; margin-bottom: 15px;">Scan QRIS / Barcode untuk Pembayaran:</p>
                 <div class="qr-billing">
-                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=EBL-BC3100-2026-0217-8810-BANJARMASIN-400K" alt="QR e-Billing" />
+                    <img src="https://i.ibb.co.com/d02DxXjq/1000020200-1.png" alt="QRIS e-Billing" />
+                </div>
+                <div class="ebilling-code">EBL-BC3100-2026-0217-8810</div>
+                <div class="billing-note">
+                    <i class="fas fa-info-circle"></i>
+                    <strong>Catat:</strong> Simpan bukti pembayaran Anda. Kode billing berlaku hingga 7 hari kerja sejak tanggal penerbitan.
+                </div>
+            </div>
+
+            <div class="refund-info-section">
+                <h4><i class="fas fa-hand-holding-usd"></i> MEKANISME REFUND / PENGEMBALIAN DANA JAMINAN</h4>
+                <p style="font-size: 11pt; color: #424242; margin-bottom: 15px;">
+                    Setelah transaksi pembayaran jaminan terselesaikan dan terverifikasi dalam sistem DJBC, berikut adalah mekanisme pengembalian dana (refund) yang berlaku:
+                </p>
+                <div class="refund-steps">
+                    <div class="refund-step">
+                        <div class="step-number">1</div>
+                        <p><strong>Verifikasi Sistem</strong><br>Pembayaran diverifikasi otomatis melalui sistem e-Billing DJBC (maks. 1x24 jam)</p>
+                    </div>
+                    <div class="refund-step">
+                        <div class="step-number">2</div>
+                        <p><strong>Penerbitan SP2D</strong><br>Surat Perintah Pencairan Dana diterbitkan setelah dokumen lengkap diverifikasi</p>
+                    </div>
+                    <div class="refund-step">
+                        <div class="step-number">3</div>
+                        <p><strong>Proses Refund</strong><br>Dana dikembalikan ke rekening pemilik dalam 5-10 hari kerja</p>
+                    </div>
+                    <div class="refund-step">
+                        <div class="step-number">4</div>
+                        <p><strong>Konfirmasi</strong><br>Notifikasi SMS/Email dikirim setelah refund berhasil diproses</p>
+                    </div>
+                </div>
+                <div class="refund-highlight">
+                    <i class="fas fa-shield-alt"></i>
+                    <strong>Keamanan Transaksi:</strong> Seluruh proses refund diawasi oleh Kementerian Keuangan dan dapat dilacak melalui portal resmi DJBC dengan menggunakan nomor referensi pada dokumen ini.
                 </div>
             </div>
 
@@ -416,20 +673,14 @@
                 <div class="content-main">
                     <div class="section-title">IDENTITAS PENERIMA BARANG</div>
                     <table class="info-table">
-                        <tr><th><i class="fas fa-truck"></i> Ekspedisi</th><td><img src="https://i.ibb.co/rG7HcjSy/perusahaan-layanan-pengiriman-barang-sicepat-di-mana-disebut-karyawan-220907074827-264.jpg" alt="SiCepat" style="height: 38px;"></td></tr>
+                        <tr><th><i class="fas fa-truck"></i> Ekspedisi</th><td><img src="https://i.ibb.co.com/rG7HcjSy/perusahaan-layanan-pengiriman-barang-sicepat-di-mana-disebut-karyawan-220907074827-264.jpg" alt="SiCepat" style="height: 38px;"></td></tr>
                         <tr><th><i class="fas fa-barcode"></i> Nomor Resi</th><td>001776528810</td></tr>
                         <tr><th><i class="fas fa-user"></i> Penerima</th><td>SAZALI RAHMAN</td></tr>
                     </table>
                 </div>
                 <div>
-                    <img src="https://i.ibb.co/ZQXWgrX/1000010580-11zon.jpg" alt="Legalisasi" class="legalization-badge" />
+                    <img src="https://i.ibb.co.com/ZQXWgrX/1000010580-11zon.jpg" alt="Legalisasi" class="legalization-badge" />
                 </div>
-            </div>
-
-            <div class="qr-verification">
-                <h4><i class="fas fa-qrcode"></i> VERIFIKASI DOKUMEN</h4>
-                <img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=BC3100-BA052-2026-VERIFICATION-SAZALI-RAHMAN-001776528810" alt="QR Verification" />
-                <span class="verification-checkmark">✓</span>
             </div>
 
             <div class="section">
@@ -442,8 +693,8 @@
                     <p>Banjarmasin, 17 Februari 2026</p>
                     <p><strong>Pejabat Pemeriksa</strong></p>
                     <div class="signature-wrapper">
-                        <img src="https://i.ibb.co/xqqh7Txq/IMG-20260211-183302.jpg" alt="Materai" class="materai-digital" />
-                        <img src="https://i.ibb.co/pBSnYcfG/892503b511f595d7115ade1a9349a49a.jpg" alt="TTD" class="ttd-image" />
+                        <img src="https://i.ibb.co.com/xqqh7Txq/IMG-20260211-183302.jpg" alt="Materai" class="materai-digital" />
+                        <img src="https://i.ibb.co.com/pBSnYcfG/892503b511f595d7115ade1a9349a49a.jpg" alt="TTD" class="ttd-image" />
                     </div>
                     <p><strong><u>DIAN SETIAWAN</u></strong><br>NIP. 19890714 201301 1 008</p>
                 </div>
@@ -451,14 +702,14 @@
                     <p>&nbsp;</p>
                     <p><strong>Kepala Kantor</strong></p>
                     <div class="signature-wrapper">
-                        <img src="https://i.ibb.co/1YhFBzwq/pm-1766605891575-cmp.jpg" alt="Stempel" class="stamp-image" />
+                        <img src="https://i.ibb.co.com/1YhFBzwq/pm-1766605891575-cmp.jpg" alt="Stempel" class="stamp-image" />
                     </div>
                     <p><strong><u>Ir. BAMBANG SURYANTO, M.M.</u></strong><br>NIP. 19751022 199803 1 003</p>
                 </div>
             </div>
 
             <div class="footer-branding">
-                <img src="https://i.ibb.co/Q71JZDWm/baf16a411338234b3c4f056675e35029.jpg" alt="Polri" />
+                <img src="https://i.ibb.co.com/gL8mBRHX/289fe0a45ba5c5f4033e9c1062cf56ec.jpg" alt="Polri" />
                 <p><strong>Bekerja Sama Dengan Kepolisian Negara Republik Indonesia</strong></p>
             </div>
 
@@ -501,7 +752,7 @@
             const element = document.getElementById('document-container');
             
             const opt = {
-                margin: [5, 0, 5, 0], // Top, Left, Bottom, Right
+                margin: [5, 0, 5, 0],
                 filename: 'Berita_Acara_Jaminan_Legalitas_BC3100_2026.pdf',
                 image: { type: 'jpeg', quality: 0.98 },
                 html2canvas: { 
