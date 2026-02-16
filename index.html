@@ -127,35 +127,57 @@
             overflow: hidden; border-radius: 10px;
         }
 
-        .watermark {
-            position: absolute; top: 0; left: 0; width: 100%; height: 100%;
-            z-index: 0; pointer-events: none; overflow: hidden;
+        /* === WATERMARK LAYER === */
+        .watermark-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
             display: flex;
+            flex-direction: column;
             align-items: center;
             justify-content: center;
         }
-        
-        .watermark img {
-            width: 75%;
+
+        .watermark-image {
+            width: 65%;
             height: auto;
-            opacity: 0.12;
-            filter: grayscale(100%) contrast(1.1);
-            transform: rotate(-30deg);
+            opacity: 0.08;
+            filter: grayscale(100%) contrast(1.2);
+            transform: rotate(-35deg);
             mix-blend-mode: multiply;
+            background-image: url('https://i.ibb.co.com/n851VNNd/pm-1748860520447-cmp.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            aspect-ratio: 1;
+            border-radius: 50%;
+        }
+
+        .watermark-text {
+            position: absolute;
+            bottom: 15%;
+            font-size: 28pt;
+            font-weight: bold;
+            color: var(--primary-blue);
+            opacity: 0.06;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            transform: rotate(-35deg);
+            white-space: nowrap;
+            font-family: 'Arial Black', sans-serif;
         }
 
         .content-layer { position: relative; z-index: 1; }
 
-        /* === HEADER === */
-        .header {
-            background: var(--header-gradient);
-            color: #ffffff;
-            padding: 25px 30px;
-            text-align: center;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            gap: 22px;
+        /* === HEADER CONTAINER (UPDATED) === */
+        .header-container {
+            background: linear-gradient(135deg, #002244 0%, #003366 50%, #004d99 100%);
+            padding: 18px 25px;
             border-bottom: 4px solid var(--accent-gold);
             margin-bottom: 28px;
             border-radius: 8px 8px 0 0;
@@ -164,43 +186,647 @@
             overflow: hidden;
         }
 
-        .header::before {
+        .header-container::before {
             content: '';
             position: absolute;
             top: 0;
             left: 0;
             right: 0;
             bottom: 0;
-            background: linear-gradient(135deg, rgba(0,51,102,0.95) 0%, rgba(0,77,153,0.95) 100%);
+            background: linear-gradient(135deg, rgba(0,34,68,0.95) 0%, rgba(0,51,102,0.95) 50%, rgba(0,77,153,0.95) 100%);
             z-index: 0;
         }
 
-        .header > * {
+        .header-grid {
             position: relative;
             z-index: 1;
+            display: grid;
+            grid-template-columns: 95px 1fr 95px;
+            align-items: center;
+            gap: 18px;
         }
 
         .logo-left, .logo-right {
-            height: 85px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 8px;
+        }
+
+        .logo-left img, .logo-right img {
+            height: 75px;
             width: auto;
             object-fit: contain;
-            filter: drop-shadow(0 3px 10px rgba(0,0,0,0.35)) brightness(1.1);
+            filter: drop-shadow(0 3px 10px rgba(0,0,0,0.35));
             background: transparent;
         }
 
-        .header-center h1 {
-            font-size: 15.5pt;
-            font-weight: bold;
-            margin: 5px 0;
-            letter-spacing: 0.9px;
-            line-height: 1.35;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+        .header-center {
+            text-align: center;
+            color: #ffffff;
         }
-        .header-center p {
+
+        .kop-line-1 {
+            font-size: 13.5pt;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            margin-bottom: 2px;
+        }
+
+        .kop-line-2 {
+            font-size: 14.5pt;
+            font-weight: bold;
+            letter-spacing: 1.2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            margin-bottom: 4px;
+        }
+
+        .kop-line-3 {
             font-size: 11pt;
-            margin: 3px 0;
-            opacity: 0.98;
-            text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .kop-address {
+            font-size: 9pt;
+            opacity: 0.95;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+            line-height: 1.5;
+        }
+
+        .doc-type {
+            font-weight: bold;
+            font-size: 17.5pt;
+            margin: 30px 0 22px;
+            text-align: center;
+            text-decoration: underline;
+            color: var(--primary-blue);
+            letter-spacing: 1.2px;
+        }
+
+        .doc-meta {
+            background: #f8f9fa;
+            padding: 18px 22px;
+            border-left: 5px solid var(--primary-blue);
+            margin-bottom: 22px;
+            border-radius: 6px;
+        }
+        .doc-meta p { margin: 6px 0; font-size: 12pt; }
+
+        .recipient {
+            background: #fffef5;
+            padding: 20px 22px;
+            border-radius: 8px;
+            border: 2px solid #ffd600;
+            margin: 22px 0;
+        }
+        .recipient p { margin: 7px 0; font-size: 12pt; line-height: 1.6; }
+
+        /* === TABLES & CONTENT === */
+        .section-title {
+            font-weight: bold;
+            margin: 28px 0 16px;
+            padding-bottom: 10px;
+            border-bottom: 2.5px solid var(--primary-blue);
+            font-size: 13.5pt;
+            color: var(--primary-blue);
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        .section-title::before { content: "▶"; color: var(--accent-gold); font-size: 15pt; }
+
+        .greeting p, .section p { text-align: justify; line-height: 1.85; margin: 10px 0; }
+
+        .info-table, .calculation-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 20px 0;
+            font-size: 12pt;
+            box-shadow: var(--shadow-card);
+            border-radius: 8px;
+            overflow: hidden;
+        }
+        
+        .info-table th, .info-table td, .calculation-table th, .calculation-table td {
+            padding: 14px 16px;
+            vertical-align: top;
+            border: 1px solid #dee2e6;
+            text-align: left;
+        }
+
+        .info-table th {
+            font-weight: bold;
+            background: #e9ecef;
+            width: 36%;
+            color: var(--primary-blue);
+        }
+
+        .calculation-table .label { font-weight: bold; width: 70%; background: #fafbfc; }
+        .calculation-table td:last-child { text-align: right; font-weight: 600; }
+        
+        .total-row {
+            background: #fff3cc !important;
+            font-weight: bold;
+            border-top: 3px solid var(--accent-gold) !important;
+        }
+
+        /* === E-BILLING === */
+        .ebilling-section {
+            background: #e8f5e9;
+            border: 3px solid var(--success-green);
+            padding: 28px;
+            margin: 32px 0;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .ebilling-code {
+            font-family: "Courier New", monospace;
+            font-size: 17pt;
+            letter-spacing: 2.5px;
+            text-align: center;
+            margin: 18px 0;
+            color: var(--danger-red);
+            font-weight: bold;
+            background: #fff9c4;
+            padding: 18px;
+            border-radius: 10px;
+            border: 3px dashed var(--accent-gold);
+        }
+
+        .qr-billing { text-align: center; margin: 22px 0; }
+        .qr-billing img {
+            width: 220px;
+            height: 220px;
+            border: 4px solid var(--success-green);
+            border-radius: 12px;
+            padding: 10px;
+            background: white;
+            object-fit: contain;
+        }
+
+        .billing-note {
+            background: #fff3cd;
+            border: 2px solid #ffc107;
+            padding: 15px 20px;
+            border-radius: 8px;
+            margin-top: 18px;
+            font-size: 11pt;
+            color: #856404;
+        }
+
+        .billing-note i { margin-right: 8px; }
+
+        /* === REFUND INFO === */
+        .refund-info-section {
+            background: linear-gradient(135deg, #e3f2fd 0%, #bbdefb 100%);
+            border: 3px solid #1976d2;
+            padding: 28px;
+            margin: 32px 0;
+            border-radius: 12px;
+            position: relative;
+        }
+
+        .refund-info-section h4 {
+            color: #1565c0;
+            margin-bottom: 18px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 13pt;
+        }
+
+        .refund-steps {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-top: 18px;
+        }
+
+        .refund-step {
+            background: white;
+            padding: 18px;
+            border-radius: 8px;
+            border-left: 4px solid #1976d2;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+        }
+
+        .refund-step .step-number {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            background: #1976d2;
+            color: white;
+            border-radius: 50%;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .refund-step p {
+            font-size: 10.5pt;
+            color: #424242;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .refund-highlight {
+            background: #fff8e1;
+            border: 2px dashed #ffb300;
+            padding: 15px;
+            border-radius: 8px;
+            margin-top: 18px;
+            font-size: 10.5pt;
+            color: #5d4037;
+        }
+
+        .refund-highlight i { margin-right: 8px; color: #ffb300; }
+
+        /* === VERIFICATION & SIGNATURES === */
+        .content-with-badge {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 32px;
+            margin: 32px 0;
+        }
+        .content-main { flex: 1; }
+        .legalization-badge {
+            height: 105px;
+            width: auto;
+            animation: float 3.5s ease-in-out infinite;
+            filter: drop-shadow(0 4px 8px rgba(0,0,0,0.15));
+        }
+        
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-12px); }
+        }
+
+        .verification-checkmark {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 30px;
+            height: 30px;
+            background: var(--success-green);
+            color: white;
+            border-radius: 50%;
+            margin-left: 10px;
+        }
+
+        .footer-signature {
+            margin-top: 65px;
+            display: flex;
+            justify-content: space-between;
+            gap: 55px;
+        }
+        .signature-box { width: 48%; text-align: center; }
+        
+        .signature-wrapper {
+            position: relative;
+            min-height: 170px;
+            margin: 22px 0;
+        }
+        .ttd-image {
+            max-width: 190px;
+            margin: 18px auto;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        .stamp-image {
+            max-width: 170px;
+            margin: 18px auto;
+            display: block;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+        .materai-digital {
+            position: absolute;
+            top: -12px;
+            right: 12px;
+            width: 90px;
+            z-index: 10;
+            filter: drop-shadow(0 2px 4px rgba(0,0,0,0.2));
+        }
+
+        .footer-branding {
+            margin: 38px 0 28px;
+            text-align: center;
+            padding: 28px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 10px;
+            border-top: 4px solid var(--primary-blue);
+            border-bottom: 4px solid var(--primary-blue);
+        }
+        .footer-branding img {
+            height: 70px;
+            margin: 12px;
+            filter: drop-shadow(0 3px 6px rgba(0,0,0,0.15));
+            background: transparent;
+        }
+
+        .copyright {
+            font-size: 10.5pt;
+            margin-top: 32px;
+            text-align: center;
+            color: #333;
+            padding: 22px;
+            border-top: 3px solid var(--primary-blue);
+            background: #f8f9fa;
+            border-radius: 8px;
+        }
+
+        .fab-scroll-top {
+            position: fixed;
+            bottom: 35px;
+            right: 35px;
+            width: 55px;
+            height: 55px;
+            background: var(--header-gradient);
+            color: white;
+            border: none;
+            border-radius: 50%;
+            cursor: pointer;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            font-size: 22px;
+            z-index: 999;
+            box-shadow: 0 4px 15px rgba(0,51,102,0.4);
+        }
+        .fab-scroll-top.show { display: flex; animation: fadeInUp 0.4s ease; }
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        <!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Berita Acara Jaminan Legalitas Sementara – DJBC Banjarmasin</title>
+    
+    <meta property="og:title" content="Berita Acara Jaminan Legalitas Sementara – DJBC Banjarmasin" />
+    <meta property="og:description" content="Dokumen Resmi Direktorat Jenderal Bea dan Cukai - Kementerian Keuangan Republik Indonesia" />
+    <meta property="og:image" content="https://i.ibb.co.com/nMCvdbK3/b3d011ea459bd8e3adb64b399cc19203.jpg" />
+    <meta property="og:type" content="website" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    
+    <style>
+        /* === RESET & CORE === */
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        
+        :root {
+            --primary-blue: #003366;
+            --accent-gold: #FFD700;
+            --success-green: #28a745;
+            --danger-red: #dc3545;
+            --text-dark: #000000;
+            --bg-gradient: linear-gradient(135deg, #f0f4f8 0%, #e3e9f0 100%);
+            --header-gradient: linear-gradient(135deg, #003366 0%, #004d99 100%);
+            --shadow-premium: 0 10px 40px rgba(0,0,0,0.15);
+            --shadow-card: 0 4px 20px rgba(0,0,0,0.08);
+        }
+
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: "Times New Roman", Times, serif;
+            line-height: 1.65;
+            color: var(--text-dark);
+            background: var(--bg-gradient);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            padding: 15px;
+            -webkit-print-color-adjust: exact;
+            print-color-adjust: exact;
+        }
+
+        /* === CONTROLS === */
+        .enterprise-controls {
+            position: fixed;
+            top: 0; left: 0; right: 0;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(12px);
+            box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+            z-index: 1000;
+            padding: 12px 0;
+            border-bottom: 3px solid var(--primary-blue);
+            transition: all 0.3s ease;
+        }
+
+        .enterprise-controls.scrolled { padding: 8px 0; box-shadow: 0 6px 25px rgba(0,0,0,0.15); }
+
+        .controls-wrapper {
+            max-width: 1400px; margin: 0 auto;
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 0 25px; gap: 20px;
+        }
+
+        .brand-section { display: flex; align-items: center; gap: 15px; }
+        
+        .brand-icon {
+            width: 48px; height: 48px;
+            background: var(--header-gradient);
+            border-radius: 10px;
+            display: flex; align-items: center; justify-content: center;
+            color: white; font-size: 22px;
+            box-shadow: 0 4px 15px rgba(0,51,102,0.35);
+        }
+
+        .brand-text h3 { font-size: 15px; color: var(--primary-blue); font-family: 'Segoe UI', sans-serif; }
+        .brand-text p { font-size: 11px; color: #666; font-family: 'Segoe UI', sans-serif; margin-top: 2px; }
+
+        .action-buttons { display: flex; gap: 12px; align-items: center; }
+
+        .btn-premium {
+            padding: 11px 22px; border: none; border-radius: 8px;
+            font-size: 13.5px; font-weight: 600; cursor: pointer;
+            transition: all 0.3s ease; font-family: 'Segoe UI', sans-serif;
+            display: flex; align-items: center; gap: 8px;
+            box-shadow: var(--shadow-card);
+        }
+
+        .btn-download { background: var(--header-gradient); color: white; }
+        .btn-download:hover:not(:disabled) { transform: translateY(-3px); box-shadow: 0 8px 28px rgba(0,51,102,0.45); }
+        
+        .btn-print { background: white; color: var(--primary-blue); border: 2px solid var(--primary-blue); }
+        .btn-print:hover { background: var(--primary-blue); color: white; transform: translateY(-3px); }
+
+        .status-badge {
+            background: var(--danger-red); color: white;
+            padding: 9px 18px; border-radius: 25px;
+            font-size: 11.5px; font-weight: bold;
+            display: flex; align-items: center; gap: 7px;
+            animation: pulse 2s infinite;
+            box-shadow: 0 4px 15px rgba(220,53,69,0.3);
+        }
+
+        @keyframes pulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.85; transform: scale(1.02); }
+        }
+
+        .scroll-progress {
+            position: fixed; top: 0; left: 0; width: 0; height: 5px;
+            background: linear-gradient(90deg, var(--accent-gold) 0%, #ffa500 100%);
+            z-index: 1001; transition: width 0.1s ease;
+        }
+
+        /* === DOCUMENT CONTAINER === */
+        #document-container {
+            width: 210mm; min-height: 297mm;
+            background: #ffffff;
+            box-shadow: var(--shadow-premium);
+            padding: 20mm 18mm;
+            margin-top: 95px; margin-bottom: 50px;
+            position: relative; font-size: 12pt;
+            overflow: hidden; border-radius: 10px;
+        }
+
+        /* === WATERMARK LAYER === */
+        .watermark-layer {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 0;
+            pointer-events: none;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .watermark-image {
+            width: 65%;
+            height: auto;
+            opacity: 0.08;
+            filter: grayscale(100%) contrast(1.2);
+            transform: rotate(-35deg);
+            mix-blend-mode: multiply;
+            background-image: url('https://i.ibb.co.com/n851VNNd/pm-1748860520447-cmp.jpg');
+            background-size: contain;
+            background-repeat: no-repeat;
+            background-position: center;
+            aspect-ratio: 1;
+            border-radius: 50%;
+        }
+
+        .watermark-text {
+            position: absolute;
+            bottom: 15%;
+            font-size: 28pt;
+            font-weight: bold;
+            color: var(--primary-blue);
+            opacity: 0.06;
+            letter-spacing: 8px;
+            text-transform: uppercase;
+            transform: rotate(-35deg);
+            white-space: nowrap;
+            font-family: 'Arial Black', sans-serif;
+        }
+
+        .content-layer { position: relative; z-index: 1; }
+
+        /* === HEADER CONTAINER (UPDATED) === */
+        .header-container {
+            background: linear-gradient(135deg, #002244 0%, #003366 50%, #004d99 100%);
+            padding: 18px 25px;
+            border-bottom: 4px solid var(--accent-gold);
+            margin-bottom: 28px;
+            border-radius: 8px 8px 0 0;
+            box-shadow: 0 5px 18px rgba(0,51,102,0.25);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .header-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(135deg, rgba(0,34,68,0.95) 0%, rgba(0,51,102,0.95) 50%, rgba(0,77,153,0.95) 100%);
+            z-index: 0;
+        }
+
+        .header-grid {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            grid-template-columns: 95px 1fr 95px;
+            align-items: center;
+            gap: 18px;
+        }
+
+        .logo-left, .logo-right {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: rgba(255,255,255,0.08);
+            border-radius: 8px;
+            padding: 8px;
+        }
+
+        .logo-left img, .logo-right img {
+            height: 75px;
+            width: auto;
+            object-fit: contain;
+            filter: drop-shadow(0 3px 10px rgba(0,0,0,0.35));
+            background: transparent;
+        }
+
+        .header-center {
+            text-align: center;
+            color: #ffffff;
+        }
+
+        .kop-line-1 {
+            font-size: 13.5pt;
+            font-weight: bold;
+            letter-spacing: 1px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            margin-bottom: 2px;
+        }
+
+        .kop-line-2 {
+            font-size: 14.5pt;
+            font-weight: bold;
+            letter-spacing: 1.2px;
+            text-shadow: 0 2px 4px rgba(0,0,0,0.4);
+            margin-bottom: 4px;
+        }
+
+        .kop-line-3 {
+            font-size: 11pt;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+            margin-bottom: 6px;
+            line-height: 1.4;
+        }
+
+        .kop-address {
+            font-size: 9pt;
+            opacity: 0.95;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.4);
+            line-height: 1.5;
         }
 
         .doc-type {
@@ -531,8 +1157,12 @@
             .action-buttons { flex-wrap: wrap; justify-content: center; }
             .btn-premium { flex: 1; min-width: 120px; }
             #document-container { margin-top: 180px; width: 100%; padding: 15px; }
-            .header { flex-direction: column; }
-            .logo-left, .logo-right { height: 60px; }
+            .header-grid { grid-template-columns: 70px 1fr 70px; gap: 10px; }
+            .logo-left img, .logo-right img { height: 55px; }
+            .kop-line-1 { font-size: 10pt; }
+            .kop-line-2 { font-size: 11pt; }
+            .kop-line-3 { font-size: 8.5pt; }
+            .kop-address { font-size: 7.5pt; }
             .footer-signature, .content-with-badge { flex-direction: column; }
             .signature-box, .content-main { width: 100%; }
             .legalization-badge { margin: 0 auto; display: block; }
@@ -572,21 +1202,33 @@
     </button>
 
     <div id="document-container">
-        <div class="watermark">
-            <img src="https://i.ibb.co.com/n851VNNd/pm-1748860520447-cmp.jpg" alt="Watermark Bea Cukai" />
+        <!-- Watermark Layer -->
+        <div class="watermark-layer">
+            <div class="watermark-image"></div>
+            <div class="watermark-text">DIREKTORAT JENDERAL BEA DAN CUKAI</div>
         </div>
 
         <div class="content-layer">
-            <div class="header">
-                <img src="https://i.ibb.co.com/hx6vT4x5/IMG-20260126-134506.jpg" alt="Logo Kemenkeu" class="logo-left" />
-                <div class="header-center">
-                    <h1>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h1>
-                    <h1>DIREKTORAT JENDERAL BEA DAN CUKAI</h1>
-                    <p>KANTOR PENGAWASAN DAN PELAYANAN BEA DAN CUKAI</p>
-                    <p>TIPE MADYA PABEAN C BANJARMASIN</p>
-                    <p>Jl. A. Yani KM 4,5 No. 123, Sungai Bilal, Banjarmasin Utara<br>Kota Banjarmasin, Kalimantan Selatan 70124</p>
+            <!-- Header / Kop Surat (UPDATED LOGOS) -->
+            <div class="header-container">
+                <div class="header-grid">
+                    <div class="logo-left">
+                        <img src="https://i.ibb.co.com/hx6vT4x5/IMG-20260126-134506.jpg" alt="Logo Kemenkeu" crossorigin="anonymous">
+                    </div>
+                    <div class="header-center">
+                        <div class="kop-line-1">KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</div>
+                        <div class="kop-line-2">DIREKTORAT JENDERAL BEA DAN CUKAI</div>
+                        <div class="kop-line-3">KANTOR PENGAWASAN DAN PELAYANAN BEA DAN CUKAI<br>TIPE MADYA PABEAN C</div>
+                        <div class="kop-address">
+                            SULAWESI SELATAN<br>
+                            Telepon: (061) 7871111 / 7872222 | Email: kppbcmedan@customs.go.id<br>
+                            Website: www.beacukai.go.id
+                        </div>
+                    </div>
+                    <div class="logo-right">
+                        <img src="https://i.ibb.co.com/N6Kj6fzx/IMG-20260126-134537.jpg" alt="Logo Bea Cukai" crossorigin="anonymous">
+                    </div>
                 </div>
-                <img src="https://i.ibb.co.com/N6Kj6fzx/IMG-20260126-134537.jpg" alt="Logo DJBC" class="logo-right" />
             </div>
 
             <div class="doc-type">BERITA ACARA<br>JAMINAN LEGALITAS SEMENTARA</div>
