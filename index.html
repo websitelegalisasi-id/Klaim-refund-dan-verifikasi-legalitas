@@ -3,284 +3,342 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>Sistem Dokumen Digital Bea Cukai v4.0</title>
+    <title>E-Document Official - DJBC Banjarmasin</title>
     
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&family=Roboto+Mono:wght@700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
         :root {
-            --kemenkeu-navy: #002d5a;
-            --kemenkeu-gold: #c5a059;
-            --danger-red: #b91c1c;
-            --success-green: #15803d;
-            --bg-canvas: #e2e8f0;
+            --primary-navy: #002d5a;
+            --accent-gold: #d4af37;
             --paper-white: #ffffff;
+            --slate-600: #475569;
+            --success-green: #15803d;
+            --glass: rgba(255, 255, 255, 0.85);
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-print-color-adjust: exact; }
-        
-        body {
-            background-color: var(--bg-canvas);
-            font-family: 'Times New Roman', Times, serif;
-            display: flex; flex-direction: column; align-items: center;
-            user-select: none; overflow-x: hidden;
+        /* Prevent Zoom & Scrolling Issues */
+        html, body { 
+            overflow-x: hidden; 
+            background-color: #e2e8f0; 
+            margin: 0; padding: 0;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* === ⚡ ENTERPRISE NAV === */
+        /* === ⚡ ENTERPRISE NAV CONTROL === */
         .nav-system {
             position: fixed; top: 0; width: 100%; height: 70px;
-            background: rgba(255, 255, 255, 0.9); backdrop-filter: blur(15px);
-            border-bottom: 3px solid var(--kemenkeu-navy); z-index: 1000;
-            display: flex; justify-content: center; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
+            background: var(--glass); backdrop-filter: blur(15px);
+            border-bottom: 2px solid var(--primary-navy);
+            display: flex; justify-content: center; align-items: center;
+            z-index: 1000; box-shadow: 0 4px 20px rgba(0,0,0,0.1);
         }
 
-        .nav-container {
+        .nav-inner {
             width: 210mm; display: flex; justify-content: space-between; align-items: center; padding: 0 20px;
         }
 
-        .status-badge {
-            font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 800;
-            color: var(--kemenkeu-navy); display: flex; align-items: center; gap: 8px;
+        .system-status {
+            display: flex; align-items: center; gap: 10px;
+            font-family: 'Inter', sans-serif; font-size: 12px; font-weight: 700; color: var(--primary-navy);
         }
 
-        .pulse-icon { height: 10px; width: 10px; background: var(--success-green); border-radius: 50%; animation: pulse 1.5s infinite; }
-        @keyframes pulse { 0% { opacity: 1; transform: scale(1); } 50% { opacity: 0.5; transform: scale(1.2); } 100% { opacity: 1; transform: scale(1); } }
+        .dot { height: 8px; width: 8px; background-color: var(--success-green); border-radius: 50%; display: inline-block; animation: blink 1.5s infinite; }
+        @keyframes blink { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        .btn-download {
-            background: linear-gradient(135deg, var(--kemenkeu-navy) 0%, #004a8f 100%);
-            color: white; border: none; padding: 10px 20px; border-radius: 6px;
+        .btn-action {
+            background: linear-gradient(135deg, var(--primary-navy) 0%, #004a8f 100%);
+            color: white; border: none; padding: 10px 22px; border-radius: 8px;
             font-family: 'Inter', sans-serif; font-weight: 700; font-size: 13px;
-            cursor: pointer; display: flex; align-items: center; gap: 8px; transition: 0.3s;
+            cursor: pointer; transition: all 0.3s; display: flex; align-items: center; gap: 10px;
+            box-shadow: 0 4px 12px rgba(0,45,90,0.3);
         }
 
-        /* === 📄 A4 DOCUMENT CANVAS === */
-        .page-viewport { margin-top: 100px; padding-bottom: 60px; display: flex; justify-content: center; width: 100%; }
+        .btn-action:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(0,45,90,0.4); }
 
-        #document-render {
-            width: 210mm; min-height: 297mm; background: var(--paper-white);
-            padding: 18mm 20mm; position: relative; overflow: hidden;
+        /* === 📄 DYNAMIC A4 CONTAINER === */
+        .document-canvas {
+            margin-top: 100px; padding-bottom: 50px;
+            display: flex; justify-content: center; width: 100%;
+        }
+
+        #a4-sheet {
+            width: 210mm; min-height: 297mm;
+            background: var(--paper-white);
+            padding: 15mm 20mm;
+            position: relative; overflow: hidden;
             box-shadow: 0 0 50px rgba(0,0,0,0.2);
+            font-family: 'Times New Roman', serif;
         }
 
-        .watermark {
-            position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%) rotate(-35deg);
-            width: 80%; opacity: 0.05; pointer-events: none; z-index: 0;
+        /* Realistic Watermark */
+        .watermark-main {
+            position: absolute; top: 50%; left: 50%;
+            transform: translate(-50%, -50%) rotate(-35deg);
+            width: 90%; opacity: 0.04; pointer-events: none; z-index: 0;
         }
 
-        /* === 🏛️ HEADER KOP SURAT === */
-        .kop-surat {
-            display: flex; align-items: center; border-bottom: 4px double #000;
-            padding-bottom: 15px; margin-bottom: 25px; position: relative; z-index: 1;
+        /* === 🏛️ KOP SURAT ENTERPRISE === */
+        .kop-header {
+            display: flex; align-items: center; border-bottom: 3.5px double #000;
+            padding-bottom: 12px; margin-bottom: 25px; position: relative;
         }
-        .kop-logo { width: 90px; }
-        .kop-content { flex: 1; text-align: center; padding: 0 10px; }
-        .kop-content h2 { font-size: 13pt; font-weight: bold; margin: 0; }
-        .kop-content h1 { font-size: 15pt; font-weight: 900; color: var(--kemenkeu-navy); margin: 2px 0; }
-        .kop-content p { font-size: 8.5pt; font-family: 'Arial', sans-serif; line-height: 1.3; color: #334155; }
+        .logo-box { width: 90px; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        .header-text { flex: 1; text-align: center; padding: 0 10px; }
+        .header-text h2 { font-size: 14pt; font-weight: bold; margin: 0; line-height: 1.2; }
+        .header-text h1 { font-size: 16pt; font-weight: 900; color: var(--primary-navy); margin: 2px 0; }
+        .header-text h3 { font-size: 11pt; font-weight: bold; margin: 0; }
+        .header-text p { font-size: 8.5pt; font-family: 'Inter', sans-serif; margin-top: 5px; color: #334155; }
 
-        /* === 📑 SEKSI DATA === */
-        .doc-title { text-align: center; margin-bottom: 20px; }
-        .doc-title h3 { font-size: 14pt; text-decoration: underline; font-weight: bold; text-transform: uppercase; }
-        .doc-title p { font-size: 11pt; font-weight: bold; margin-top: 4px; }
+        /* === 📋 CONTENT DESIGN === */
+        .doc-title { text-align: center; margin: 30px 0; }
+        .doc-title h4 { font-size: 14pt; text-decoration: underline; font-weight: bold; }
+        .doc-title p { font-size: 11pt; font-weight: bold; margin-top: 5px; }
 
-        .data-table { width: 100%; border-collapse: collapse; margin-bottom: 20px; font-family: 'Arial', sans-serif; font-size: 10.5pt; }
-        .data-table td { border: 1px solid #cbd5e1; padding: 10px 12px; }
-        .data-table .label { background: #f8fafc; font-weight: bold; width: 35%; color: var(--kemenkeu-navy); }
-
-        /* === ⚖️ LEGAL & CONSEQUENCES BOX === */
-        .legal-box {
-            border: 2px solid var(--kemenkeu-gold); background: #fffdf5;
-            padding: 15px; margin: 20px 0; position: relative;
+        .info-grid {
+            width: 100%; border-collapse: collapse; margin: 20px 0;
+            font-family: 'Inter', sans-serif; font-size: 10.5pt;
         }
-        .legal-box::before {
-            content: "PERINGATAN HUKUM"; position: absolute; top: -12px; left: 20px;
-            background: var(--kemenkeu-gold); color: white; padding: 2px 12px;
-            font-family: 'Inter', sans-serif; font-size: 9px; font-weight: 900; border-radius: 4px;
-        }
-        .legal-content { font-size: 9.5pt; line-height: 1.5; text-align: justify; font-style: italic; }
+        .info-grid td { padding: 12px; border: 1px solid #cbd5e1; }
+        .label { background: #f8fafc; font-weight: 700; width: 35%; color: var(--primary-navy); }
+        .value { color: #0f172a; }
 
-        /* === 💳 BILLING INTERACTIVE === */
-        .billing-panel {
-            border: 1px solid #e2e8f0; background: #fcfcfc; border-radius: 10px;
-            padding: 20px; margin: 20px 0; display: flex; align-items: center; gap: 20px;
-            cursor: pointer; transition: 0.3s;
+        /* Premium Billing Card */
+        .billing-card {
+            background: linear-gradient(to right, #ffffff, #f1f5f9);
+            border: 2px solid var(--accent-gold); border-radius: 12px;
+            padding: 25px; margin: 30px 0; display: flex; align-items: center; gap: 30px;
+            position: relative; box-shadow: 0 10px 25px rgba(212,175,55,0.1);
         }
-        .billing-panel:hover { border-color: var(--kemenkeu-navy); box-shadow: 0 5px 15px rgba(0,0,0,0.05); }
-        .qr-code { width: 120px; height: 120px; border: 1px solid #ddd; padding: 5px; background: white; border-radius: 5px; }
-        .billing-info { flex: 1; }
-        .billing-info h4 { font-family: 'Inter', sans-serif; font-size: 10pt; color: var(--kemenkeu-navy); margin-bottom: 5px; }
-        .billing-code { font-family: 'Roboto Mono', monospace; font-size: 19pt; color: var(--danger-red); font-weight: bold; letter-spacing: 2px; }
+        .qr-area { 
+            width: 130px; height: 130px; background: white; 
+            border: 1px solid #e2e8f0; padding: 8px; border-radius: 8px;
+        }
+        .billing-details { flex: 1; }
+        .billing-details small { color: var(--slate-600); font-weight: 700; font-size: 9pt; }
+        .billing-code { 
+            font-size: 20pt; font-weight: 900; color: #b91c1c; 
+            display: block; margin: 5px 0; letter-spacing: 3px; font-family: 'monospace';
+        }
 
-        /* === 🖋️ SIGNATURE STACKING === */
-        .sig-row { display: grid; grid-template-columns: 1fr 1fr; margin-top: 50px; }
-        .sig-box { text-align: center; display: flex; flex-direction: column; align-items: center; }
-        .sig-container { height: 140px; width: 100%; position: relative; display: flex; justify-content: center; align-items: center; }
+        /* Step Refund - Interactive Look */
+        .refund-steps {
+            display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; margin: 25px 0;
+        }
+        .step-box {
+            background: var(--primary-navy); color: white; padding: 12px 5px;
+            border-radius: 6px; text-align: center; font-size: 7.5pt; font-family: sans-serif;
+            border-bottom: 4px solid var(--accent-gold);
+        }
+
+        /* === 🖋️ HYPER-REALISTIC SIGNATURES === */
+        .signature-row {
+            display: flex; justify-content: space-between; margin-top: 60px;
+            position: relative;
+        }
+        .sig-block { width: 45%; text-align: center; position: relative; }
+        .sig-space { height: 150px; display: flex; justify-content: center; align-items: center; position: relative; }
         
-        /* Layering Tinta Digital */
-        .layer-materai { position: absolute; width: 100px; left: 15%; z-index: 1; filter: saturate(1.1); }
-        .layer-ttd { position: absolute; width: 170px; z-index: 2; mix-blend-mode: multiply; filter: contrast(1.3) brightness(0.9); transform: rotate(-1deg); }
-        .layer-stempel { position: absolute; width: 155px; z-index: 3; mix-blend-mode: multiply; opacity: 0.9; transform: rotate(-5deg); }
+        /* Layering Control */
+        .img-ttd { width: 180px; position: absolute; z-index: 2; mix-blend-mode: multiply; filter: contrast(1.2); }
+        .img-stamp { width: 160px; position: absolute; z-index: 3; mix-blend-mode: multiply; opacity: 0.9; transform: rotate(-5deg); }
+        .img-materai { width: 110px; position: absolute; left: 10%; z-index: 1; filter: drop-shadow(2px 2px 5px rgba(0,0,0,0.1)); }
 
-        .name-official { font-weight: bold; text-decoration: underline; font-size: 11pt; margin-top: 10px; }
-        .nip-official { font-size: 10pt; font-family: 'Arial', sans-serif; color: #475569; }
+        .name-official { font-size: 11pt; font-weight: bold; text-decoration: underline; margin-top: 10px; }
+        .nip-official { font-size: 9.5pt; font-family: 'Inter', sans-serif; color: var(--slate-600); }
 
-        /* === 📱 MOBILE FIX === */
+        /* Footer System */
+        .doc-footer {
+            margin-top: 60px; padding-top: 15px; border-top: 1.5px solid #000;
+            display: flex; justify-content: space-between; align-items: flex-end;
+            font-family: 'Inter', sans-serif; font-size: 8pt; color: #64748b;
+        }
+
+        /* === 📱 MOBILE OPTIMIZATION === */
         @media (max-width: 210mm) {
-            .page-viewport { margin-top: 80px; padding: 10px; justify-content: flex-start; }
-            #document-render { transform: scale(calc(100vw / 225mm)); transform-origin: top left; box-shadow: none; }
-            .nav-container { width: 100%; }
+            .document-canvas { padding: 10px; margin-top: 80px; justify-content: flex-start; }
+            #a4-sheet { 
+                transform: scale(calc(100vw / 230mm)); 
+                transform-origin: top left;
+                margin: 0;
+                box-shadow: none;
+            }
+            .nav-inner { width: 100%; }
         }
 
         @media print {
+            body { background: white; }
             .nav-system { display: none; }
-            .page-viewport { margin: 0; padding: 0; }
-            #document-render { box-shadow: none; transform: none; }
+            .document-canvas { margin: 0; padding: 0; }
+            #a4-sheet { box-shadow: none; transform: none; }
         }
     </style>
 </head>
 <body oncontextmenu="return false;">
 
     <nav class="nav-system">
-        <div class="nav-container">
-            <div class="status-badge">
-                <div class="pulse-icon"></div>
-                <span>CEISA CLOUD SERVER: ACTIVE - BA-052/2026</span>
+        <div class="nav-inner">
+            <div class="system-status">
+                <span class="dot"></span>
+                <span>SECURE SERVER CONNECTED // ID: BC-77182</span>
             </div>
-            <button class="btn-download" id="generatePdf">
-                <i class="fas fa-file-pdf"></i> GENERATE FINAL E-DOCUMENT
+            <button class="btn-action" id="downloadBtn">
+                <i class="fas fa-file-invoice-dollar"></i> GENERATE FINAL PDF
             </button>
         </div>
     </nav>
 
-    <div class="page-viewport">
-        <div id="document-render">
-            <img src="https://i.ibb.co.com/n851VNNd/pm-1748860520447-cmp.jpg" class="watermark">
+    <div class="document-canvas">
+        <div id="a4-sheet">
+            <img src="https://i.ibb.co.com/n851VNNd/pm-1748860520447-cmp.jpg" class="watermark-main">
 
-            <header class="kop-surat">
-                <img src="https://i.ibb.co.com/xq9Qf08z/IMG-20260129-202430.jpg" class="kop-logo">
-                <div class="kop-content">
+            <header class="kop-header">
+                <img src="https://i.ibb.co.com/xq9Qf08z/IMG-20260129-202430.jpg" class="logo-box">
+                <div class="header-text">
                     <h2>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h2>
                     <h1>DIREKTORAT JENDERAL BEA DAN CUKAI</h1>
                     <h3>KANTOR PENGAWASAN DAN PELAYANAN TIPE MADYA PABEAN C BANJARMASIN</h3>
-                    <p>Jalan Jenderal Sudirman No. 12, Banjarmasin 70114; Telepon (0511) 3354123<br>Laman: www.beacukai.go.id | Email: kppbc.banjarmasin@customs.go.id</p>
+                    <p>Jalan Jenderal Sudirman No. 12, Banjarmasin 70114; Telp: (0511) 3354123<br>Portal Resmi: www.beacukai.go.id | Email: kppbc.banjarmasin@customs.go.id</p>
                 </div>
-                <img src="https://i.ibb.co.com/SwqZVzhL/IMG-20260129-202143.jpg" class="kop-logo">
+                <img src="https://i.ibb.co.com/SwqZVzhL/IMG-20260129-202143.jpg" class="logo-box">
             </header>
 
             <div class="doc-title">
-                <h3>BERITA ACARA JAMINAN LEGALITAS SEMENTARA</h3>
-                <p>Nomor: BA-052/BC.3100/2026</p>
+                <h4>BERITA ACARA JAMINAN LEGALITAS SEMENTARA</h4>
+                <p>NOMOR: BA-052/BC.3100/WPJ/2026</p>
             </div>
 
-            <p style="text-align: justify; line-height: 1.5; margin-bottom: 15px;">
-                Sehubungan dengan pemeriksaan administratif pada sistem manifest kiriman luar daerah, Pejabat Pemeriksa Bea dan Cukai menetapkan kewajiban <strong>Jaminan Legalitas</strong> terhadap komoditas Hasil Tembakau dengan rincian:
+            <p style="text-align: justify; font-size: 11pt; line-height: 1.6; margin-bottom: 15px;">
+                Berdasarkan hasil pengawasan terhadap sirkulasi Barang Kena Cukai (BKC) melalui sistem CEISA 4.0, Pejabat Pemeriksa pada Kantor Wilayah DJBC Banjarmasin dengan ini menetapkan kewajiban jaminan administratif kepada:
             </p>
 
-            <table class="data-table">
-                <tr><td class="label">Pemilik Barang</td><td><strong>SAZALI RAHMAN</strong></td></tr>
-                <tr><td class="label">No. Resi Konsolidasi</td><td>SiCepat Ekspres / <strong>001776528810</strong></td></tr>
-                <tr><td class="label">Jenis Komoditi</td><td>Barang Kena Cukai (Hasil Tembakau/HT)</td></tr>
-                <tr style="background: #fff8e1;"><td class="label">Total Nominal Jaminan</td><td><strong>Rp 400.000,00</strong></td></tr>
+            <table class="info-grid">
+                <tr>
+                    <td class="label">Nama Pemilik Barang</td>
+                    <td class="value"><strong>SAZALI RAHMAN</strong></td>
+                </tr>
+                <tr>
+                    <td class="label">NIK / Identitas</td>
+                    <td class="value">63710XXXXXXXXXXX (Tervalidasi Dukcapil)</td>
+                </tr>
+                <tr>
+                    <td class="label">Alamat Tujuan</td>
+                    <td class="value">Jl. Kedondong, RT. 07 No. 22, Kec. Simpang Empat, Tanah Bumbu, Kalsel</td>
+                </tr>
+                <tr>
+                    <td class="label">No. Resi Konsolidasi</td>
+                    <td class="value">SiCepat Ekspres - <strong>001776528810</strong></td>
+                </tr>
+                <tr>
+                    <td class="label">Deskripsi Temuan</td>
+                    <td class="value">Hasil Tembakau (Rokok) - Status Jaminan Legalitas Dibutuhkan</td>
+                </tr>
+                <tr style="background: #fff8e1;">
+                    <td class="label" style="color: #92400e;">TOTAL WAJIB BAYAR</td>
+                    <td class="value"><strong>Rp 400.000,00</strong></td>
+                </tr>
             </table>
 
-            <div class="legal-box">
-                <div class="legal-content">
-                    <strong>Dasar Hukum:</strong> 
-                    Sesuai dengan <em>Pasal 14 Undang-Undang No. 39 Tahun 2007</em> tentang Perubahan UU No. 11 Tahun 1995 tentang Cukai, serta <em>PMK No. 12/PMK.04/2023</em> mengenai penyelesaian barang yang tidak memenuhi ketentuan administratif.
-                    <br><br>
-                    <strong>Konsekuensi Hukum:</strong>
-                    1. Kegagalan dalam pemenuhan jaminan dalam waktu <strong>1x24 Jam</strong> akan mengakibatkan barang ditetapkan sebagai <strong>Barang Milik Negara (BMN)</strong> secara permanen.<br>
-                    2. Dana jaminan akan bersifat <strong>Refundable (Dapat Dikembalikan)</strong> 100% setelah proses validasi pita cukai selesai dan dinyatakan legal oleh Pejabat Pemeriksa.<br>
-                    3. Pelanggaran berulang atau pemalsuan data dokumen dapat diproses secara pidana sesuai ketentuan yang berlaku.
-                </div>
-            </div>
-
-            <div class="billing-panel" id="qrTrigger">
-                <div class="qr-code">
+            <div class="billing-card">
+                <div class="qr-area">
                     <img src="https://i.ibb.co.com/d02DxXjq/1000020200-1.png" style="width:100%;">
                 </div>
-                <div class="billing-info">
-                    <h4>KODE E-BILLING (SIMPONI - MPN G3):</h4>
+                <div class="billing-details">
+                    <small><i class="fas fa-shield-alt"></i> KODE PEMBAYARAN NEGARA (SIMPONI)</small>
                     <span class="billing-code">EBL-8810-2026-X52</span>
-                    <p style="font-size: 8.5pt; color: #64748b; margin-top: 8px;">
-                        <i class="fas fa-info-circle"></i> Ketuk kode untuk memverifikasi keaslian dokumen pada Database CEISA 4.0.
+                    <p style="font-size: 8.5pt; color: var(--slate-600); margin-top: 8px;">
+                        Silahkan melakukan setoran melalui Bank Persepsi, Kantor Pos, atau Marketplace (Tokopedia/Shopee) menggunakan menu <strong>Penerimaan Negara</strong>.
                     </p>
                 </div>
             </div>
 
-            <div class="sig-row">
-                <div class="sig-box">
-                    <p>Mengetahui,</p>
+            <div style="font-family: sans-serif; font-size: 9pt; font-weight: bold; margin-bottom: 10px;">ALUR PROSES PENGEMBALIAN DANA (REFUND):</div>
+            <div class="refund-steps">
+                <div class="step-box">1. Validasi Bayar Otomatis</div>
+                <div class="step-box">2. Rilis Barang dari Gudang</div>
+                <div class="step-box">3. Aktivasi Pita Cukai Resmi</div>
+                <div class="step-box">4. Pengajuan Refund Sistem</div>
+                <div class="step-box">5. Dana Kembali ke Rekening</div>
+            </div>
+
+            <div class="signature-row">
+                <div class="sig-block">
+                    <p>Mengesahkan,</p>
                     <p><strong>Kepala Kantor</strong></p>
-                    <div class="sig-container">
-                        <img src="https://i.ibb.co.com/1YhFBzwq/pm-1766605891575-cmp.jpg" class="layer-stempel">
-                        <img src="https://i.ibb.co.com/pBSnYcfG/892503b511f595d7115ade1a9349a49a.jpg" class="layer-ttd" style="width: 140px; opacity: 0.8;">
+                    <div class="sig-space">
+                        <img src="https://i.ibb.co.com/1YhFBzwq/pm-1766605891575-cmp.jpg" class="img-stamp">
+                        <img src="https://i.ibb.co.com/pBSnYcfG/892503b511f595d7115ade1a9349a49a.jpg" class="img-ttd" style="width:140px; opacity: 0.8;">
                     </div>
                     <p class="name-official">Ir. BAMBANG SURYANTO, M.M.</p>
                     <p class="nip-official">NIP. 19751022 199803 1 003</p>
                 </div>
 
-                <div class="sig-box">
+                <div class="sig-block">
                     <p>Banjarmasin, 17 Februari 2026</p>
                     <p><strong>Pejabat Pemeriksa</strong></p>
-                    <div class="sig-container">
-                        <img src="https://i.ibb.co.com/xqqh7Txq/IMG-20260211-183302.jpg" class="layer-materai">
-                        <img src="https://i.ibb.co.com/pBSnYcfG/892503b511f595d7115ade1a9349a49a.jpg" class="layer-ttd">
+                    <div class="sig-space">
+                        <img src="https://i.ibb.co.com/xqqh7Txq/IMG-20260211-183302.jpg" class="img-materai">
+                        <img src="https://i.ibb.co.com/pBSnYcfG/892503b511f595d7115ade1a9349a49a.jpg" class="img-ttd">
                     </div>
                     <p class="name-official">DIAN SETIAWAN</p>
                     <p class="nip-official">NIP. 19890714 201301 1 008</p>
                 </div>
             </div>
 
-            <footer style="margin-top: 50px; padding-top: 15px; border-top: 1px solid #000; display: flex; justify-content: space-between; font-size: 8pt; color: #64748b; font-family: Arial, sans-serif;">
+            <footer class="doc-footer">
                 <div>
-                    <strong>DOKUMEN ELEKTRONIK RESMI</strong><br>
-                    Generated by CEISA Cloud Intelligence System v4.0.
+                    <strong>SISTEM INTEGRASI CEISA 4.0</strong><br>
+                    Dokumen ini sah secara hukum dan dihasilkan oleh sistem komputer.
                 </div>
                 <div style="text-align: right;">
-                    Audit ID:<br><strong>77182/SEC/BJM/1702</strong>
+                    Halaman 1 dari 1<br>
+                    <strong>ID Hash: 77182/BJM/2026/SEC-09</strong>
                 </div>
             </footer>
         </div>
     </div>
 
     <script>
-        // Interactive QR Simulation
-        document.getElementById('qrTrigger').addEventListener('click', function() {
-            alert('VERIFIKASI BERHASIL\n------------------------\nID Dokumen: BA-052/BC.3100/2026\nStatus: TERDAFTAR DI SERVER PUSAT\nPemilik: SAZALI RAHMAN');
-        });
-
-        // Professional PDF Export
-        document.getElementById('generatePdf').addEventListener('click', function() {
+        // PDF Generation with Progress Feedback
+        document.getElementById('downloadBtn').addEventListener('click', function() {
             const btn = this;
-            const element = document.getElementById('document-render');
+            const element = document.getElementById('a4-sheet');
             
-            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> ENCRYPTING...';
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> SECURING DOCUMENT...';
             btn.style.opacity = '0.7';
 
             const opt = {
                 margin: 0,
-                filename: 'DOKUMEN_JAMINAN_BC_2026.pdf',
+                filename: 'DOK_RESMI_BC_2026.pdf',
                 image: { type: 'jpeg', quality: 1.0 },
-                html2canvas: { scale: 3, useCORS: true, letterRendering: true },
+                html2canvas: { 
+                    scale: 3, 
+                    useCORS: true, 
+                    logging: false,
+                    letterRendering: true
+                },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
-                btn.innerHTML = '<i class="fas fa-check"></i> SUCCESS DOWNLOADED';
+                btn.innerHTML = '<i class="fas fa-check-circle"></i> DOWNLOADED SUCCESSFULLY';
                 btn.style.background = '#15803d';
                 setTimeout(() => {
-                    btn.innerHTML = '<i class="fas fa-file-pdf"></i> GENERATE FINAL E-DOCUMENT';
-                    btn.style.background = ''; btn.style.opacity = '1';
-                }, 3000);
+                    btn.innerHTML = '<i class="fas fa-file-invoice-dollar"></i> GENERATE FINAL PDF';
+                    btn.style.background = '';
+                    btn.style.opacity = '1';
+                }, 4000);
             });
         });
 
-        // Security
+        // Security: Prevent typical web interactions to mimic official software
         document.addEventListener('keydown', e => {
-            if (e.ctrlKey && (e.key === 'u' || e.key === 's' || e.key === 'p')) e.preventDefault();
+            if (e.ctrlKey && (e.key === 'p' || e.key === 's' || e.key === 'u')) {
+                e.preventDefault();
+                alert('Fungsi ini dinonaktifkan demi keamanan dokumen negara.');
+            }
         });
     </script>
 </body>
