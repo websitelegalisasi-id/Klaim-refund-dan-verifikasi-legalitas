@@ -2,186 +2,165 @@
 <html lang="id">
 <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
     <title>Berita Acara Resmi - DJBC Banjarmasin</title>
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     
     <style>
-        /* === SYSTEM RESET & VARIABLES === */
+        /* === CORE SETTINGS === */
         :root {
-            --official-blue: #002d5a; /* Deep Navy Kemenkeu */
-            --official-gold: #c5a059;
-            --paper-white: #ffffff;
-            --ink-black: #1a1a1a;
-            --alert-red: #b91c1c;
-            --bg-app: #e2e8f0;
+            --navy: #002d5a;
+            --gold: #b38b2d;
+            --slate: #475569;
+            --border: #1e293b;
         }
 
-        * { margin: 0; padding: 0; box-sizing: border-box; -webkit-font-smoothing: antialiased; }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
 
         body {
-            background-color: var(--bg-app);
-            font-family: 'Bookman Old Style', 'Times New Roman', serif;
+            background-color: #cbd5e1;
+            font-family: 'Times New Roman', Times, serif;
+            color: #1a1a1a;
             display: flex;
             flex-direction: column;
             align-items: center;
-            padding-top: 80px;
-            padding-bottom: 50px;
-            color: var(--ink-black);
+            overflow-x: hidden;
         }
 
-        /* === UI CONTROLS (NOT PRINTED) === */
-        .app-bar {
-            position: fixed; top: 0; left: 0; width: 100%;
-            background: rgba(255,255,255,0.95);
+        /* === PREMIUM UI CONTROLS === */
+        .navbar {
+            position: sticky;
+            top: 0; width: 100%;
+            background: rgba(255, 255, 255, 0.98);
             backdrop-filter: blur(10px);
-            border-bottom: 1px solid #cbd5e1;
-            padding: 15px 40px;
-            display: flex; justify-content: space-between; align-items: center;
+            padding: 12px 0;
             z-index: 1000;
-            box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+            border-bottom: 2px solid var(--navy);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            display: flex;
+            justify-content: center;
         }
 
-        .brand-logo {
-            display: flex; align-items: center; gap: 12px;
-            font-family: 'Segoe UI', sans-serif;
+        .nav-content {
+            width: 210mm;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 20px;
         }
-        .brand-logo i { font-size: 24px; color: var(--official-blue); }
-        .brand-text h1 { font-size: 16px; font-weight: 700; color: var(--official-blue); }
-        .brand-text p { font-size: 11px; color: #64748b; }
 
-        .action-group { display: flex; gap: 10px; }
-        
+        .brand { display: flex; align-items: center; gap: 10px; }
+        .brand i { color: var(--navy); font-size: 20px; }
+        .brand span { font-family: 'Segoe UI', sans-serif; font-weight: 800; font-size: 14px; color: var(--navy); letter-spacing: 0.5px; }
+
+        .btn-group { display: flex; gap: 10px; }
         .btn {
-            padding: 10px 20px; border-radius: 6px; border: none;
-            font-family: 'Segoe UI', sans-serif; font-weight: 600; font-size: 13px;
-            cursor: pointer; transition: all 0.2s; display: flex; align-items: center; gap: 8px;
+            padding: 8px 16px; border: none; border-radius: 4px;
+            font-family: 'Segoe UI', sans-serif; font-size: 12px; font-weight: 700;
+            cursor: pointer; transition: 0.2s; display: flex; align-items: center; gap: 6px;
         }
-        .btn-primary { background: var(--official-blue); color: white; box-shadow: 0 4px 10px rgba(0,45,90,0.3); }
-        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,45,90,0.4); }
-        .btn-secondary { background: white; border: 1px solid #cbd5e1; color: #475569; }
-        .btn-secondary:hover { background: #f1f5f9; border-color: #94a3b8; }
+        .btn-dl { background: var(--navy); color: white; }
+        .btn-dl:hover { background: #004080; }
+        .btn-pr { background: white; border: 1px solid #cbd5e1; color: var(--slate); }
 
-        /* === PAPER DOCUMENT (A4) === */
-        #document-sheet {
+        /* === A4 DOCUMENT CONTAINER === */
+        .page-wrapper {
+            padding: 40px 0;
+            display: flex;
+            justify-content: center;
+            width: 100%;
+        }
+
+        #official-document {
             width: 210mm;
             min-height: 297mm;
-            background: var(--paper-white);
-            box-shadow: 0 0 50px rgba(0,0,0,0.1);
-            padding: 15mm 20mm; /* Standar Margin Dinas */
+            background: white;
+            padding: 20mm 18mm;
+            box-shadow: 0 0 40px rgba(0,0,0,0.15);
             position: relative;
             overflow: hidden;
         }
 
-        /* WATERMARK BACKGROUND */
+        /* Watermark */
         .watermark {
             position: absolute;
             top: 50%; left: 50%;
-            transform: translate(-50%, -50%);
-            width: 70%;
+            transform: translate(-50%, -50%) rotate(-35deg);
+            width: 80%;
             opacity: 0.04;
             pointer-events: none;
             z-index: 0;
-            filter: grayscale(100%);
         }
 
-        /* === KOP SURAT === */
-        .kop-header {
+        /* === KOP SURAT (PREMIUM) === */
+        .kop {
             display: flex;
-            justify-content: space-between;
             align-items: center;
-            border-bottom: 5px double var(--official-black); /* Garis Ganda Resmi */
+            border-bottom: 3px double #000;
             padding-bottom: 15px;
             margin-bottom: 25px;
-            position: relative;
-            z-index: 1;
+            text-align: center;
         }
+        .kop-side { width: 85px; }
+        .kop-side img { width: 100%; filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1)); }
+        .kop-center { flex: 1; padding: 0 15px; }
+        .kop-center h2 { font-size: 13pt; font-weight: bold; margin-bottom: 2px; }
+        .kop-center h1 { font-size: 15pt; font-weight: 900; margin-bottom: 4px; }
+        .kop-center h3 { font-size: 10.5pt; font-weight: bold; }
+        .kop-center p { font-size: 8.5pt; font-family: Arial, sans-serif; margin-top: 5px; line-height: 1.2; }
+
+        /* === TITLES & CONTENT === */
+        .doc-header { text-align: center; margin-bottom: 30px; }
+        .doc-header h4 { font-size: 14pt; text-decoration: underline; font-weight: bold; }
+        .doc-header p { font-size: 11pt; margin-top: 5px; }
+
+        .text-block { font-size: 11pt; line-height: 1.6; text-align: justify; margin-bottom: 15px; }
         
-        .kop-logo { width: 90px; height: auto; object-fit: contain; }
-        
-        .kop-text { text-align: center; flex: 1; padding: 0 10px; }
-        .kop-text h2 { font-size: 14pt; letter-spacing: 1px; font-weight: bold; margin-bottom: 4px; text-transform: uppercase; }
-        .kop-text h1 { font-size: 16pt; font-weight: 900; margin-bottom: 5px; text-transform: uppercase; }
-        .kop-text h3 { font-size: 11pt; font-weight: bold; margin-bottom: 5px; text-transform: uppercase; }
-        .kop-text p { font-size: 8pt; line-height: 1.3; font-family: 'Arial', sans-serif; color: #333; }
+        /* Table Styling */
+        .data-table {
+            width: 100%; border-collapse: collapse; margin: 15px 0;
+            font-family: Arial, sans-serif; font-size: 10pt;
+        }
+        .data-table th, .data-table td { border: 1px solid #000; padding: 10px 12px; }
+        .data-table th { background: #f1f5f9; text-align: left; width: 35%; }
+        .row-total { background: #fffde7; font-weight: bold; font-size: 11pt; }
 
-        /* === CONTENT BODY === */
-        .doc-title {
-            text-align: center; margin: 30px 0;
-            position: relative; z-index: 1;
-        }
-        .doc-title h4 { 
-            font-size: 14pt; text-decoration: underline; 
-            font-weight: bold; text-transform: uppercase; margin-bottom: 5px; 
-        }
-        .doc-title p { font-size: 11pt; }
-
-        .content-block { font-size: 11pt; line-height: 1.5; text-align: justify; margin-bottom: 20px; position: relative; z-index: 1; }
-        
-        .field-row { display: flex; margin-bottom: 5px; }
-        .field-label { width: 140px; font-weight: bold; flex-shrink: 0; }
-        .field-sep { width: 20px; text-align: center; }
-        .field-value { flex: 1; font-weight: 500; }
-
-        /* === PROFESSIONAL TABLES === */
-        .official-table {
-            width: 100%; border-collapse: collapse; margin: 15px 0 25px;
-            font-size: 10.5pt; font-family: 'Arial', sans-serif;
-        }
-        .official-table th, .official-table td {
-            border: 1px solid #000; padding: 8px 12px; vertical-align: middle;
-        }
-        .official-table th {
-            background-color: #f0f0f0; font-weight: bold; text-align: left;
-            border-bottom: 2px solid #000;
-        }
-        .table-highlight { background-color: #fffde7; font-weight: bold; }
-        .text-right { text-align: right; }
-        .text-center { text-align: center; }
-
-        /* === INFO CARDS (BILLING & REFUND) === */
-        .info-card {
-            border: 1px solid #000;
-            padding: 15px;
-            margin: 20px 0;
-            background: #fff;
+        /* Billing Card */
+        .billing-box {
+            border: 2px solid var(--navy);
+            border-radius: 8px;
+            padding: 20px;
+            margin: 25px 0;
             display: flex;
-            gap: 20px;
             align-items: center;
+            gap: 25px;
+            background: #f8fafc;
         }
-        .card-qr { width: 100px; height: 100px; border: 1px solid #ccc; padding: 2px; }
-        .card-content { flex: 1; }
+        .qr-code { width: 130px; height: 130px; background: white; border: 1px solid #ddd; padding: 5px; }
+        .billing-info { flex: 1; }
         .billing-code { 
-            font-family: 'Courier New', monospace; 
-            font-size: 16pt; font-weight: bold; 
-            background: #eee; padding: 5px 10px; 
-            display: inline-block; margin: 5px 0;
-            letter-spacing: 2px;
-            border: 1px dashed #666;
+            font-family: 'Courier New', monospace; font-size: 18pt; font-weight: 900;
+            color: #b91c1c; letter-spacing: 2px; display: block; margin: 10px 0;
         }
 
-        /* === SIGNATURE SECTION (REALISTIC) === */
-        .signature-grid {
+        /* === SIGNATURE SECTION (ULTRA REALISTIC) === */
+        .sig-section {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            margin-top: 40px;
-            page-break-inside: avoid;
-        }
-
-        .sig-box {
-            text-align: center;
+            margin-top: 50px;
             position: relative;
-            padding: 10px;
         }
-
-        .sig-title { font-size: 11pt; margin-bottom: 10px; }
-        .sig-date { font-size: 11pt; margin-bottom: 5px; }
-
-        /* The Magic: Layering & Blend Modes */
-        .sig-area {
-            height: 140px;
+        .sig-container {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 200px;
+        }
+        .sig-space {
+            height: 120px;
             width: 100%;
             position: relative;
             display: flex;
@@ -189,287 +168,188 @@
             align-items: center;
         }
 
-        /* Materai Layer (Bottom) */
-        .img-materai {
+        /* Realistic Overlays */
+        .stamp-wet {
             position: absolute;
-            width: 90px;
-            height: auto;
-            z-index: 1;
-            opacity: 0.95;
-            left: 20%; /* Geser agar tertimpa TTD */
-            filter: contrast(1.1);
-        }
-
-        /* Tanda Tangan Layer (Middle - Multiply) */
-        .img-ttd {
-            position: absolute;
-            width: 140px;
-            height: auto;
-            z-index: 2;
-            mix-blend-mode: multiply; /* Menghilangkan background putih */
-            filter: contrast(1.2) brightness(0.9);
-            transform: rotate(-2deg); /* Sedikit miring natural */
-            right: 15%;
-        }
-
-        /* Stempel Layer (Top - Multiply & Transparency) */
-        .img-stempel {
-            position: absolute;
-            width: 130px;
-            height: auto;
-            z-index: 3;
+            width: 150px;
+            opacity: 0.8;
             mix-blend-mode: multiply;
-            opacity: 0.85; /* Efek tinta cap basah */
-            transform: rotate(-5deg); /* Rotasi cap tidak pernah lurus sempurna */
+            transform: rotate(-4deg);
+            z-index: 3;
         }
-        
-        .sig-name {
-            font-weight: bold; text-decoration: underline; font-size: 11pt; margin-top: 5px;
+        .sign-ink {
+            position: absolute;
+            width: 160px;
+            mix-blend-mode: multiply;
+            z-index: 2;
+            transform: rotate(-2deg);
         }
-        .sig-nip { font-size: 10pt; }
+        .materai {
+            position: absolute;
+            width: 95px;
+            left: 15%;
+            z-index: 1;
+            filter: saturate(1.2) contrast(1.1);
+        }
 
-        /* === FOOTER === */
+        .name-tag { font-weight: bold; text-decoration: underline; font-size: 11pt; margin-top: 5px; }
+        .nip-tag { font-size: 10pt; font-family: Arial, sans-serif; }
+
+        /* Footer Log */
         .doc-footer {
-            margin-top: 40px;
-            border-top: 1px solid #000;
+            margin-top: 60px;
             padding-top: 10px;
+            border-top: 1px solid #ccc;
             display: flex;
             justify-content: space-between;
             align-items: center;
             font-size: 8pt;
-            font-family: 'Arial', sans-serif;
-            color: #555;
+            color: #64748b;
+            font-family: Arial, sans-serif;
         }
-        .footer-logo-row { display: flex; align-items: center; gap: 15px; }
-        .footer-logo { height: 35px; filter: grayscale(100%); opacity: 0.7; }
+        .footer-logos { display: flex; gap: 15px; opacity: 0.6; grayscale: 1; }
+        .footer-logos img { height: 30px; }
 
-        .legalisasi-stamp {
-            position: absolute;
-            top: 48%;
-            right: 50px;
-            width: 140px;
-            opacity: 0.8;
-            mix-blend-mode: multiply;
-            transform: rotate(15deg);
-            z-index: 0;
-            border: 3px solid var(--alert-red);
-            border-radius: 8px;
-            padding: 5px;
-            color: var(--alert-red);
-            font-weight: bold;
-            text-align: center;
-            font-family: 'Stencil', sans-serif;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            background: rgba(255,255,255,0.5);
-        }
-        
-        /* === PRINT MEDIA QUERY === */
         @media print {
-            body { background: white; padding: 0; }
-            .app-bar { display: none; }
-            #document-sheet {
-                box-shadow: none; margin: 0; padding: 10mm 15mm;
-                width: 100%; height: auto;
-            }
+            body { background: white; }
+            .navbar { display: none; }
+            .page-wrapper { padding: 0; }
+            #official-document { box-shadow: none; margin: 0; width: 100%; }
+        }
+
+        @media (max-width: 210mm) {
+            .nav-content { width: 100%; }
+            #official-document { width: 100vw; padding: 10mm; }
         }
     </style>
 </head>
 <body>
 
-    <div class="app-bar">
-        <div class="brand-logo">
-            <i class="fas fa-university"></i>
-            <div class="brand-text">
-                <h1>SISTEM KEPABEANAN DIGITAL</h1>
-                <p>Direktorat Jenderal Bea dan Cukai - Kemenkeu RI</p>
+    <nav class="navbar">
+        <div class="nav-content">
+            <div class="brand">
+                <i class="fas fa-shield-check"></i>
+                <span>SISTEM DOKUMEN RESMI DJBC</span>
+            </div>
+            <div class="btn-group">
+                <button class="btn btn-pr" onclick="window.print()"><i class="fas fa-print"></i> Cetak</button>
+                <button class="btn btn-dl" id="dlBtn"><i class="fas fa-file-pdf"></i> Unduh PDF</button>
             </div>
         </div>
-        <div class="action-group">
-            <button class="btn btn-secondary" onclick="window.print()"><i class="fas fa-print"></i> Cetak Dokumen</button>
-            <button class="btn btn-primary" id="downloadBtn"><i class="fas fa-file-pdf"></i> Unduh Resmi (PDF)</button>
-        </div>
-    </div>
+    </nav>
 
-    <div id="document-sheet">
-        <img src="https://i.ibb.co.com/n851VNNd/pm-1748860520447-cmp.jpg" class="watermark" alt="Watermark">
+    <div class="page-wrapper">
+        <div id="official-document">
+            <img src="https://i.ibb.co.com/n851VNNd/pm-1748860520447-cmp.jpg" class="watermark">
 
-        <div class="kop-header">
-            <img src="https://i.ibb.co.com/hx6vT4x5/IMG-20260126-134506.jpg" class="kop-logo" alt="Kemenkeu">
-            <div class="kop-text">
-                <h2>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h2>
-                <h1>DIREKTORAT JENDERAL BEA DAN CUKAI</h1>
-                <h3>KPPBC TIPE MADYA PABEAN C BANJARMASIN</h3>
-                <p>Jalan Jenderal Sudirman No. 12, Banjarmasin, Kalimantan Selatan 70114</p>
-                <p>Telepon: (0511) 3354123 | Laman: www.beacukai.go.id</p>
+            <header class="kop">
+                <div class="kop-side"><img src="https://i.ibb.co.com/hx6vT4x5/IMG-20260126-134506.jpg"></div>
+                <div class="kop-center">
+                    <h2>KEMENTERIAN KEUANGAN REPUBLIK INDONESIA</h2>
+                    <h1>DIREKTORAT JENDERAL BEA DAN CUKAI</h1>
+                    <h3>KANTOR PENGAWASAN DAN PELAYANAN TIPE MADYA PABEAN C BANJARMASIN</h3>
+                    <p>Jalan Jenderal Sudirman No. 12, Banjarmasin 70114; Telepon (0511) 3354123<br>Laman: www.beacukai.go.id Email: kppbcbanjarmasin@customs.go.id</p>
+                </div>
+                <div class="kop-side"><img src="https://i.ibb.co.com/N6Kj6fzx/IMG-20260126-134537.jpg"></div>
+            </header>
+
+            <div class="doc-header">
+                <h4>BERITA ACARA JAMINAN LEGALITAS SEMENTARA</h4>
+                <p>Nomor: BA-052/BC.31/2026</p>
             </div>
-            <img src="https://i.ibb.co.com/N6Kj6fzx/IMG-20260126-134537.jpg" class="kop-logo" alt="Bea Cukai">
-        </div>
 
-        <div class="doc-title">
-            <h4>BERITA ACARA JAMINAN LEGALITAS SEMENTARA</h4>
-            <p>Nomor: BC.3100/BA-052/2026</p>
-        </div>
-
-        <div class="content-block">
-            <div class="field-row">
-                <span class="field-label">Hari / Tanggal</span><span class="field-sep">:</span>
-                <span class="field-value">Selasa, 17 Februari 2026</span>
+            <div class="text-block">
+                Pada hari ini, <strong>Selasa</strong> tanggal <strong>Tujuh Belas</strong> bulan <strong>Februari</strong> tahun <strong>Dua Ribu Dua Puluh Enam</strong>, bertempat di Kantor Wilayah DJBC Banjarmasin, telah dilakukan penetapan kewajiban jaminan administratif atas barang kena cukai sebagai berikut:
             </div>
-            <div class="field-row">
-                <span class="field-label">Lokasi</span><span class="field-sep">:</span>
-                <span class="field-value">Gudang Penimbunan Sementara (GPS) KPPBC Banjarmasin</span>
-            </div>
-            <br>
-            <p>Berdasarkan Peraturan Menteri Keuangan tentang Tata Cara Penyelesaian Barang Kena Cukai dan Barang Kiriman, Pejabat Bea dan Cukai yang bertanda tangan di bawah ini telah melakukan pemeriksaan dan menetapkan status <strong>Jaminan Sementara</strong> atas barang kiriman dengan rincian sebagai berikut:</p>
-        </div>
 
-        <div class="content-block">
-            <div style="background: #002d5a; color: white; padding: 5px 10px; font-weight: bold; font-family: Arial; font-size: 10pt; display:inline-block; margin-bottom: 5px;">I. IDENTITAS PENERIMA & BARANG</div>
-            <table class="official-table">
+            <table class="data-table">
+                <tr><th>Penerima Barang</th><td><strong>SAZALI RAHMAN</strong></td></tr>
+                <tr><th>Alamat</th><td>Jl. Kedondong, RT. 07 No. 22, Kab. Tanah Bumbu, Kalsel</td></tr>
+                <tr><th>Ekspedisi / No. Resi</th><td>SiCepat Ekspres / <strong>001776528810</strong></td></tr>
+                <tr><th>Jenis Barang</th><td>Hasil Tembakau (Rokok) - 400 Batang</td></tr>
+            </table>
+
+            <div class="text-block">
+                <strong>RINGKASAN PERHITUNGAN:</strong>
+            </div>
+
+            <table class="data-table">
                 <tr>
-                    <td width="30%"><strong>Nama Penerima</strong></td>
-                    <td>SAZALI RAHMAN</td>
+                    <td>Pungutan Cukai Jaminan Sesuai PMK No. 12/2023</td>
+                    <td align="right">Rp 400.000,00</td>
+                </tr>
+                <tr class="row-total">
+                    <td>TOTAL JAMINAN WAJIB BAYAR</td>
+                    <td align="right">Rp 400.000,00</td>
                 </tr>
                 <tr>
-                    <td><strong>Alamat Tujuan</strong></td>
-                    <td>Jl. Kedondong, RT. 07 No. 22, Kec. Simpang Empat, Kab. Tanah Bumbu, Kalimantan Selatan 72211</td>
-                </tr>
-                <tr>
-                    <td><strong>Nomor Resi / Ekspedisi</strong></td>
-                    <td>
-                        001776528810 / 
-                        <img src="https://i.ibb.co.com/rG7HcjSy/perusahaan-layanan-pengiriman-barang-sicepat-di-mana-disebut-karyawan-220907074827-264.jpg" style="height: 18px; vertical-align: middle;"> 
-                        SiCepat Ekspres
-                    </td>
-                </tr>
-                <tr>
-                    <td><strong>Uraian Barang</strong></td>
-                    <td>Rokok (Barang Kena Cukai) - 2 Slop / 400 Batang</td>
+                    <td><em>Potensi Pengembalian (Refund Dana)</em></td>
+                    <td align="right"><strong>Rp 400.000,00</strong></td>
                 </tr>
             </table>
-        </div>
 
-        <div class="legalisasi-stamp">
-            <div style="font-size: 14px;">LEGALISASI</div>
-            <div style="font-size: 10px;">DOKUMEN</div>
-            <i class="fas fa-check-circle" style="font-size: 24px; margin: 5px 0;"></i>
-            <div style="font-size: 9px;">VERIFIED</div>
-        </div>
-
-        <div class="content-block">
-            <div style="background: #002d5a; color: white; padding: 5px 10px; font-weight: bold; font-family: Arial; font-size: 10pt; display:inline-block; margin-bottom: 5px;">II. PERHITUNGAN JAMINAN NEGARA</div>
-            <table class="official-table">
-                <thead>
-                    <tr>
-                        <th>Uraian Pungutan</th>
-                        <th class="text-center" width="20%">Volume</th>
-                        <th class="text-right" width="30%">Nilai (IDR)</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <tr>
-                        <td>Cukai Hasil Tembakau (Tarif Jaminan)</td>
-                        <td class="text-center">400 Btg</td>
-                        <td class="text-right">400.000,00</td>
-                    </tr>
-                    <tr>
-                        <td>Biaya Administrasi & Logistik</td>
-                        <td class="text-center">-</td>
-                        <td class="text-right">0,00</td>
-                    </tr>
-                    <tr class="table-highlight">
-                        <td colspan="2"><strong>TOTAL JAMINAN YANG WAJIB DISETOR</strong></td>
-                        <td class="text-right"><strong>Rp 400.000,00</strong></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-
-        <div class="info-card" style="border-left: 5px solid var(--official-gold);">
-            <div class="card-qr">
-                <img src="https://i.ibb.co.com/d02DxXjq/1000020200-1.png" style="width:100%; height:100%; object-fit:contain;">
+            <div class="billing-box">
+                <img src="https://i.ibb.co.com/d02DxXjq/1000020200-1.png" class="qr-code">
+                <div class="billing-info">
+                    <span style="font-size: 9pt; font-weight: bold; color: var(--navy);">KODE E-BILLING (SIMPONI):</span>
+                    <span class="billing-code">EBL-8810-2026-X52</span>
+                    <p style="font-size: 8.5pt; color: #475569;">Penyelesaian jaminan wajib dilakukan dalam waktu 1x24 jam untuk menghindari penetapan Barang Milik Negara (BMN).</p>
+                </div>
             </div>
-            <div class="card-content">
-                <p style="font-weight: bold; color: var(--official-blue); margin-bottom: 5px;">KODE BILLING PEMBAYARAN (E-BILLING):</p>
-                <div class="billing-code">EBL-BC3100-2026-0217-8810</div>
-                <p style="font-size: 9pt; margin-top: 5px;"><i>*Lakukan pembayaran melalui Bank Persepsi, ATM, atau Mobile Banking sebelum 24 jam.</i></p>
+
+            <div class="text-block" style="font-size: 9pt; background: #fff8e1; padding: 10px; border: 1px dashed #edb95e;">
+                <strong>Catatan Refund:</strong> Dana jaminan akan dikembalikan secara utuh ke rekening penyetor setelah proses verifikasi fisik selesai dan pita cukai jaminan resmi diterbitkan (estimasi 5 hari kerja).
             </div>
-        </div>
 
-        <div class="content-block" style="border: 1px dashed #666; padding: 10px; background: #fafafa; font-size: 10pt;">
-            <strong>MEKANISME PENGEMBALIAN DANA (REFUND):</strong>
-            <ol style="margin-left: 20px; margin-top: 5px;">
-                <li>Setelah pembayaran tervalidasi sistem, Surat Perintah Pencairan Dana (SP2D) diterbitkan otomatis.</li>
-                <li>Dana jaminan akan dikembalikan penuh (Refund) ke rekening penerima/pengirim dalam estimasi 5-10 hari kerja.</li>
-                <li>Proses ini dijamin oleh Negara sesuai UU Perbendaharaan Negara.</li>
-            </ol>
-        </div>
-
-        <div class="signature-grid">
-            <div class="sig-box">
-                <div class="sig-date">Mengetahui,</div>
-                <div class="sig-title"><strong>Kepala Kantor</strong></div>
-                
-                <div class="sig-area">
-                    <img src="https://i.ibb.co.com/1YhFBzwq/pm-1766605891575-cmp.jpg" class="img-stempel" style="left: 30%; width: 140px; opacity: 0.8; transform: rotate(-3deg);">
+            <div class="sig-section">
+                <div class="sig-container">
+                    <p>Mengetahui,</p>
+                    <p><strong>Kepala Kantor</strong></p>
+                    <div class="sig-space">
+                        <img src="https://i.ibb.co.com/1YhFBzwq/pm-1766605891575-cmp.jpg" class="stamp-wet">
+                    </div>
+                    <p class="name-tag">Ir. BAMBANG SURYANTO, M.M.</p>
+                    <p class="nip-tag">NIP. 19751022 199803 1 003</p>
                 </div>
 
-                <div class="sig-name">Ir. BAMBANG SURYANTO, M.M.</div>
-                <div class="sig-nip">NIP. 19751022 199803 1 003</div>
-            </div>
-
-            <div class="sig-box">
-                <div class="sig-date">Banjarmasin, 17 Februari 2026</div>
-                <div class="sig-title"><strong>Pejabat Pemeriksa</strong></div>
-                
-                <div class="sig-area">
-                    <img src="https://i.ibb.co.com/xqqh7Txq/IMG-20260211-183302.jpg" class="img-materai" alt="Materai Elektronik">
-                    
-                    <img src="https://i.ibb.co.com/pBSnYcfG/892503b511f595d7115ade1a9349a49a.jpg" class="img-ttd" alt="Tanda Tangan">
+                <div class="sig-container">
+                    <p>Banjarmasin, 17 Februari 2026</p>
+                    <p><strong>Pejabat Pemeriksa</strong></p>
+                    <div class="sig-space">
+                        <img src="https://i.ibb.co.com/xqqh7Txq/IMG-20260211-183302.jpg" class="materai">
+                        <img src="https://i.ibb.co.com/pBSnYcfG/892503b511f595d7115ade1a9349a49a.jpg" class="sign-ink">
+                    </div>
+                    <p class="name-tag">DIAN SETIAWAN</p>
+                    <p class="nip-tag">NIP. 19890714 201301 1 008</p>
                 </div>
-
-                <div class="sig-name">DIAN SETIAWAN</div>
-                <div class="sig-nip">NIP. 19890714 201301 1 008</div>
             </div>
+
+            <footer class="doc-footer">
+                <div class="footer-logos">
+                    <img src="https://i.ibb.co.com/gL8mBRHX/289fe0a45ba5c5f4033e9c1062cf56ec.jpg">
+                    <span>Terintegrasi Sistem INSW & POLRI</span>
+                </div>
+                <div>ID Dokumen: <strong>MKS-BC-17022026-Q8</strong></div>
+            </footer>
         </div>
-
-        <div class="doc-footer">
-            <div class="footer-logo-row">
-                <img src="https://i.ibb.co.com/gL8mBRHX/289fe0a45ba5c5f4033e9c1062cf56ec.jpg" class="footer-logo" alt="Polri">
-                <span>Dokumen ini telah divalidasi dan terintegrasi dengan sistem Polri.</span>
-            </div>
-            <div class="footer-sys-id">
-                System ID: <strong>GEN-BC-2026-X892</strong> | Page 1 of 1
-            </div>
-        </div>
-
     </div>
 
     <script>
-        document.getElementById('downloadBtn').addEventListener('click', function() {
-            const element = document.getElementById('document-sheet');
+        document.getElementById('dlBtn').addEventListener('click', function() {
+            const element = document.getElementById('official-document');
             const btn = this;
-            const originalText = btn.innerHTML;
-            
             btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Memproses...';
             
             const opt = {
                 margin: 0,
-                filename: 'BA_JAMINAN_LEGALITAS_RESMI.pdf',
+                filename: 'Berita_Acara_Jaminan_BC_2026.pdf',
                 image: { type: 'jpeg', quality: 1 },
-                html2canvas: { 
-                    scale: 2, 
-                    useCORS: true, 
-                    logging: true,
-                    letterRendering: true
-                },
+                html2canvas: { scale: 3, useCORS: true, letterRendering: true },
                 jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' }
             };
 
             html2pdf().set(opt).from(element).save().then(() => {
-                btn.innerHTML = originalText;
+                btn.innerHTML = '<i class="fas fa-file-pdf"></i> Unduh PDF';
             });
         });
     </script>
