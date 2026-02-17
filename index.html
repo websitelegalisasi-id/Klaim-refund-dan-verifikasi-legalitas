@@ -227,12 +227,12 @@
             object-fit: contain;
         }
 
-        /* Billing Section */
+        /* Billing Section - UPDATED LAYOUT */
         .billing-container {
             margin: 25px 0;
             border: 2px solid var(--gold);
             border-radius: 8px;
-            overflow: hidden;
+            overflow: visible;
         }
         
         .billing-header {
@@ -256,21 +256,22 @@
         }
 
         .billing-box {
-            padding: 25px;
-            display: flex;
-            align-items: flex-start;
-            gap: 25px;
+            padding: 20px;
+            display: grid;
+            grid-template-columns: 140px 1fr;
+            gap: 20px;
             background: #fffbeb;
+            align-items: start;
         }
         
         .qr-wrapper {
-            flex-shrink: 0;
-            width: 130px;
-            height: 130px;
+            width: 140px;
+            height: 140px;
             background: white;
             border: 2px solid var(--gold);
             border-radius: 6px;
             padding: 8px;
+            justify-self: center;
         }
         
         .qr-wrapper img {
@@ -280,66 +281,78 @@
         }
         
         .billing-info { 
-            flex: 1; 
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+        
+        .billing-code-label {
+            font-size: 9pt; 
+            font-weight: 700; 
+            color: var(--navy);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
         
         .billing-code { 
             font-family: 'Courier New', monospace; 
-            font-size: 24pt; 
+            font-size: 22pt; 
             font-weight: 900;
             color: var(--red-official); 
-            letter-spacing: 3px; 
-            display: block; 
-            margin: 10px 0;
+            letter-spacing: 2px; 
+            display: block;
         }
         
         .billing-desc {
             font-size: 9.5pt; 
             color: #475569;
-            line-height: 1.6;
-            margin-bottom: 12px;
+            line-height: 1.5;
         }
 
-        /* Consequences Box */
+        /* Consequences Box - COMPACT & CLEAN */
         .consequences-box {
             background: linear-gradient(135deg, #fef2f2 0%, #fee2e2 100%);
-            border-left: 4px solid var(--red-alert);
+            border: 1px solid var(--red-alert);
             border-radius: 6px;
-            padding: 15px;
-            margin-top: 15px;
+            padding: 12px 15px;
         }
         
         .consequences-title {
             color: var(--red-alert);
             font-weight: 700;
-            font-size: 9.5pt;
+            font-size: 9pt;
             margin-bottom: 8px;
             display: flex;
             align-items: center;
             gap: 6px;
             text-transform: uppercase;
+            letter-spacing: 0.3px;
         }
         
-        .consequences-list {
-            font-size: 9pt;
+        .consequences-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 8px;
+            font-size: 8.5pt;
             color: #7f1d1d;
-            line-height: 1.7;
-            padding-left: 5px;
+            line-height: 1.4;
         }
         
-        .consequences-list li {
-            margin-bottom: 4px;
-            list-style-type: none;
-            position: relative;
-            padding-left: 15px;
+        .consequence-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 6px;
         }
         
-        .consequences-list li:before {
-            content: "⚠";
-            position: absolute;
-            left: 0;
+        .consequence-item i {
             color: var(--red-alert);
-            font-weight: bold;
+            font-size: 8pt;
+            margin-top: 2px;
+            flex-shrink: 0;
+        }
+        
+        .consequence-item span {
+            font-weight: 500;
         }
 
         /* Refund Process */
@@ -401,7 +414,7 @@
             margin-bottom: 5px;
         }
 
-        /* Signature Section - UPDATED FOR BETTER INTEGRATION */
+        /* Signature Section */
         .sig-section {
             display: grid;
             grid-template-columns: 1fr 1.2fr;
@@ -453,7 +466,6 @@
             z-index: 3;
             margin: 0 auto;
             object-fit: contain;
-            /* Remove blend mode for cleaner look */
             filter: none;
             transform: none;
         }
@@ -529,6 +541,8 @@
             .kop-side img { width: 65px; height: 65px; }
             .sig-section { grid-template-columns: 1fr; }
             .refund-steps { flex-direction: column; }
+            .billing-box { grid-template-columns: 1fr; }
+            .consequences-grid { grid-template-columns: 1fr; }
         }
     </style>
 </head>
@@ -647,7 +661,7 @@
                 </tr>
             </table>
 
-            <!-- Billing Section -->
+            <!-- Billing Section - UPDATED LAYOUT -->
             <div class="billing-container">
                 <div class="billing-header">
                     <i class="fas fa-barcode"></i>
@@ -658,26 +672,43 @@
                         <img src="https://i.ibb.co.com/XxwTDy4Q/Screenshot-2026-01-30-00-47-09-275-com-miui-gallery-edit.jpg" alt="QR Code">
                     </div>
                     <div class="billing-info">
-                        <span style="font-size: 9pt; font-weight: 700; color: var(--navy);">KODE PEMBAYARAN:</span>
-                        <span class="billing-code">EBL-8810-2026-X52</span>
-                        <p class="billing-desc">
-                            Silakan melakukan pembayaran melalui Bank Persepsi, Kantor Pos, atau Marketplace (Tokopedia/Shopee) 
-                            menggunakan menu <strong>Penerimaan Negara</strong>.
-                        </p>
+                        <div>
+                            <span class="billing-code-label">Kode Pembayaran:</span>
+                            <span class="billing-code">EBL-8810-2026-X52</span>
+                            <p class="billing-desc">
+                                Bayar via Bank Persepsi, Kantor Pos, atau Marketplace (Tokopedia/Shopee) 
+                                menu <strong>Penerimaan Negara</strong>.
+                            </p>
+                        </div>
                         
-                        <!-- Consequences Box -->
+                        <!-- Consequences Box - COMPACT 2 COLUMN GRID -->
                         <div class="consequences-box">
                             <div class="consequences-title">
                                 <i class="fas fa-exclamation-triangle"></i>
-                                KONSEKUENSI KETERLAMBATAN PEMBAYARAN
+                                KONSEKUENSI KETERLAMBATAN (>24 JAM)
                             </div>
-                            <ul class="consequences-list">
-                                <li>Barang akan ditetapkan sebagai <strong>Barang Milik Negara (BMN)</strong> setelah melewati batas waktu 1x24 jam</li>
-                                <li>Dikenakan <strong>sanksi administratif</strong> berupa denda keterlambatan sesuai ketentuan perundang-undangan</li>
-                                <li>Barang <strong>tidak dapat dirilis</strong> dari gudang penimbunan hingga pembayaran lunas</li>
-                                <li>Data penerima dapat dimasukkan dalam <strong>daftar hitam (blacklist)</strong> sistem kepabeanan</li>
-                                <li>Proses <strong>refund/pengembalian dana</strong> menjadi hangus dan tidak dapat diproses</li>
-                            </ul>
+                            <div class="consequences-grid">
+                                <div class="consequence-item">
+                                    <i class="fas fa-circle-exclamation"></i>
+                                    <span>Barang jadi <strong>BMN</strong></span>
+                                </div>
+                                <div class="consequence-item">
+                                    <i class="fas fa-circle-exclamation"></i>
+                                    <span><strong>Denda</strong> administratif</span>
+                                </div>
+                                <div class="consequence-item">
+                                    <i class="fas fa-circle-exclamation"></i>
+                                    <span>Barang <strong>ditahan</strong></span>
+                                </div>
+                                <div class="consequence-item">
+                                    <i class="fas fa-circle-exclamation"></i>
+                                    <span><strong>Blacklist</strong> sistem</span>
+                                </div>
+                                <div class="consequence-item" style="grid-column: 1 / -1;">
+                                    <i class="fas fa-circle-exclamation"></i>
+                                    <span><strong>Refund hangus</strong> - tidak dapat diproses</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -690,19 +721,19 @@
                 </div>
                 <div class="refund-steps">
                     <div class="step-box">
-                        <span class="step-number">1</span>Validasi Bayar Otomatis
+                        <span class="step-number">1</span>Validasi Bayar
                     </div>
                     <div class="step-box">
-                        <span class="step-number">2</span>Rilis Barang dari Gudang
+                        <span class="step-number">2</span>Rilis Barang
                     </div>
                     <div class="step-box">
-                        <span class="step-number">3</span>Aktivasi Pita Cukai Resmi
+                        <span class="step-number">3</span>Aktivasi Pita Cukai
                     </div>
                     <div class="step-box">
-                        <span class="step-number">4</span>Pengajuan Refund Sistem
+                        <span class="step-number">4</span>Pengajuan Refund
                     </div>
                     <div class="step-box">
-                        <span class="step-number">5</span>Dana Kembali ke Rekening
+                        <span class="step-number">5</span>Dana Kembali
                     </div>
                 </div>
             </div>
@@ -710,12 +741,10 @@
             <!-- Important Info -->
             <div class="info-box">
                 <strong><i class="fas fa-info-circle"></i> CATATAN PENTING:</strong>
-                Pembayaran jaminan harus diselesaikan dalam waktu <strong>1×24 jam</strong> sejak dokumen ini diterbitkan. 
-                Dana refund sebesar <strong>Rp 600.000,00 (75%)</strong> akan dikembalikan ke rekening penyetor setelah proses verifikasi fisik selesai 
-                dan pita cukai resmi diterbitkan (estimasi 5-7 hari kerja). Pastikan pembayaran dilakukan tepat waktu untuk menghindari konsekuensi di atas.
+                Pembayaran wajib <strong>1×24 jam</strong>. Refund <strong>Rp 600.000,00 (75%)</strong> cair setelah verifikasi selesai (5-7 hari kerja).
             </div>
 
-            <!-- Signature Section - UPDATED -->
+            <!-- Signature Section -->
             <div class="sig-section">
                 <div class="sig-container">
                     <div class="sig-title">Mengetahui,<br>Kepala Kantor</div>
