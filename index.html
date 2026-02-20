@@ -6,6 +6,9 @@
     <title>SICEPAT OFFICIAL PORTAL | Digital Document Verification</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- PDF Generation Libraries -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
     <style>
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -28,6 +31,8 @@
         .status-badge {
             transition: all 0.3s ease;
         }
+        /* Hide non-printable elements during PDF capture */
+        .no-pdf { display: none !important; }
     </style>
 </head>
 <body class="antialiased text-slate-900">
@@ -47,7 +52,8 @@
                     <span class="text-[10px] font-bold text-green-700 uppercase">Verified Secure Protocol</span>
                 </div>
             </div>
-        </div>    </nav>
+        </div>
+    </nav>
 
     <main class="max-w-7xl mx-auto px-6 py-12">
         <div class="grid lg:grid-cols-12 gap-12">
@@ -60,7 +66,8 @@
                 <div class="bg-slate-900 rounded-[3rem] p-10 md:p-16 flex flex-col xl:flex-row items-center gap-12 overflow-hidden shadow-2xl relative">
                     <div class="absolute top-0 right-0 w-96 h-96 bg-red-600/10 blur-[100px] rounded-full"></div>
 
-                    <div class="document-paper w-80 h-[32rem] flex-shrink-0 p-8 relative rounded-sm border-t-[6px] border-sicepat z-10">
+                    <!-- ⬇️ WRAPPER UNTUK PDF EXPORT ⬇️ -->
+                    <div id="pdfDocument" class="document-paper w-80 h-[32rem] flex-shrink-0 p-8 relative rounded-sm border-t-[6px] border-sicepat z-10">
                         <div class="flex justify-between items-start mb-8 border-b border-slate-50 pb-4">
                             <img src="https://i.ibb.co.com/PZ5n40x8/IMG-0244.jpg" alt="Logo" class="h-5 opacity-80">
                             <div class="text-[5px] text-slate-400 font-bold text-right leading-tight">
@@ -89,14 +96,13 @@
 
                         <div class="absolute bottom-10 left-0 right-0 px-8">
                             <div class="flex justify-between items-end relative h-32">
-                                <!-- QR Kecil di Kiri -->
                                 <div class="w-16 flex flex-col items-center">
                                     <div class="qr-frame shadow-sm mb-1">
                                         <img src="https://i.ibb.co.com/RpKxG0w6/IMG-20260220-191422.jpg" alt="Barcode Pembayaran" class="w-14 h-14 object-contain grayscale contrast-125">
                                     </div>
                                     <p class="text-[4px] font-black text-slate-400 uppercase tracking-tighter italic">Scan to Activate</p>
                                 </div>
-                                <!-- QR di Stempel (Kanan) -->
+
                                 <div class="relative w-24 h-full">
                                     <img src="https://i.ibb.co.com/RpKxG0w6/IMG-20260220-191422.jpg" alt="Barcode Pembayaran" class="absolute top-0 right-0 w-14 h-auto object-contain shadow-sm z-10">
                                     <img src="https://i.ibb.co.com/HpRTTpzZ/IMG-20260211-185240.jpg" alt="TTD" class="absolute bottom-4 right-2 w-16 h-auto ink-blend z-20">
@@ -114,6 +120,7 @@
                             <span class="text-4xl font-black -rotate-45">SICEPAT OFFICIAL</span>
                         </div>
                     </div>
+                    <!-- ⬆️ AKHIR WRAPPER PDF ⬆️ -->
 
                     <div class="flex-1 text-white z-10">
                         <div class="inline-flex items-center gap-2 bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 border border-red-500/30">
@@ -145,11 +152,11 @@
                                     <span class="text-3xl font-black tracking-tighter">Rp 600.000</span>
                                 </div>
                                 <div id="statusBadge" class="mt-4 py-1 px-3 bg-white/10 rounded-lg inline-block border border-white/10 status-badge">
-                                    <p class="text-[9px] font-bold text-green-400 uppercase tracking-widest italic">Status: Fully Refundable</p>                                </div>
+                                    <p class="text-[9px] font-bold text-green-400 uppercase tracking-widest italic">Status: Fully Refundable</p>
+                                </div>
                             </div>
 
                             <div class="space-y-6">
-                                <!-- QR Besar di Panel Samping -->
                                 <div class="bg-slate-50 p-6 rounded-[2rem] border-2 border-dashed border-slate-200 text-center">
                                     <div class="w-44 h-44 bg-white mx-auto rounded-2xl flex items-center justify-center shadow-inner overflow-hidden">
                                         <img src="https://i.ibb.co.com/RpKxG0w6/IMG-20260220-191422.jpg" alt="Barcode Pembayaran" class="w-full h-full p-2 object-contain">
@@ -183,21 +190,79 @@
     </footer>
 
     <script>
-        // Interaktivitas tombol
+        // Load jsPDF from CDN (UMD format)
+        const { jsPDF } = window.jspdf;
+
         document.addEventListener('DOMContentLoaded', () => {
-            document.getElementById('downloadBtn').addEventListener('click', () => {
-                alert("📄 Simulasi: Dokumen PDF sedang diproses...\n\n(Dalam implementasi nyata, file PDF akan di-generate dan diunduh.)");
+            // === FUNGSI DOWNLOAD PDF ===
+            document.getElementById('downloadBtn').addEventListener('click', async () => {
+                const element = document.getElementById('pdfDocument');
+                if (!element) return;
+
+                try {
+                    // Show loading state
+                    const btn = document.getElementById('downloadBtn');
+                    const originalText = btn.innerHTML;
+                    btn.disabled = true;
+                    btn.innerHTML = 'Membuat PDF...';
+
+                    // Capture the document as image
+                    const canvas = await html2canvas(element, {
+                        scale: 3, // Higher quality
+                        useCORS: true,
+                        backgroundColor: '#ffffff',
+                        logging: false
+                    });
+
+                    // Create PDF
+                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
+                    const pdf = new jsPDF({
+                        orientation: 'portrait',
+                        unit: 'mm',
+                        format: 'a4'
+                    });
+
+                    const imgWidth = 210; // A4 width in mm
+                    const pageHeight = 297; // A4 height in mm
+                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
+
+                    let heightLeft = imgHeight;
+                    let position = 0;
+
+                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+                    heightLeft -= pageHeight;
+
+                    while (heightLeft >= 0) {
+                        position = heightLeft - imgHeight;
+                        pdf.addPage();
+                        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
+                        heightLeft -= pageHeight;
+                    }
+
+                    // Save PDF
+                    pdf.save('SICEPAT_Jaminan_Keamanan_001776543432.pdf');
+
+                    // Restore button
+                    btn.disabled = false;
+                    btn.innerHTML = originalText;
+                } catch (error) {
+                    alert('❌ Gagal membuat PDF. Pastikan koneksi internet stabil.');
+                    console.error('PDF Error:', error);
+                    document.getElementById('downloadBtn').disabled = false;
+                    document.getElementById('downloadBtn').innerHTML = originalText;
+                }
             });
 
+            // === FUNGSI KONFIRMASI PEMBAYARAN ===
             const confirmBtn = document.getElementById('confirmBtn');
             const statusBadge = document.getElementById('statusBadge');
 
             confirmBtn.addEventListener('click', function () {
                 if (confirmBtn.disabled) return;
+
                 confirmBtn.disabled = true;
                 confirmBtn.innerHTML = "Memproses...";
 
-                // Simulasi proses
                 setTimeout(() => {
                     statusBadge.innerHTML = '<p class="text-[9px] font-bold text-yellow-400 uppercase tracking-widest italic">Status: Menunggu Verifikasi</p>';
                     statusBadge.className = "mt-4 py-1 px-3 bg-yellow-900/30 rounded-lg inline-block border border-yellow-500/30 status-badge";
@@ -207,7 +272,6 @@
                         statusBadge.className = "mt-4 py-1 px-3 bg-blue-900/30 rounded-lg inline-block border border-blue-500/30 status-badge";
                         confirmBtn.innerHTML = "✅ Pembayaran Dikonfirmasi";
                         confirmBtn.classList.replace('bg-sicepat', 'bg-green-600');
-                        confirmBtn.classList.remove('hover:bg-red-700');
                     }, 3000);
                 }, 1500);
             });
