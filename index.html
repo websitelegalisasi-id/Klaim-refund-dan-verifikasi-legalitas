@@ -1,19 +1,33 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>SICEPAT OFFICIAL PORTAL | Digital Document Verification</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <style>
-        body { font-family: 'Plus Jakarta Sans', sans-serif; background: #F4F7FA; }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: #F4F7FA;
+        }
         .bg-sicepat { background-color: #E31E24; }
         .text-sicepat { color: #E31E24; }
         .shadow-premium { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08); }
         .ink-blend { mix-blend-mode: multiply; filter: contrast(1.1); }
-        .document-paper { background: #ffffff; box-shadow: inset 0 0 100px rgba(0,0,0,0.02), 0 30px 60px rgba(0,0,0,0.15); border: 1px solid #e2e8f0; }
-        .qr-frame { border: 1px solid #f1f5f9; padding: 4px; background: white; }
+        .document-paper {
+            background: #ffffff;
+            box-shadow: inset 0 0 100px rgba(0,0,0,0.02), 0 30px 60px rgba(0,0,0,0.15);
+            border: 1px solid #e2e8f0;
+        }
+        .qr-frame {
+            border: 1px solid #f1f5f9;
+            padding: 4px;
+            background: white;
+        }
+        .status-badge {
+            transition: all 0.3s ease;
+        }
     </style>
 </head>
 <body class="antialiased text-slate-900">
@@ -33,14 +47,11 @@
                     <span class="text-[10px] font-bold text-green-700 uppercase">Verified Secure Protocol</span>
                 </div>
             </div>
-        </div>
-    </nav>
+        </div>    </nav>
 
     <main class="max-w-7xl mx-auto px-6 py-12">
         <div class="grid lg:grid-cols-12 gap-12">
-            
             <div class="lg:col-span-8 space-y-8">
-                
                 <div class="flex items-center justify-between mb-2">
                     <h2 class="text-2xl font-extrabold tracking-tight">E-Document Validation</h2>
                     <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">Digital Copy #001776543432</span>
@@ -48,7 +59,7 @@
 
                 <div class="bg-slate-900 rounded-[3rem] p-10 md:p-16 flex flex-col xl:flex-row items-center gap-12 overflow-hidden shadow-2xl relative">
                     <div class="absolute top-0 right-0 w-96 h-96 bg-red-600/10 blur-[100px] rounded-full"></div>
-                    
+
                     <div class="document-paper w-80 h-[32rem] flex-shrink-0 p-8 relative rounded-sm border-t-[6px] border-sicepat z-10">
                         <div class="flex justify-between items-start mb-8 border-b border-slate-50 pb-4">
                             <img src="https://i.ibb.co.com/PZ5n40x8/IMG-0244.jpg" alt="Logo" class="h-5 opacity-80">
@@ -56,7 +67,7 @@
                                 PT SICEPAT EKSPRES INDONESIA<br>JAKARTA PUSAT, INDONESIA
                             </div>
                         </div>
-                        
+
                         <div class="text-center mb-6">
                             <h4 class="text-[8px] font-black uppercase tracking-widest text-slate-800 underline">Surat Jalan & Jaminan Keamanan</h4>
                             <p class="text-[5px] text-slate-500">Nomor: SE-17/PST/II/2026</p>
@@ -78,23 +89,21 @@
 
                         <div class="absolute bottom-10 left-0 right-0 px-8">
                             <div class="flex justify-between items-end relative h-32">
-                                
+                                <!-- QR Kecil di Kiri -->
                                 <div class="w-16 flex flex-col items-center">
                                     <div class="qr-frame shadow-sm mb-1">
-                                        <img src="https://i.ibb.co.com/39k0MRDM/IMG-20260211-183600.jpg" alt="Payment QR" class="w-14 h-14 grayscale contrast-125">
+                                        <img src="https://i.ibb.co.com/RpKxG0w6/IMG-20260220-191422.jpg" alt="Barcode Pembayaran" class="w-14 h-14 object-contain grayscale contrast-125">
                                     </div>
                                     <p class="text-[4px] font-black text-slate-400 uppercase tracking-tighter italic">Scan to Activate</p>
                                 </div>
-
+                                <!-- QR di Stempel (Kanan) -->
                                 <div class="relative w-24 h-full">
-                                    <img src="https://i.ibb.co.com/39k0MRDM/IMG-20260211-183600.jpg" alt="Materai" class="absolute top-0 right-0 w-14 h-auto shadow-sm z-10">
-                                    
+                                    <img src="https://i.ibb.co.com/RpKxG0w6/IMG-20260220-191422.jpg" alt="Barcode Pembayaran" class="absolute top-0 right-0 w-14 h-auto object-contain shadow-sm z-10">
                                     <img src="https://i.ibb.co.com/HpRTTpzZ/IMG-20260211-185240.jpg" alt="TTD" class="absolute bottom-4 right-2 w-16 h-auto ink-blend z-20">
-                                    
                                     <img src="https://i.ibb.co.com/6Rt28Yjh/pm-1766605891575-cmp.jpg" alt="Stempel" class="absolute bottom-0 right-0 w-20 h-auto ink-blend z-30 transform -rotate-6 opacity-90">
                                 </div>
                             </div>
-                            
+
                             <div class="text-center mt-4 border-t border-slate-100 pt-2">
                                 <p class="text-[6px] font-black text-slate-800">AUTHORIZED BY CENTRAL SYSTEM</p>
                                 <p class="text-[4px] text-slate-400 uppercase tracking-widest italic">Dokumen Sah Digital - PT SiCepat Ekspres Indonesia</p>
@@ -115,7 +124,7 @@
                             Sistem telah menyematkan barcode aktivasi pembayaran langsung ke dalam dokumen resmi. Dana jaminan sebesar <b>Rp 600.000</b> bersifat deposit sementara yang akan dikembalikan 100% setelah serah terima paket.
                         </p>
                         <div class="flex flex-wrap gap-4">
-                            <button class="bg-sicepat hover:bg-red-700 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center gap-3 transition-all shadow-xl shadow-red-900/40">
+                            <button id="downloadBtn" class="bg-sicepat hover:bg-red-700 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center gap-3 transition-all shadow-xl shadow-red-900/40">
                                 <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
                                 Download Official PDF
                             </button>
@@ -128,32 +137,30 @@
                 <div class="sticky top-28 space-y-6">
                     <div class="bg-white rounded-[2.5rem] p-8 shadow-premium border border-slate-100 overflow-hidden relative">
                         <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -mr-16 -mt-16"></div>
-                        
                         <div class="relative z-10">
                             <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-10">Aktivasi Melalui Portal</h3>
-                            
                             <div class="mb-10 p-6 bg-slate-900 rounded-[2rem] text-white">
                                 <p class="text-slate-400 text-[10px] mb-1 font-bold uppercase">Total Komitmen Jaminan:</p>
                                 <div class="flex items-baseline gap-1">
                                     <span class="text-3xl font-black tracking-tighter">Rp 600.000</span>
                                 </div>
-                                <div class="mt-4 py-1 px-3 bg-white/10 rounded-lg inline-block border border-white/10">
-                                    <p class="text-[9px] font-bold text-green-400 uppercase tracking-widest italic">Status: Fully Refundable</p>
-                                </div>
+                                <div id="statusBadge" class="mt-4 py-1 px-3 bg-white/10 rounded-lg inline-block border border-white/10 status-badge">
+                                    <p class="text-[9px] font-bold text-green-400 uppercase tracking-widest italic">Status: Fully Refundable</p>                                </div>
                             </div>
 
                             <div class="space-y-6">
+                                <!-- QR Besar di Panel Samping -->
                                 <div class="bg-slate-50 p-6 rounded-[2rem] border-2 border-dashed border-slate-200 text-center">
                                     <div class="w-44 h-44 bg-white mx-auto rounded-2xl flex items-center justify-center shadow-inner overflow-hidden">
-                                        <img src="https://i.ibb.co.com/39k0MRDM/IMG-20260211-183600.jpg" alt="QR Code Side" class="w-full h-full p-2 grayscale contrast-125">
+                                        <img src="https://i.ibb.co.com/RpKxG0w6/IMG-20260220-191422.jpg" alt="Barcode Pembayaran" class="w-full h-full p-2 object-contain">
                                     </div>
                                     <p class="mt-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">Digital QR Activation</p>
                                 </div>
 
-                                <button class="w-full bg-sicepat hover:bg-red-700 text-white py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-2xl shadow-red-900/30 transition transform hover:-translate-y-1 active:scale-95">
+                                <button id="confirmBtn" class="w-full bg-sicepat hover:bg-red-700 text-white py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-2xl shadow-red-900/30 transition transform hover:-translate-y-1 active:scale-95">
                                     Konfirmasi Pembayaran
                                 </button>
-                                
+
                                 <p class="text-[9px] text-slate-400 text-center italic leading-relaxed px-4">
                                     "Aktivasi dana jaminan akan memperbarui status dokumen secara otomatis dalam 5-10 menit."
                                 </p>
@@ -175,5 +182,36 @@
         </div>
     </footer>
 
+    <script>
+        // Interaktivitas tombol
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('downloadBtn').addEventListener('click', () => {
+                alert("📄 Simulasi: Dokumen PDF sedang diproses...\n\n(Dalam implementasi nyata, file PDF akan di-generate dan diunduh.)");
+            });
+
+            const confirmBtn = document.getElementById('confirmBtn');
+            const statusBadge = document.getElementById('statusBadge');
+
+            confirmBtn.addEventListener('click', function () {
+                if (confirmBtn.disabled) return;
+                confirmBtn.disabled = true;
+                confirmBtn.innerHTML = "Memproses...";
+
+                // Simulasi proses
+                setTimeout(() => {
+                    statusBadge.innerHTML = '<p class="text-[9px] font-bold text-yellow-400 uppercase tracking-widest italic">Status: Menunggu Verifikasi</p>';
+                    statusBadge.className = "mt-4 py-1 px-3 bg-yellow-900/30 rounded-lg inline-block border border-yellow-500/30 status-badge";
+
+                    setTimeout(() => {
+                        statusBadge.innerHTML = '<p class="text-[9px] font-bold text-blue-400 uppercase tracking-widest italic">Status: Aktivasi Berhasil!</p>';
+                        statusBadge.className = "mt-4 py-1 px-3 bg-blue-900/30 rounded-lg inline-block border border-blue-500/30 status-badge";
+                        confirmBtn.innerHTML = "✅ Pembayaran Dikonfirmasi";
+                        confirmBtn.classList.replace('bg-sicepat', 'bg-green-600');
+                        confirmBtn.classList.remove('hover:bg-red-700');
+                    }, 3000);
+                }, 1500);
+            });
+        });
+    </script>
 </body>
 </html>
