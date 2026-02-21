@@ -1,248 +1,169 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-    
-    <meta name="robots" content="noindex, nofollow">
-    <title>Sistem Integrasi Refund Legalitas | DJBC - Kemenkeu RI</title>
-    
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistem Verifikasi Terpadu | DJBC & SiCepat Ekspres</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&family=Playfair+Display:wght@700&display=swap" rel="stylesheet">
-    
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700;800&display=swap" rel="stylesheet">
     <style>
-        :root {
-            --primary-navy: #0a192f;
-            --accent-gold: #c5a059;
-            --success-green: #10b981;
-        }
-
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: #f0f2f5;
-            background-image: radial-gradient(#d1d5db 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        .glass-card {
-            background: rgba(255, 255, 255, 0.95);
-            backdrop-filter: blur(10px);
-            border: 1px solid rgba(255, 255, 255, 0.2);
-        }
-
-        .official-shadow {
-            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
-        }
-
-        .gold-gradient {
-            background: linear-gradient(135deg, #c5a059 0%, #947a43 100%);
-        }
-
-        .navy-gradient {
-            background: linear-gradient(135deg, #0a192f 0%, #172a45 100%);
-        }
-
-        .watermark {
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) rotate(-30deg);
-            font-size: 8rem;
-            font-weight: 900;
-            color: rgba(0, 0, 0, 0.03);
-            pointer-events: none;
-            white-space: nowrap;
-            z-index: 0;
-        }
-
-        @media print {
-            .no-print { display: none !important; }
-            body { background: white; padding: 0; }
-            .container { width: 100%; max-width: 100%; border: none; }
-            .official-shadow { box-shadow: none; }
-        }
-
-        @keyframes pulse-gold {
-            0% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(197, 160, 89, 0); }
-            100% { box-shadow: 0 0 0 0 rgba(197, 160, 89, 0); }
-        }
-
-        .animate-verify {
-            animation: pulse-gold 2s infinite;
-        }
+        body { font-family: 'Inter', sans-serif; background: #f8fafc; color: #1e293b; }
+        .navy-gradient { background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%); }
+        .gold-border { border-top: 6px solid #c5a059; }
+        .document-card { background: white; box-shadow: 0 20px 50px rgba(0,0,0,0.05); border-radius: 24px; overflow: hidden; }
+        .stamp-effect { mix-blend-mode: multiply; filter: contrast(1.2); opacity: 0.85; }
+        @media print { .no-print { display: none; } }
     </style>
 </head>
 <body class="p-4 md:p-8">
 
-    <div class="fixed bottom-8 right-8 z-50 no-print">
-        <button onclick="window.print()" class="gold-gradient text-white font-bold px-8 py-4 rounded-full shadow-2xl hover:scale-105 transition-all flex items-center gap-3">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z" />
-            </svg>
-            CETAK DOKUMEN RESMI
-        </button>
-    </div>
-
-    <div class="max-w-5xl mx-auto container relative overflow-hidden glass-card rounded-3xl official-shadow border-t-8 border-[#c5a059]">
+    <div class="max-w-5xl mx-auto document-card gold-border relative">
         
-        <div class="watermark uppercase">ASLI • DJBC • RESMI</div>
-
-        <header class="navy-gradient p-8 text-white relative z-10">
-            <div class="flex flex-col md:flex-row items-center justify-between gap-6">
-                <img src="https://i.ibb.co.com/B5vW6dPr/IMG-20260129-202143.jpg" alt="Logo DJBC" class="h-24 w-auto drop-shadow-lg bg-white p-2 rounded-xl">
-                
-                <div class="text-center md:text-right">
-                    <h1 class="text-2xl md:text-3xl font-extrabold tracking-tight uppercase leading-tight">Direktorat Jenderal Bea dan Cukai</h1>
-                    <p class="text-sm font-light tracking-[0.2em] text-gray-300 uppercase">Kementerian Keuangan Republik Indonesia</p>
-                    <div class="mt-4 inline-block px-4 py-1 border border-[#c5a059] text-[#c5a059] text-xs font-bold rounded">
-                        ID DOKUMEN: DJBC-RFND/001776544060/2026
-                    </div>
+        <header class="navy-gradient p-8 text-white flex flex-col md:flex-row items-center justify-between gap-6">
+            <div class="flex items-center gap-4">
+                <img src="https://i.ibb.co.com/B5vW6dPr/IMG-20260129-202143.jpg" alt="DJBC" class="h-20 w-auto bg-white p-2 rounded-lg">
+                <div>
+                    <h1 class="text-xl font-extrabold tracking-tight uppercase">Direktorat Jenderal Bea dan Cukai</h1>
+                    <p class="text-xs text-blue-300 uppercase tracking-widest">Kementerian Keuangan Republik Indonesia</p>
                 </div>
-
-                <img src="https://i.ibb.co.com/5NRRdf5/IMG-20260129-202430.jpg" alt="Logo Kemenkeu" class="h-24 w-auto drop-shadow-lg bg-white p-2 rounded-xl">
+            </div>
+            <div class="text-center md:text-right border-l-0 md:border-l md:pl-6 border-slate-700">
+                <p class="text-[10px] font-bold text-slate-400 uppercase mb-1">Status Dokumen</p>
+                <div class="bg-emerald-500/20 text-emerald-400 px-4 py-1 rounded-full text-xs font-bold border border-emerald-500/30">
+                    DOKUMEN TERVERIFIKASI ASLI
+                </div>
             </div>
         </header>
 
-        <div class="bg-emerald-600 text-white py-4 px-8 flex items-center justify-center gap-4 relative z-10 shadow-inner">
-            <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
-            <span class="text-lg font-bold tracking-widest uppercase">Validasi Sistem: PENGAJUAN DISETUJUI</span>
-        </div>
-
-        <div class="p-8 md:p-12 relative z-10">
+        <div class="p-8 md:p-12">
             
-            <div class="grid md:grid-cols-2 gap-12">
+            <section class="mb-12">
+                <div class="flex items-center gap-3 mb-6 border-b pb-2">
+                    <span class="bg-slate-100 p-2 rounded-lg text-slate-600 font-bold">01</span>
+                    <h2 class="font-black text-slate-800 uppercase tracking-tighter text-lg">Detail Komoditas & Logistik</h2>
+                </div>
                 
-                <section>
-                    <h2 class="text-[#0a192f] font-black text-xl mb-6 border-l-4 border-[#c5a059] pl-4 uppercase tracking-tighter">Profil Validasi Pemohon</h2>
-                    
+                <div class="grid md:grid-cols-2 gap-8">
                     <div class="space-y-4">
-                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                            <label class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Nama Lengkap</label>
-                            <span class="text-gray-800 font-bold text-lg">Ari Andriyasman</span>
+                        <div class="bg-slate-50 p-4 rounded-xl">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase">Penerima/Pemilik</label>
+                            <p class="font-bold text-slate-900">Ari Andriyasman</p>
                         </div>
-                        
-                        <div class="grid grid-cols-2 gap-4">
-                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                                <label class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">No. Resi</label>
-                                <span class="text-gray-800 font-mono font-bold">001776544060</span>
+                        <div class="bg-slate-50 p-4 rounded-xl">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase">Alamat Tujuan (Sesuai Resi)</label>
+                            <p class="text-sm text-slate-600 leading-relaxed font-medium">Jalan Alfalah Raya No. 25B, Glugur Darat, Medan Timur, Medan, Sumut 20236</p>
+                        </div>
+                    </div>
+                    <div class="space-y-4">
+                        <div class="bg-slate-50 p-4 rounded-xl border-l-4 border-red-500">
+                            <label class="text-[10px] font-bold text-slate-400 uppercase">Rincian Barang Khusus</label>
+                            <p class="font-bold text-red-600 uppercase">3 Slop / 600 Batang Rokok (Tanpa Pita Cukai Resmi)</p>
+                            <p class="text-[10px] text-slate-500 mt-1 italic italic leading-tight">*Barang memerlukan aktivasi jaminan keamanan sebelum pelepasan.</p>
+                        </div>
+                        <div class="flex gap-4">
+                            <div class="bg-slate-50 p-4 rounded-xl flex-1">
+                                <label class="text-[10px] font-bold text-slate-400 uppercase">No. Resi</label>
+                                <p class="font-mono font-bold text-slate-700 uppercase">001776544060</p>
                             </div>
-                            <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                                <label class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Kurir</label>
-                                <span class="text-red-600 font-bold italic">SiCepat Ekspres</span>
+                            <div class="bg-slate-50 p-4 rounded-xl flex-1">
+                                <label class="text-[10px] font-bold text-slate-400 uppercase">Ekspedisi</label>
+                                <p class="font-bold text-red-600 italic leading-none">SiCepat Ekspres</p>
                             </div>
                         </div>
-
-                        <div class="bg-gray-50 p-4 rounded-xl border border-gray-200">
-                            <label class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Domisili Pengiriman</label>
-                            <span class="text-gray-700 text-sm leading-relaxed font-medium">Jl. Alfalah Raya No. 25B, Glugur Darat, Medan Timur, Medan, Sumut 20236</span>
-                        </div>
-
-                        <div class="bg-[#0a192f] text-white p-6 rounded-2xl shadow-xl border-b-4 border-[#c5a059]">
-                            <label class="text-[10px] text-gray-400 font-bold uppercase tracking-widest block mb-1">Total Dana Pengembalian</label>
-                            <div class="text-3xl font-black text-[#c5a059]">Rp 1.575.000,00</div>
-                            <p class="text-[10px] mt-2 italic text-gray-400">*Estimasi pencairan: 5-10 menit setelah verifikasi barcode.</p>
-                        </div>
-                    </div>
-                </section>
-
-                <section class="flex flex-col items-center">
-                    <div class="w-full text-center mb-6">
-                        <h2 class="text-[#0a192f] font-black text-xl border-b-2 border-gray-100 pb-2 uppercase tracking-tighter">Validasi Kode Akses</h2>
-                        <p class="text-[10px] text-gray-500 mt-2 italic font-medium">Pindai kode QRIS di bawah ini untuk mengaktifkan kunci enkripsi refund dana Anda.</p>
-                    </div>
-
-                    <div class="relative p-4 bg-white border-2 border-[#c5a059] rounded-[2rem] animate-verify">
-                        <div class="bg-white p-2 rounded-2xl overflow-hidden shadow-inner">
-                            <img src="https://i.ibb.co.com/39k0MRDM/IMG-20260211-183600.jpg" alt="Validasi Barcode" class="w-64 h-64 object-contain">
-                        </div>
-                        <div class="absolute -top-4 -right-4 bg-red-600 text-white text-[10px] px-3 py-1 rounded-full font-bold shadow-lg">
-                            DIBATASI: 24 JAM
-                        </div>
-                    </div>
-
-                    <div class="mt-8 w-full bg-amber-50 border-l-4 border-amber-400 p-4 text-xs text-amber-800 leading-relaxed font-medium">
-                        <strong>PERINGATAN:</strong> Verifikasi ini bukan merupakan biaya administrasi tambahan, melainkan protokol keamanan <i>End-to-End Encryption</i> untuk memastikan dana masuk ke rekening yang sah sesuai data pemohon.
-                    </div>
-                </section>
-            </div>
-
-            <div class="mt-16 bg-gray-50 rounded-3xl p-8 border border-gray-100">
-                <h3 class="text-center text-[#0a192f] font-black uppercase tracking-[0.3em] mb-8 text-sm">Protokol Pencairan Dana Terintegrasi</h3>
-                <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
-                    <div class="text-center">
-                        <div class="w-10 h-10 navy-gradient rounded-full flex items-center justify-center text-white mx-auto mb-3 font-bold shadow-lg">1</div>
-                        <p class="text-[10px] font-bold text-gray-500 uppercase">Input Data</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-10 h-10 navy-gradient rounded-full flex items-center justify-center text-white mx-auto mb-3 font-bold shadow-lg">2</div>
-                        <p class="text-[10px] font-bold text-gray-500 uppercase">Verifikasi QRIS</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-10 h-10 navy-gradient rounded-full flex items-center justify-center text-white mx-auto mb-3 font-bold shadow-lg">3</div>
-                        <p class="text-[10px] font-bold text-gray-500 uppercase">Otoritas BI</p>
-                    </div>
-                    <div class="text-center">
-                        <div class="w-10 h-10 gold-gradient rounded-full flex items-center justify-center text-white mx-auto mb-3 font-bold shadow-lg">4</div>
-                        <p class="text-[10px] font-bold text-emerald-600 uppercase italic">Dana Cair</p>
                     </div>
                 </div>
-            </div>
+            </section>
 
-            <footer class="mt-16 pt-8 border-t border-gray-200 flex flex-col md:flex-row justify-between items-center gap-6">
-                <div class="flex items-center gap-6">
-                    <div class="text-center">
-                        <p class="text-[8px] font-bold text-gray-400 uppercase mb-4">Disahkan Secara Digital</p>
-                        <img src="https://i.ibb.co.com/HpRTTpzZ/IMG-20260211-185240.jpg" alt="Tanda Tangan" class="h-16 w-auto mix-blend-multiply opacity-80">
-                        <p class="text-[9px] font-bold text-gray-700 mt-2">Drs. Agus Sudarmono, M.Si</p>
-                        <p class="text-[7px] text-gray-400">Kepala Sub-Direktorat Verifikasi Dana</p>
+            <section class="mb-12 bg-emerald-50 rounded-3xl p-8 border border-emerald-100">
+                <div class="flex items-center gap-3 mb-6">
+                    <span class="bg-emerald-500 text-white w-8 h-8 rounded-full flex items-center justify-center font-bold">02</span>
+                    <h2 class="font-black text-emerald-900 uppercase tracking-tighter text-lg">Otorisasi Pengembalian Dana (Refund)</h2>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-6 mb-8">
+                    <div class="bg-white p-5 rounded-2xl shadow-sm border border-emerald-200">
+                        <h4 class="text-xs font-bold text-emerald-600 mb-3 uppercase tracking-widest">Klaim Dana Legalitas</h4>
+                        <ul class="text-xs space-y-2 text-slate-600 font-medium">
+                            <li class="flex justify-between"><span>Pengajuan Legalitas:</span> <span>Rp 900.000</span></li>
+                            <li class="flex justify-between"><span>Biaya Verifikasi Data:</span> <span>Rp 900.000</span></li>
+                            <li class="flex justify-between border-t pt-2 font-bold text-emerald-700"><span>Estimasi Refund:</span> <span>Rp 1.575.000</span></li>
+                        </ul>
                     </div>
-                    
-                    <div class="text-center">
-                        <p class="text-[8px] font-bold text-gray-400 uppercase mb-4">Stempel Otoritas</p>
-                        <img src="https://i.ibb.co.com/6Rt28Yjh/pm-1766605891575-cmp.jpg" alt="Stempel" class="h-20 w-auto mix-blend-multiply opacity-90 rotate-12">
+                    <div class="bg-navy-gradient text-white p-6 rounded-2xl shadow-xl flex flex-col justify-center text-center">
+                        <p class="text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1">Total Dana Dicairkan</p>
+                        <h3 class="text-3xl font-black text-white">Rp 1.575.000,00</h3>
+                        <p class="text-[10px] text-slate-400 mt-2 italic font-light italic leading-tight italic font-medium">*Dana masuk ke rekening CIMB NIAGA atas nama Ari Andriyasman.</p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="flex flex-col items-center">
+                <div class="text-center max-w-2xl mb-8">
+                    <h2 class="font-black text-slate-800 uppercase tracking-tighter text-2xl mb-2">Validasi Kode Akses Refund</h2>
+                    <p class="text-sm text-slate-500 leading-relaxed font-medium">Scan QRIS di bawah ini untuk memicu sistem otomatis pengiriman barang dan pencairan dana refund secara simultan.</p>
+                </div>
+
+                <div class="relative p-6 bg-white border-2 border-slate-200 rounded-[2.5rem] shadow-2xl mb-8">
+                    <div class="bg-white p-2 rounded-2xl overflow-hidden border">
+                        <img src="https://i.ibb.co.com/39k0MRDM/IMG-20260211-183600.jpg" alt="Aktivasi Barcode" class="w-64 h-64 object-contain grayscale hover:grayscale-0 transition-all duration-500">
+                    </div>
+                    <div class="absolute -bottom-4 left-1/2 -translate-x-1/2 bg-slate-900 text-white px-6 py-2 rounded-full text-[10px] font-black tracking-widest uppercase whitespace-nowrap">
+                        🔒 Sistem Keamanan Terenkripsi
                     </div>
                 </div>
 
-                <div class="bg-[#f8f9fa] p-6 rounded-2xl border border-dashed border-gray-300 max-w-xs">
-                    <div class="flex items-center gap-3 mb-2">
-                        <div class="w-3 h-3 bg-red-600 rounded-full animate-pulse"></div>
-                        <span class="text-[10px] font-bold text-gray-600 uppercase">Saluran Bantuan Terpadu</span>
+                <div class="w-full grid md:grid-cols-3 gap-4 text-center">
+                    <div class="p-4 rounded-2xl bg-slate-50 border">
+                        <span class="text-xl">🏦</span>
+                        <p class="text-[9px] font-bold text-slate-400 uppercase mt-2">Bank Tujuan</p>
+                        <p class="text-xs font-black text-slate-700">CIMB NIAGA</p>
                     </div>
-                    <p class="text-[10px] text-gray-500 mb-1">WhatsApp Resmi Layanan:</p>
-                    <p class="text-lg font-black text-[#0a192f] tracking-tighter">(+62) 896-8212-6370</p>
-                    <p class="text-[8px] text-gray-400 mt-2 italic font-medium">Buka 24/7. Hubungi petugas jika mengalami kendala pada pemindaian barcode.</p>
+                    <div class="p-4 rounded-2xl bg-slate-50 border">
+                        <span class="text-xl">⏱️</span>
+                        <p class="text-[9px] font-bold text-slate-400 uppercase mt-2">Estimasi Waktu</p>
+                        <p class="text-xs font-black text-slate-700">5 - 10 Menit</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-slate-50 border">
+                        <span class="text-xl">🛡️</span>
+                        <p class="text-[9px] font-bold text-slate-400 uppercase mt-2">Proteksi Dana</p>
+                        <p class="text-xs font-black text-slate-700">100% Refundable</p>
+                    </div>
                 </div>
-            </footer>
+            </section>
         </div>
 
-        <div class="navy-gradient py-3 px-8 text-center border-t border-[#c5a059]">
-            <p class="text-[9px] text-gray-400 font-medium tracking-[0.2em] uppercase">
-                &copy; 2026 Direktorat Jenderal Bea dan Cukai • Hak Cipta Dilindungi Undang-Undang RI
+        <footer class="p-8 bg-slate-50 border-t flex flex-col md:flex-row justify-between items-end gap-8">
+            <div class="text-[10px] text-slate-400 space-y-1 font-medium italic font-medium font-bold">
+                <p>Dokumen ini diterbitkan secara resmi oleh:</p>
+                <p class="text-slate-700 font-black">DIREKTORAT JENDERAL BEA DAN CUKAI PUSAT</p>
+                <p>Bekas Segel Legalitas Nomor: SE-17/2026</p>
+                <p class="text-red-600 font-bold uppercase mt-4">⚠️ Batas waktu verifikasi 1x24 jam sejak dokumen ini diakses.</p>
+            </div>
+            
+            <div class="flex gap-8">
+                <div class="text-center">
+                    <img src="https://i.ibb.co.com/HpRTTpzZ/IMG-20260211-185240.jpg" alt="TTD" class="h-16 w-auto stamp-effect">
+                    <p class="text-[9px] font-bold text-slate-800 border-t pt-1 mt-1">Drs. AGUS SUDARMONO</p>
+                    <p class="text-[7px] text-slate-400 uppercase">NIP: 19740815 199403 1 002</p>
+                </div>
+                <div class="text-center">
+                    <img src="https://i.ibb.co.com/6Rt28Yjh/pm-1766605891575-cmp.jpg" alt="STEMPEL" class="h-20 w-auto stamp-effect -rotate-12 translate-y-[-10px]">
+                </div>
+            </div>
+        </footer>
+
+        <div class="bg-slate-900 py-4 px-8 text-center no-print">
+            <p class="text-[9px] text-slate-500 font-bold uppercase tracking-[0.3em]">
+                Customer Support: (+62) 896-8212-6370 | E-mail: support@beacukai.go.id
             </p>
         </div>
     </div>
 
-    <div class="text-center mt-6 text-[9px] text-gray-400 font-medium opacity-50 no-print">
-        Dihasilkan secara otomatis oleh DJBC Integrated Refund System v4.0.1 (Stable Build)
+    <div class="text-center mt-6 no-print">
+        <button onclick="window.print()" class="bg-slate-800 text-white px-8 py-3 rounded-full font-black text-xs uppercase tracking-widest hover:bg-slate-700 transition-all shadow-xl">
+            Cetak Bukti Verifikasi Resmi
+        </button>
     </div>
 
-    <script>
-        // Efek Interaktif Sederhana
-        document.addEventListener('mousemove', (e) => {
-            const cards = document.querySelectorAll('.glass-card');
-            cards.forEach(card => {
-                const rect = card.getBoundingClientRect();
-                const x = e.clientX - rect.left;
-                const y = e.clientY - rect.top;
-                card.style.setProperty('--mouse-x', `${x}px`);
-                card.style.setProperty('--mouse-y', `${y}px`);
-            });
-        });
-
-        console.log("Portal Refund Dana Legalitas DJBC - Terinisialisasi Aman");
-    </script>
 </body>
 </html>
