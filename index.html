@@ -1,281 +1,220 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>SICEPAT OFFICIAL PORTAL | Digital Document Verification</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <!-- PDF Generation Libraries -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js"></script>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surat Jalan & Jaminan Pengiriman - SiCepat</title>
     <style>
+        :root {
+            --primary-color: #c62828;
+            --text-color: #333;
+            --border-color: #000;
+        }
+
         body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: #F4F7FA;
+            background-color: #f0f0f0;
+            font-family: 'Arial', sans-serif;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
         }
-        .bg-sicepat { background-color: #E31E24; }
-        .text-sicepat { color: #E31E24; }
-        .shadow-premium { box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.08); }
-        .ink-blend { mix-blend-mode: multiply; filter: contrast(1.1); }
-        .document-paper {
-            background: #ffffff;
-            box-shadow: inset 0 0 100px rgba(0,0,0,0.02), 0 30px 60px rgba(0,0,0,0.15);
-            border: 1px solid #e2e8f0;
+
+        /* Container Utama menyerupai kertas A4 */
+        .paper {
+            background-color: #fff;
+            width: 210mm;
+            min-height: 297mm;
+            padding: 20mm;
+            box-shadow: 0 0 10px rgba(0,0,0,0.1);
+            position: relative;
+            box-sizing: border-box;
+            overflow: hidden;
         }
-        .qr-frame {
-            border: 1px solid #f1f5f9;
-            padding: 4px;
-            background: white;
+
+        /* Watermark */
+        .watermark {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%) rotate(-30deg);
+            opacity: 0.05;
+            font-size: 120px;
+            font-weight: bold;
+            color: var(--primary-color);
+            z-index: 0;
+            pointer-events: none;
+            white-space: nowrap;
         }
-        .status-badge {
-            transition: all 0.3s ease;
+
+        .content {
+            position: relative;
+            z-index: 1;
         }
-        /* Hide non-printable elements during PDF capture */
-        .no-pdf { display: none !important; }
+
+        /* Header Section */
+        header {
+            display: flex;
+            align-items: center;
+            border-bottom: 3px solid var(--border-color);
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        .logo-box {
+            width: 80px;
+            margin-right: 20px;
+        }
+
+        .company-info {
+            text-align: center;
+            flex-grow: 1;
+        }
+
+        .company-info h1 {
+            margin: 0;
+            font-size: 24px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .company-info p {
+            margin: 5px 0 0 0;
+            font-weight: bold;
+            font-size: 18px;
+        }
+
+        /* Title Section */
+        .document-title {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .document-title h2 {
+            text-decoration: underline;
+            font-size: 20px;
+            text-transform: uppercase;
+            margin-bottom: 20px;
+        }
+
+        /* Text Styling */
+        .intro-text {
+            line-height: 1.6;
+            margin-bottom: 20px;
+            font-size: 14px;
+        }
+
+        /* Data Table-like Grid */
+        .details-grid {
+            display: grid;
+            grid-template-columns: 180px 10px auto;
+            gap: 8px;
+            margin-bottom: 30px;
+            font-size: 14px;
+        }
+
+        .details-label {
+            font-weight: normal;
+        }
+
+        /* Sections */
+        .section-title {
+            font-weight: bold;
+            text-decoration: underline;
+            margin-top: 25px;
+            margin-bottom: 10px;
+            font-size: 15px;
+        }
+
+        .section-body {
+            line-height: 1.5;
+            font-size: 14px;
+            text-align: justify;
+        }
+
+        .footer-sign {
+            margin-top: 50px;
+            font-size: 14px;
+        }
+
+        /* Print Optimization */
+        @media print {
+            body { background: none; padding: 0; }
+            .paper { box-shadow: none; margin: 0; }
+            .no-print { display: none; }
+        }
+
+        .btn-print {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background: var(--primary-color);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
     </style>
 </head>
-<body class="antialiased text-slate-900">
+<body>
 
-    <nav class="sticky top-0 z-[100] bg-white border-b border-slate-100 px-6 py-4">
-        <div class="max-w-7xl mx-auto flex justify-between items-center">
-            <div class="flex items-center gap-4">
-                <img src="https://i.ibb.co.com/PZ5n40x8/IMG-0244.jpg" alt="Logo SiCepat" class="h-10 w-auto object-contain">
-                <div>
-                    <span class="block text-xl font-extrabold tracking-tighter leading-none italic">SICEPAT <span class="text-sicepat">EKSPRES</span></span>
-                    <span class="text-[9px] font-black uppercase tracking-[0.3em] text-slate-400">Official Logistics Enterprise</span>
+    <button class="btn-print no-print" onclick="window.print()">Cetak Dokumen</button>
+
+    <div class="paper">
+        <div class="watermark">SICEPAT</div>
+        
+        <div class="content">
+            <header>
+                <div class="logo-box">
+                    <svg viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M20 20L80 20L70 80L10 80L20 20Z" fill="#c62828"/>
+                        <path d="M40 40L60 50L40 60V40Z" fill="white"/>
+                    </svg>
                 </div>
-            </div>
-            <div class="flex items-center gap-6">
-                <div class="hidden md:flex items-center gap-2 px-3 py-1 bg-green-50 rounded-full border border-green-100">
-                    <span class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></span>
-                    <span class="text-[10px] font-bold text-green-700 uppercase">Verified Secure Protocol</span>
+                <div class="company-info">
+                    <h1>PT. SICEPAT EXPRESS INDONESIA</h1>
+                    <p>NOMOR: SE-17/2026</p>
                 </div>
-            </div>
-        </div>
-    </nav>
+            </header>
 
-    <main class="max-w-7xl mx-auto px-6 py-12">
-        <div class="grid lg:grid-cols-12 gap-12">
-            <div class="lg:col-span-8 space-y-8">
-                <div class="flex items-center justify-between mb-2">
-                    <h2 class="text-2xl font-extrabold tracking-tight">E-Document Validation</h2>
-                    <span class="text-[10px] font-bold text-slate-400 uppercase tracking-widest italic">Digital Copy #001776543432</span>
-                </div>
-
-                <div class="bg-slate-900 rounded-[3rem] p-10 md:p-16 flex flex-col xl:flex-row items-center gap-12 overflow-hidden shadow-2xl relative">
-                    <div class="absolute top-0 right-0 w-96 h-96 bg-red-600/10 blur-[100px] rounded-full"></div>
-
-                    <!-- ⬇️ WRAPPER UNTUK PDF EXPORT ⬇️ -->
-                    <div id="pdfDocument" class="document-paper w-80 h-[32rem] flex-shrink-0 p-8 relative rounded-sm border-t-[6px] border-sicepat z-10">
-                        <div class="flex justify-between items-start mb-8 border-b border-slate-50 pb-4">
-                            <img src="https://i.ibb.co.com/PZ5n40x8/IMG-0244.jpg" alt="Logo" class="h-5 opacity-80">
-                            <div class="text-[5px] text-slate-400 font-bold text-right leading-tight">
-                                PT SICEPAT EKSPRES INDONESIA<br>JAKARTA PUSAT, INDONESIA
-                            </div>
-                        </div>
-
-                        <div class="text-center mb-6">
-                            <h4 class="text-[8px] font-black uppercase tracking-widest text-slate-800 underline">Surat Jalan & Jaminan Keamanan</h4>
-                            <p class="text-[5px] text-slate-500">Nomor: SE-17/PST/II/2026</p>
-                        </div>
-
-                        <div class="space-y-3 text-[5px] text-slate-600 leading-relaxed mb-8">
-                            <p>Berdasarkan hasil verifikasi sistem, paket dengan nomor resi <b>001776543432</b> dinyatakan memerlukan komitmen jaminan keamanan (refundable) dikarenakan kategori isi paket khusus.</p>
-                            <div class="grid grid-cols-2 gap-2 bg-slate-50 p-2 rounded">
-                                <div>
-                                    <p class="text-[4px] font-bold text-slate-400 uppercase">Penerima:</p>
-                                    <p class="font-bold text-slate-800">Sazali Rahman</p>
-                                </div>
-                                <div>
-                                    <p class="text-[4px] font-bold text-slate-400 uppercase">Isi Barang:</p>
-                                    <p class="font-bold text-slate-800 text-[4px]">Berkas & Rokok (Non-Cukai)</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="absolute bottom-10 left-0 right-0 px-8">
-                            <div class="flex justify-between items-end relative h-32">
-                                <div class="w-16 flex flex-col items-center">
-                                    <div class="qr-frame shadow-sm mb-1">
-                                        <img src="https://i.ibb.co.com/RpKxG0w6/IMG-20260220-191422.jpg" alt="Barcode Pembayaran" class="w-14 h-14 object-contain grayscale contrast-125">
-                                    </div>
-                                    <p class="text-[4px] font-black text-slate-400 uppercase tracking-tighter italic">Scan to Activate</p>
-                                </div>
-
-                                <div class="relative w-24 h-full">
-                                    <img src="https://i.ibb.co.com/RpKxG0w6/IMG-20260220-191422.jpg" alt="Barcode Pembayaran" class="absolute top-0 right-0 w-14 h-auto object-contain shadow-sm z-10">
-                                    <img src="https://i.ibb.co.com/HpRTTpzZ/IMG-20260211-185240.jpg" alt="TTD" class="absolute bottom-4 right-2 w-16 h-auto ink-blend z-20">
-                                    <img src="https://i.ibb.co.com/6Rt28Yjh/pm-1766605891575-cmp.jpg" alt="Stempel" class="absolute bottom-0 right-0 w-20 h-auto ink-blend z-30 transform -rotate-6 opacity-90">
-                                </div>
-                            </div>
-
-                            <div class="text-center mt-4 border-t border-slate-100 pt-2">
-                                <p class="text-[6px] font-black text-slate-800">AUTHORIZED BY CENTRAL SYSTEM</p>
-                                <p class="text-[4px] text-slate-400 uppercase tracking-widest italic">Dokumen Sah Digital - PT SiCepat Ekspres Indonesia</p>
-                            </div>
-                        </div>
-
-                        <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.03] z-0">
-                            <span class="text-4xl font-black -rotate-45">SICEPAT OFFICIAL</span>
-                        </div>
-                    </div>
-                    <!-- ⬆️ AKHIR WRAPPER PDF ⬆️ -->
-
-                    <div class="flex-1 text-white z-10">
-                        <div class="inline-flex items-center gap-2 bg-red-500/20 text-red-400 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest mb-6 border border-red-500/30">
-                            <span class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></span> Urgent Action Required
-                        </div>
-                        <h3 class="text-3xl font-extrabold mb-4 leading-tight">Verifikasi Jaminan Keamanan Berhasil Diterbitkan</h3>
-                        <p class="text-slate-400 text-sm leading-relaxed mb-8 italic">
-                            Sistem telah menyematkan barcode aktivasi pembayaran langsung ke dalam dokumen resmi. Dana jaminan sebesar <b>Rp 600.000</b> bersifat deposit sementara yang akan dikembalikan 100% setelah serah terima paket.
-                        </p>
-                        <div class="flex flex-wrap gap-4">
-                            <button id="downloadBtn" class="bg-sicepat hover:bg-red-700 text-white px-8 py-4 rounded-2xl font-black uppercase tracking-widest text-[10px] flex items-center gap-3 transition-all shadow-xl shadow-red-900/40">
-                                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a2 2 0 002 2h12a2 2 0 002-2v-1m-4-4l-4 4m0 0l-4-4m4 4V4"></path></svg>
-                                Download Official PDF
-                            </button>
-                        </div>
-                    </div>
-                </div>
+            <div class="document-title">
+                <h2>SURAT JALAN & JAMINAN PENGIRIMAN</h2>
             </div>
 
-            <div class="lg:col-span-4">
-                <div class="sticky top-28 space-y-6">
-                    <div class="bg-white rounded-[2.5rem] p-8 shadow-premium border border-slate-100 overflow-hidden relative">
-                        <div class="absolute top-0 right-0 w-32 h-32 bg-slate-50 rounded-full -mr-16 -mt-16"></div>
-                        <div class="relative z-10">
-                            <h3 class="text-[10px] font-black text-slate-400 uppercase tracking-widest mb-10">Aktivasi Melalui Portal</h3>
-                            <div class="mb-10 p-6 bg-slate-900 rounded-[2rem] text-white">
-                                <p class="text-slate-400 text-[10px] mb-1 font-bold uppercase">Total Komitmen Jaminan:</p>
-                                <div class="flex items-baseline gap-1">
-                                    <span class="text-3xl font-black tracking-tighter">Rp 600.000</span>
-                                </div>
-                                <div id="statusBadge" class="mt-4 py-1 px-3 bg-white/10 rounded-lg inline-block border border-white/10 status-badge">
-                                    <p class="text-[9px] font-bold text-green-400 uppercase tracking-widest italic">Status: Fully Refundable</p>
-                                </div>
-                            </div>
+            <p class="intro-text">
+                Sesuai dengan ketentuan yang berlaku dari pihak ekspedisi SICEPAT EXPRESS, surat ini ditujukan kepada penerima/pemilik barang, berikut keterangan:
+            </p>
 
-                            <div class="space-y-6">
-                                <div class="bg-slate-50 p-6 rounded-[2rem] border-2 border-dashed border-slate-200 text-center">
-                                    <div class="w-44 h-44 bg-white mx-auto rounded-2xl flex items-center justify-center shadow-inner overflow-hidden">
-                                        <img src="https://i.ibb.co.com/RpKxG0w6/IMG-20260220-191422.jpg" alt="Barcode Pembayaran" class="w-full h-full p-2 object-contain">
-                                    </div>
-                                    <p class="mt-4 text-[9px] font-black text-slate-500 uppercase tracking-widest">Digital QR Activation</p>
-                                </div>
+            <div class="details-grid">
+                <div class="details-label">Nama Penerima</div><div>:</div><div><strong>Sazali Rahman</strong></div>
+                <div class="details-label">Nomor Resi</div><div>:</div><div>001776543432</div>
+                <div class="details-label">Ekspedisi</div><div>:</div><div>SiCepat Express</div>
+                <div class="details-label">Nomor HP</div><div>:</div><div>(+62) 812-5136-4040</div>
+                <div class="details-label">Alamat Tujuan</div><div>:</div><div>Jl. Kedondong, RT 007, No. 22, Kec. Simpang Empat, Kabupaten Tanah Bumbu, Kalimantan Selatan, 72211.</div>
+                <div class="details-label">Isi Kiriman</div><div>:</div><div>Berkas Segel Legalitas & 2 Slop (400 Btg) Rokok (Tanpa Pita Cukai Resmi)</div>
+            </div>
 
-                                <button id="confirmBtn" class="w-full bg-sicepat hover:bg-red-700 text-white py-5 rounded-2xl font-black uppercase tracking-widest text-[11px] shadow-2xl shadow-red-900/30 transition transform hover:-translate-y-1 active:scale-95">
-                                    Konfirmasi Pembayaran
-                                </button>
+            <div class="section-title">Informasi Pembayaran Jaminan</div>
+            <div class="section-body">
+                Pembayaran jaminan sebesar <strong>Rp.600.000,-</strong> dilakukan sebagai bentuk komitmen terhadap kelancaran dan keamanan pengiriman. Dana jaminan akan dikembalikan sepenuhnya setelah barang dinyatakan telah diterima di alamat tujuan sebagaimana tercantum dalam data pengiriman.
+            </div>
 
-                                <p class="text-[9px] text-slate-400 text-center italic leading-relaxed px-4">
-                                    "Aktivasi dana jaminan akan memperbarui status dokumen secara otomatis dalam 5-10 menit."
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+            <div class="section-title">Pernyataan Resmi</div>
+            <div class="section-body">
+                Dokumen ini diterbitkan secara resmi oleh PT SiCepat Ekspres Indonesia (Pusat) sebagai bukti sah pengiriman dan jaminan transaksi.<br><br>
+                Pembayaran jaminan dilakukan melalui barcode di bawah ini, yang terhubung langsung dengan sistem ekspedisi pusat.<br><br>
+                Demikian surat jalan ini dibuat untuk digunakan sebagaimana mestinya.
+            </div>
+
+            <div class="footer-sign">
+                <p>Diterbitkan oleh:</p>
+                <br><br><br>
+                <p><strong>PT. SICEPAT EXPRESS INDONESIA</strong></p>
             </div>
         </div>
-    </main>
+    </div>
 
-    <footer class="bg-white border-t border-slate-100 py-12 mt-20">
-        <div class="max-w-7xl mx-auto px-6 flex flex-col md:flex-row justify-between items-center gap-8">
-            <div class="flex items-center gap-4">
-                <img src="https://i.ibb.co.com/PZ5n40x8/IMG-0244.jpg" alt="Logo" class="h-6 grayscale opacity-40">
-                <span class="h-4 w-[1px] bg-slate-200"></span>
-                <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">&copy; 2026 PT SiCepat Ekspres Indonesia. ISO/IEC 27001 Certified Security.</p>
-            </div>
-        </div>
-    </footer>
-
-    <script>
-        // Load jsPDF from CDN (UMD format)
-        const { jsPDF } = window.jspdf;
-
-        document.addEventListener('DOMContentLoaded', () => {
-            // === FUNGSI DOWNLOAD PDF ===
-            document.getElementById('downloadBtn').addEventListener('click', async () => {
-                const element = document.getElementById('pdfDocument');
-                if (!element) return;
-
-                try {
-                    // Show loading state
-                    const btn = document.getElementById('downloadBtn');
-                    const originalText = btn.innerHTML;
-                    btn.disabled = true;
-                    btn.innerHTML = 'Membuat PDF...';
-
-                    // Capture the document as image
-                    const canvas = await html2canvas(element, {
-                        scale: 3, // Higher quality
-                        useCORS: true,
-                        backgroundColor: '#ffffff',
-                        logging: false
-                    });
-
-                    // Create PDF
-                    const imgData = canvas.toDataURL('image/jpeg', 0.95);
-                    const pdf = new jsPDF({
-                        orientation: 'portrait',
-                        unit: 'mm',
-                        format: 'a4'
-                    });
-
-                    const imgWidth = 210; // A4 width in mm
-                    const pageHeight = 297; // A4 height in mm
-                    const imgHeight = (canvas.height * imgWidth) / canvas.width;
-
-                    let heightLeft = imgHeight;
-                    let position = 0;
-
-                    pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
-                    heightLeft -= pageHeight;
-
-                    while (heightLeft >= 0) {
-                        position = heightLeft - imgHeight;
-                        pdf.addPage();
-                        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight, undefined, 'FAST');
-                        heightLeft -= pageHeight;
-                    }
-
-                    // Save PDF
-                    pdf.save('SICEPAT_Jaminan_Keamanan_001776543432.pdf');
-
-                    // Restore button
-                    btn.disabled = false;
-                    btn.innerHTML = originalText;
-                } catch (error) {
-                    alert('❌ Gagal membuat PDF. Pastikan koneksi internet stabil.');
-                    console.error('PDF Error:', error);
-                    document.getElementById('downloadBtn').disabled = false;
-                    document.getElementById('downloadBtn').innerHTML = originalText;
-                }
-            });
-
-            // === FUNGSI KONFIRMASI PEMBAYARAN ===
-            const confirmBtn = document.getElementById('confirmBtn');
-            const statusBadge = document.getElementById('statusBadge');
-
-            confirmBtn.addEventListener('click', function () {
-                if (confirmBtn.disabled) return;
-
-                confirmBtn.disabled = true;
-                confirmBtn.innerHTML = "Memproses...";
-
-                setTimeout(() => {
-                    statusBadge.innerHTML = '<p class="text-[9px] font-bold text-yellow-400 uppercase tracking-widest italic">Status: Menunggu Verifikasi</p>';
-                    statusBadge.className = "mt-4 py-1 px-3 bg-yellow-900/30 rounded-lg inline-block border border-yellow-500/30 status-badge";
-
-                    setTimeout(() => {
-                        statusBadge.innerHTML = '<p class="text-[9px] font-bold text-blue-400 uppercase tracking-widest italic">Status: Aktivasi Berhasil!</p>';
-                        statusBadge.className = "mt-4 py-1 px-3 bg-blue-900/30 rounded-lg inline-block border border-blue-500/30 status-badge";
-                        confirmBtn.innerHTML = "✅ Pembayaran Dikonfirmasi";
-                        confirmBtn.classList.replace('bg-sicepat', 'bg-green-600');
-                    }, 3000);
-                }, 1500);
-            });
-        });
-    </script>
 </body>
 </html>
